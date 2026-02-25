@@ -3,294 +3,513 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CasinoBetStar Official</title>
+    <title>CasinoBetStar Ultra</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
         :root {
             --gold: #ffcf4b;
-            --gold-grad: linear-gradient(135deg, #ffcf4b 0%, #b8860b 100%);
-            --dark: #0a0a0c;
-            --card: #16161a;
-            --blue: #00e5ff;
-            --red: #ff3e3e;
+            --gold-dark: #b8860b;
+            --bg: #0b0b0e;
+            --card: rgba(26, 26, 30, 0.9);
+            --blue: #00d2ff;
             --green: #00ff88;
+            --red: #ff3e3e;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--dark); color: #fff; min-height: 100vh; overflow-x: hidden; padding-bottom: 80px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
 
-        /* UI */
-        header { padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222; }
-        .balance-pill { background: #1a1a1c; padding: 8px 16px; border-radius: 50px; border: 1px solid var(--gold); cursor: pointer; font-weight: bold; display: flex; align-items: center; gap: 8px; }
-        
-        .screen { display: none; padding: 20px; animation: fadeIn 0.3s ease; }
+        body {
+            background-color: var(--bg);
+            background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #0b0b0e 70%);
+            color: #fff;
+            min-height: 100vh;
+            padding-bottom: 90px;
+        }
+
+        /* --- UI Elements --- */
+        header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 11, 14, 0.8);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 207, 75, 0.1);
+        }
+
+        .logo { font-weight: 900; font-size: 22px; background: linear-gradient(to right, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+
+        .balance-chip {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            box-shadow: 0 0 15px rgba(255, 207, 75, 0.2);
+            cursor: pointer;
+        }
+
+        /* --- Screen System --- */
+        .screen { display: none; padding: 20px; animation: screenFade 0.4s ease-out; }
         .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes screenFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-        .card { background: var(--card); border-radius: 20px; padding: 20px; border: 1px solid #222; margin-bottom: 20px; }
-        .btn-gold { background: var(--gold-grad); color: #000; border: none; padding: 14px; border-radius: 12px; font-weight: bold; width: 100%; cursor: pointer; text-transform: uppercase; font-size: 14px; }
-        .btn-gold:disabled { opacity: 0.5; filter: grayscale(1); }
+        /* --- Cards & Buttons --- */
+        .glass-card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        /* Профіль */
-        .lvl-container { background: #222; height: 6px; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .lvl-bar { background: var(--gold); height: 100%; width: 0%; transition: 0.4s; }
+        .btn-action {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #000;
+            border: none;
+            padding: 18px;
+            border-radius: 16px;
+            font-weight: 900;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.4);
+            transition: 0.3s;
+        }
+        .btn-action:active { transform: translateY(2px); box-shadow: none; }
+        .btn-action:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; }
 
-        /* Магазин */
-        .shop-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #1f1f23; border-radius: 15px; margin-bottom: 10px; border: 1px solid #333; }
-        .id-num { font-family: monospace; color: var(--gold); font-size: 18px; font-weight: bold; }
+        /* --- Games Grid (Home) --- */
+        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .game-node {
+            background: linear-gradient(145deg, #1e1e24, #141418);
+            border-radius: 24px;
+            padding: 25px 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .game-node i { font-size: 32px; margin-bottom: 12px; display: block; background: linear-gradient(var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .game-node b { font-size: 14px; letter-spacing: 1px; }
 
-        /* Ігри - Дизайн */
-        .game-area { background: #000; border-radius: 20px; padding: 30px 10px; text-align: center; border: 1px solid #333; margin: 15px 0; position: relative; overflow: hidden; }
+        /* --- Level System --- */
+        .lvl-box { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .progress-track { background: rgba(255,255,255,0.05); height: 10px; border-radius: 10px; overflow: hidden; }
+        .progress-fill { background: var(--gold); height: 100%; width: 0%; box-shadow: 0 0 10px var(--gold); transition: 0.5s ease; }
+
+        /* --- Game Arenas --- */
+        .arena { background: #000; border-radius: 30px; padding: 40px 20px; border: 1px solid #222; text-align: center; margin: 20px 0; position: relative; }
         
-        /* Слоти */
-        .slot-box { display: flex; gap: 10px; justify-content: center; }
-        .reel { width: 70px; height: 90px; background: #1a1a1c; border: 2px solid #333; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+        /* Slots */
+        .slot-reels { display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; }
+        .reel-unit { width: 70px; height: 100px; background: #111; border: 2px solid #333; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 45px; }
+
+        /* Wheel */
+        #wheel-element { width: 260px; height: 260px; transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); margin: 0 auto; display: block; }
+        .pointer { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); color: var(--gold); font-size: 35px; z-index: 10; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
 
         /* Crash */
-        .crash-mult { font-size: 50px; font-weight: 900; color: var(--blue); margin-bottom: 20px; }
-        .rocket { font-size: 40px; position: absolute; left: 10%; bottom: 10%; transition: 0.1s linear; }
+        .arena-crash { background: #000; height: 300px; border-radius: 30px; border: 1px solid #222; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+        #crash-mult { font-size: 60px; font-weight: 900; color: var(--blue); z-index: 10; text-shadow: 0 0 20px rgba(0, 210, 255, 0.5); transition: color 0.3s; }
+        #rocket { position: absolute; bottom: 20px; left: 20px; font-size: 50px; transition: 0.1s linear; z-index: 5; }
 
-        /* Колесо */
-        #wheel-c { width: 250px; height: 250px; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1); }
-        .wheel-pin { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 25px solid var(--gold); z-index: 5; }
+        /* --- Navigation --- */
+        nav {
+            position: fixed; bottom: 0; width: 100%; background: rgba(11, 11, 14, 0.95);
+            backdrop-filter: blur(20px); display: flex; justify-content: space-around;
+            padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.05); z-index: 1000;
+        }
+        .nav-tab { color: #555; text-decoration: none; text-align: center; transition: 0.3s; }
+        .nav-tab.active { color: var(--gold); }
+        .nav-tab i { font-size: 24px; display: block; margin-bottom: 4px; }
+        .nav-tab span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
 
-        /* Оплата */
-        #modal-pay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
-        .pay-box { background: #fff; color: #000; width: 90%; max-width: 380px; border-radius: 24px; padding: 25px; }
-        .pay-input { width: 100%; padding: 12px; margin: 8px 0 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 16px; }
-
-        /* Навігація */
-        nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #222; }
-        .nav-link { color: #555; text-decoration: none; font-size: 11px; text-align: center; }
-        .nav-link.active { color: var(--gold); }
-        .nav-link i { display: block; font-size: 22px; margin-bottom: 4px; }
+        /* --- Modal Pay --- */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+        .pay-card { background: #fff; width: 90%; max-width: 400px; border-radius: 30px; padding: 30px; color: #000; }
+        .pay-field { width: 100%; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 15px; background: #f9f9f9; font-size: 16px; outline: none; }
     </style>
 </head>
 <body>
 
-<header>
-    <div style="font-weight:900; color:var(--gold)">CasinoBetStar</div>
-    <div class="balance-pill" onclick="openPay()">
-        <span id="bal-val">2500</span> ₴ <i class="fas fa-plus-circle"></i>
-    </div>
-</header>
-
-<section id="scr-home" class="screen active">
-    <div class="card" style="background: linear-gradient(135deg, #1a1a1c, #000);">
-        <h3 id="u-name">Tis Vitaliy <span style="background:var(--gold); color:#000; padding:2px 6px; border-radius:4px; font-size:10px;">LVL <span id="u-lvl">1</span></span></h3>
-        <div class="lvl-container"><div class="lvl-bar" id="u-bar"></div></div>
-    </div>
-
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-        <div class="card" style="text-align:center; margin:0;" onclick="showScreen('scr-slots')">
-            <i class="fas fa-gem" style="font-size:30px; color:var(--gold); margin-bottom:10px; display:block;"></i>
-            <b>СЛОТИ</b>
+    <header>
+        <div class="logo">CasinoBetStar</div>
+        <div class="balance-chip" onclick="openPay()">
+            <span id="header-bal">2500</span> <span style="color:var(--gold)">₴</span>
+            <i class="fas fa-plus-circle" style="color:var(--gold)"></i>
         </div>
-        <div class="card" style="text-align:center; margin:0;" onclick="showScreen('scr-wheel')">
-            <i class="fas fa-dharmachakra" style="font-size:30px; color:var(--gold); margin-bottom:10px; display:block;"></i>
-            <b>КОЛЕСО</b>
-        </div>
-        <div class="card" style="grid-column: span 2; display:flex; align-items:center; justify-content:center; gap:15px; margin:0;" onclick="showScreen('scr-crash')">
-            <i class="fas fa-rocket" style="font-size:30px; color:var(--blue);"></i>
-            <b>CRASH ROCKET</b>
-        </div>
-    </div>
-</section>
+    </header>
 
-<section id="scr-slots" class="screen">
-    <div onclick="showScreen('scr-home')" style="color:#555; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> Назад</div>
-    <div class="game-area">
-        <h2 style="margin-bottom:20px;">ROYAL 777</h2>
-        <div class="slot-box">
-            <div class="reel" id="r1">🍒</div>
-            <div class="reel" id="r2">🍒</div>
-            <div class="reel" id="r3">🍒</div>
-        </div>
-        <p style="margin:20px 0; color:#888;">Ставка: 100 ₴</p>
-        <button class="btn-gold" id="btn-s" onclick="playSlots()">КРУТИТИ</button>
-    </div>
-</section>
-
-<section id="scr-wheel" class="screen">
-    <div onclick="showScreen('scr-home')" style="color:#555; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> Назад</div>
-    <div class="game-area">
-        <div class="wheel-pin"></div>
-        <canvas id="wheel-c" width="300" height="300"></canvas>
-        <p style="margin:20px 0; color:#888;">Ставка: 200 ₴</p>
-        <button class="btn-gold" id="btn-w" onclick="playWheel()">ГРАТИ</button>
-    </div>
-</section>
-
-<section id="scr-crash" class="screen">
-    <div onclick="showScreen('scr-home')" style="color:#555; margin-bottom:15px;"><i class="fas fa-arrow-left"></i> Назад</div>
-    <div class="game-area" style="height:250px;">
-        <div class="crash-mult" id="c-mult">x1.00</div>
-        <div class="rocket" id="c-rock">🚀</div>
-        <div style="position:absolute; bottom:20px; left:0; width:100%; padding:0 20px;">
-            <button class="btn-gold" id="btn-c-start" onclick="playCrash()">СТАВКА 150 ₴</button>
-            <button class="btn-gold" id="btn-c-out" onclick="cashOut()" style="display:none; background:var(--green);">ЗАБРАТИ</button>
-        </div>
-    </div>
-</section>
-
-<section id="scr-shop" class="screen">
-    <h2 style="margin-bottom:20px;">Магазин ID</h2>
-    <div id="shop-items"></div>
-</section>
-
-<section id="scr-prof" class="screen">
-    <div class="card" style="text-align:center;">
-        <div style="font-size:50px; margin-bottom:10px;">👤</div>
-        <h2 id="p-name">Tis Vitaliy</h2>
-        <p style="color:var(--gold); font-weight:bold; margin-bottom:20px;">ID: <span id="p-id">672026</span></p>
-        <div style="display:flex; gap:10px;">
-            <div class="card" style="flex:1; margin:0; padding:10px;">
-                <small style="color:#555">Ігор</small><br><b id="st-games">0</b>
+    <section id="scr-home" class="screen active">
+        <div class="glass-card" style="background: linear-gradient(135deg, rgba(255,207,75,0.1), transparent);">
+            <div class="lvl-box">
+                <span style="font-weight: 900; letter-spacing: 1px;">TIS VITALIY</span>
+                <span style="color: var(--gold); font-weight: 900;">LVL <span id="u-lvl">1</span></span>
             </div>
-            <div class="card" style="flex:1; margin:0; padding:10px;">
-                <small style="color:#555">Ранг</small><br><b style="color:var(--gold)">VIP</b>
+            <div class="progress-track"><div class="progress-fill" id="u-bar"></div></div>
+            <p style="font-size: 10px; margin-top: 8px; opacity: 0.5;">XP ДО НАСТУПНОГО РІВНЯ: <span id="xp-val">0</span>/1000</p>
+        </div>
+
+        <div class="game-grid">
+            <div class="game-node" onclick="showScreen('scr-slots')">
+                <i class="fas fa-dice"></i>
+                <b>ROYAL SLOTS</b>
+            </div>
+            <div class="game-node" onclick="showScreen('scr-wheel')">
+                <i class="fas fa-dharmachakra"></i>
+                <b>LUCKY WHEEL</b>
+            </div>
+            <div class="game-node" style="grid-column: span 2;" onclick="showScreen('scr-crash')">
+                <div style="display:flex; align-items:center; justify-content:center; gap:20px;">
+                    <i class="fas fa-rocket" style="margin:0; background:linear-gradient(var(--blue), #fff); -webkit-background-clip:text;"></i>
+                    <div style="text-align:left">
+                        <b style="display:block">CRASH GALAXY</b>
+                        <small style="color:var(--blue)">ШВИДКІ ГРОШІ</small>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <button class="btn-gold" onclick="openPay()">ПОПОВНИТИ РАХУНОК</button>
-</section>
+    </section>
 
-<div id="modal-pay">
-    <div class="pay-box">
-        <div style="display:flex; justify-content:space-between; align-items:center; color:#000; margin-bottom:20px;">
-            <b>Оплата карткою</b>
-            <i class="fas fa-times" onclick="closePay()"></i>
+    <section id="scr-slots" class="screen">
+        <div onclick="showScreen('scr-home')" style="opacity:0.5; margin-bottom:20px; cursor:pointer; display:inline-block;"><i class="fas fa-chevron-left"></i> НАЗАД</div>
+        <div class="arena">
+            <h1 style="font-weight:900; margin-bottom:30px; letter-spacing:2px;">SLOTS</h1>
+            <div class="slot-reels">
+                <div class="reel-unit" id="r1">💎</div>
+                <div class="reel-unit" id="r2">💎</div>
+                <div class="reel-unit" id="r3">💎</div>
+            </div>
+            <p style="color:#888; margin-bottom:15px; font-weight:bold;">СТАВКА: 100 ₴</p>
+            <button class="btn-action" id="btn-spin" onclick="playSlots()">КРУТИТИ</button>
         </div>
-        <input type="text" class="pay-input" placeholder="Номер картки (16 цифр)">
-        <div style="display:flex; gap:10px;">
-            <input type="text" class="pay-input" placeholder="ММ/РР">
-            <input type="password" class="pay-input" placeholder="CVV">
+    </section>
+
+    <section id="scr-wheel" class="screen">
+        <div onclick="showScreen('scr-home')" style="opacity:0.5; margin-bottom:20px; cursor:pointer; display:inline-block;"><i class="fas fa-chevron-left"></i> НАЗАД</div>
+        <div class="arena">
+            <i class="fas fa-caret-down pointer"></i>
+            <canvas id="wheel-element" width="260" height="260"></canvas>
+            <p style="color:#888; margin:20px 0 15px; font-weight:bold;">СТАВКА: 200 ₴</p>
+            <button class="btn-action" id="btn-wheel" onclick="playWheel()">ГРАТИ</button>
         </div>
-        <input type="number" id="pay-val" class="pay-input" value="1000">
-        <button class="btn-gold" onclick="doPay()" style="background:#000; color:#fff;">ПІДТВЕРДИТИ</button>
+    </section>
+
+    <section id="scr-crash" class="screen">
+        <div onclick="showScreen('scr-home')" style="opacity:0.5; margin-bottom:20px; cursor:pointer; display:inline-block;"><i class="fas fa-chevron-left"></i> НАЗАД</div>
+        <div class="arena-crash">
+            <div id="crash-mult">x1.00</div>
+            <div id="rocket">🚀</div>
+        </div>
+        <div class="glass-card" style="text-align: center;">
+            <p style="color:#888; margin-bottom:15px; font-weight:bold;">СТАВКА: 150 ₴</p>
+            <button class="btn-action" id="btn-crash-start" onclick="startCrash()">ПОСТАВИТИ</button>
+            <button class="btn-action" id="btn-crash-out" onclick="cashOut()" style="display:none; background:var(--green); color:#000;">ЗАБРАТИ ВИГРАШ</button>
+        </div>
+    </section>
+
+    <section id="scr-shop" class="screen">
+        <h1 style="font-weight:900; margin-bottom:20px; text-align:center;">МАГАЗИН ID</h1>
+        <div id="shop-container"></div>
+    </section>
+
+    <section id="scr-prof" class="screen">
+        <div class="glass-card" style="text-align:center;">
+            <div style="width:100px; height:100px; background:var(--gold-dark); border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; font-size:40px; border: 4px solid var(--gold); color:#000; font-weight:bold;">
+                T
+            </div>
+            <h2 id="p-name">Tis Vitaliy</h2>
+            <p style="color:var(--gold); font-weight:900; letter-spacing:2px; margin-top:5px;">ID: <span id="p-id">672026</span></p>
+        </div>
+        <button class="btn-action" onclick="openPay()">ПОПОВНИТИ БАЛАНС</button>
+    </section>
+
+    <div class="modal-overlay" id="pay-modal">
+        <div class="pay-card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
+                <b style="font-size:18px;">ПОПОВНЕННЯ КАРТКОЮ</b>
+                <i class="fas fa-times" onclick="closePay()" style="cursor:pointer; font-size:20px; color:#888;"></i>
+            </div>
+            <input type="text" class="pay-field" placeholder="Номер картки (16 цифр)" maxlength="19">
+            <div style="display:flex; gap:10px;">
+                <input type="text" class="pay-field" placeholder="ММ/РР" maxlength="5">
+                <input type="password" class="pay-field" placeholder="CVV" maxlength="3">
+            </div>
+            <label style="font-size:12px; font-weight:bold; color:#555; margin-bottom:5px; display:block;">Сума поповнення (₴)</label>
+            <input type="number" id="pay-amt" class="pay-field" value="1000">
+            <button class="btn-action" style="background:#000; color:#fff;" onclick="doPay()">ОПЛАТИТИ</button>
+        </div>
     </div>
-</div>
 
-<nav>
-    <a href="javascript:void(0)" class="nav-link active" onclick="showScreen('scr-home', this)"><i class="fas fa-dice"></i>Лобі</a>
-    <a href="javascript:void(0)" class="nav-link" onclick="showScreen('scr-shop', this)"><i class="fas fa-shopping-cart"></i>Магазин</a>
-    <a href="javascript:void(0)" class="nav-link" onclick="showScreen('scr-prof', this)"><i class="fas fa-user"></i>Профіль</a>
-</nav>
+    <nav>
+        <a href="#" class="nav-tab active" onclick="showScreen('scr-home', this)"><i class="fas fa-th-large"></i><span>ЛОБІ</span></a>
+        <a href="#" class="nav-tab" onclick="showScreen('scr-shop', this)"><i class="fas fa-shopping-bag"></i><span>МАГАЗИН</span></a>
+        <a href="#" class="nav-tab" onclick="showScreen('scr-prof', this)"><i class="fas fa-user-shield"></i><span>ПРОФІЛЬ</span></a>
+    </nav>
 
-<script>
-    let balance = 2500, exp = 0, lvl = 1, currentID = "672026", totalGames = 0;
-    const shopIDs = [ {i:"777777", p:5000}, {i:"000001", p:25000}, {i:"TIS_BOSS", p:10000}, {i:"696969", p:3000} ];
+    <script>
+        // Глобальні змінні
+        let balance = 2500;
+        let exp = 0;
+        let level = 1;
+        let currentID = "672026";
 
-    function updateUI() {
-        document.getElementById('bal-val').innerText = balance;
-        document.getElementById('u-lvl').innerText = lvl;
-        document.getElementById('p-id').innerText = currentID;
-        document.getElementById('st-games').innerText = totalGames;
-        let p = (exp % 1000) / 10;
-        document.getElementById('u-bar').style.width = p + "%";
-        if(Math.floor(exp/1000) + 1 > lvl) { lvl++; alert("НОВИЙ РІВЕНЬ: " + lvl); }
-    }
-
-    function showScreen(id, el) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        if(el) { document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active')); el.classList.add('active'); }
-    }
-
-    // --- GAMES ---
-    const emj = ['💎','🍒','🍋','🔔','7️⃣'];
-    function playSlots() {
-        if(balance < 100) return alert("Мало грошей!");
-        balance -= 100; totalGames++; exp += 50;
-        let b = document.getElementById('btn-s'); b.disabled = true;
-        let iv = setInterval(() => {
-            document.getElementById('r1').innerText = emj[Math.floor(Math.random()*5)];
-            document.getElementById('r2').innerText = emj[Math.floor(Math.random()*5)];
-            document.getElementById('r3').innerText = emj[Math.floor(Math.random()*5)];
-        }, 100);
-        setTimeout(() => {
-            clearInterval(iv); b.disabled = false;
-            let r = [document.getElementById('r1').innerText, document.getElementById('r2').innerText, document.getElementById('r3').innerText];
-            if(r[0]==r[1] && r[1]==r[2]) { balance += 1000; alert("JACKPOT! +1000₴"); }
-            updateUI();
-        }, 2000);
-    }
-
-    // Wheel
-    const cv = document.getElementById('wheel-c'), ctx = cv.getContext('2d');
-    const sc = [{l:"0", c:"#111", w:0}, {l:"400", c:"#b8860b", w:400}, {l:"0", c:"#111", w:0}, {l:"1000", c:"#ffcf4b", w:1000}, {l:"0", c:"#111", w:0}, {l:"200", c:"#ffcf4b", w:200}];
-    function drawW() {
-        let a = (Math.PI*2)/6;
-        sc.forEach((s, i) => {
-            ctx.beginPath(); ctx.fillStyle = s.c; ctx.moveTo(150,150); ctx.arc(150,150,140,i*a,(i+1)*a); ctx.fill();
-            ctx.save(); ctx.translate(150,150); ctx.rotate(i*a+a/2); ctx.fillStyle="#fff"; ctx.fillText(s.l, 80, 5); ctx.restore();
-        });
-    }
-    drawW();
-    let wA = 0;
-    function playWheel() {
-        if(balance < 200) return;
-        balance -= 200; totalGames++; exp += 80;
-        let r = Math.floor(Math.random()*6);
-        wA += (3600 + (r*60));
-        cv.style.transform = `rotate(-${wA}deg)`;
-        setTimeout(() => { balance += sc[r].w; if(sc[r].w>0) alert("Виграш: "+sc[r].w); updateUI(); }, 4000);
-    }
-
-    // Crash
-    let cM = 1.0, cA = false, cIv;
-    function playCrash() {
-        if(balance < 150) return;
-        balance -= 150; totalGames++; exp += 100;
-        cA = true; cM = 1.0;
-        document.getElementById('btn-c-start').style.display = 'none';
-        document.getElementById('btn-c-out').style.display = 'block';
-        let boom = (Math.random()*5 + 1.1);
-        cIv = setInterval(() => {
-            cM += 0.03;
-            document.getElementById('c-mult').innerText = 'x' + cM.toFixed(2);
-            document.getElementById('c-rock').style.left = (10 + cM*10) + '%';
-            document.getElementById('c-rock').style.bottom = (10 + cM*10) + '%';
-            if(cM >= boom) { 
-                clearInterval(cIv); cA = false; 
-                document.getElementById('c-mult').innerText = "BOOM!";
-                setTimeout(() => {
-                    document.getElementById('btn-c-start').style.display = 'block';
-                    document.getElementById('btn-c-out').style.display = 'none';
-                    document.getElementById('c-rock').style.left = '10%'; document.getElementById('c-rock').style.bottom = '10%';
-                }, 2000);
+        // Оновлення інтерфейсу (Баланс, Рівень, ID)
+        function updateUI() {
+            document.getElementById('header-bal').innerText = balance;
+            document.getElementById('u-lvl').innerText = level;
+            document.getElementById('p-id').innerText = currentID;
+            
+            let progress = (exp % 1000) / 10;
+            document.getElementById('u-bar').style.width = progress + "%";
+            document.getElementById('xp-val').innerText = exp % 1000;
+            
+            if(Math.floor(exp / 1000) + 1 > level) { 
+                level++; 
+                alert("ВІТАЄМО! НОВИЙ РІВЕНЬ: " + level); 
             }
-        }, 100);
-    }
-    function cashOut() {
-        if(!cA) return;
-        clearInterval(cIv); cA = false;
-        let w = Math.floor(150 * cM); balance += w;
-        alert("Забрали " + w + " ₴"); updateUI();
-        document.getElementById('btn-c-start').style.display = 'block';
-        document.getElementById('btn-c-out').style.display = 'none';
-    }
+        }
 
-    // --- КАСА & МАГАЗИН ---
-    function openPay() { document.getElementById('modal-pay').style.display = 'flex'; }
-    function closePay() { document.getElementById('modal-pay').style.display = 'none'; }
-    function doPay() {
-        let v = parseInt(document.getElementById('pay-val').value);
-        if(v>0) { balance += v; closePay(); alert("Поповнено!"); updateUI(); }
-    }
+        // Перемикання екранів
+        function showScreen(id, navElement = null) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            if(navElement) { 
+                document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active')); 
+                navElement.classList.add('active'); 
+            }
+        }
 
-    function initShop() {
-        let h = "";
-        shopIDs.forEach(x => {
-            h += `<div class="shop-row"><div class="id-num">${x.i}</div><button class="btn-gold" style="width:auto; padding:8px 15px;" onclick="buyID('${x.i}', ${x.p})">${x.p} ₴</button></div>`;
-        });
-        document.getElementById('shop-items').innerHTML = h;
-    }
-    function buyID(i, p) {
-        if(balance >= p) { balance -= p; currentID = i; alert("Новий ID: " + i); updateUI(); }
-    }
+        /* ==========================
+           ГРА 1: СЛОТИ
+           ========================== */
+        const slotSymbols = ['💎', '🍋', '🔔', '🍒', '7️⃣'];
+        function playSlots() {
+            if(balance < 100) return alert("Недостатньо коштів на балансі!");
+            balance -= 100; 
+            exp += 50; 
+            updateUI();
+            
+            let btn = document.getElementById('btn-spin'); 
+            btn.disabled = true;
+            
+            let interval = setInterval(() => {
+                document.getElementById('r1').innerText = slotSymbols[Math.floor(Math.random()*5)];
+                document.getElementById('r2').innerText = slotSymbols[Math.floor(Math.random()*5)];
+                document.getElementById('r3').innerText = slotSymbols[Math.floor(Math.random()*5)];
+            }, 100);
+            
+            setTimeout(() => {
+                clearInterval(interval); 
+                btn.disabled = false;
+                let res = [document.getElementById('r1').innerText, document.getElementById('r2').innerText, document.getElementById('r3').innerText];
+                if(res[0] === res[1] && res[1] === res[2]) { 
+                    balance += 1500; 
+                    alert("ДЖЕКПОТ! Виграш: 1500 ₴"); 
+                    updateUI(); 
+                }
+            }, 2000);
+        }
 
-    initShop(); updateUI();
-</script>
+        /* ==========================
+           ГРА 2: КОЛЕСО ФОРТУНИ
+           ========================== */
+        const canvas = document.getElementById('wheel-element');
+        const ctx = canvas.getContext('2d');
+        const wheelSectors = [
+            {label: "0", color: "#111", win: 0}, 
+            {label: "500", color: "#b8860b", win: 500}, 
+            {label: "0", color: "#111", win: 0}, 
+            {label: "1000", color: "#ffcf4b", win: 1000}, 
+            {label: "0", color: "#111", win: 0}, 
+            {label: "300", color: "#b8860b", win: 300}
+        ];
+        
+        function drawWheel() {
+            let arc = (Math.PI * 2) / 6;
+            wheelSectors.forEach((s, i) => {
+                ctx.beginPath(); 
+                ctx.fillStyle = s.color; 
+                ctx.moveTo(130, 130); 
+                ctx.arc(130, 130, 125, i * arc, (i + 1) * arc); 
+                ctx.fill();
+                
+                ctx.save(); 
+                ctx.translate(130, 130); 
+                ctx.rotate(i * arc + arc / 2); 
+                ctx.fillStyle = "#fff"; 
+                ctx.font = "bold 18px Montserrat"; 
+                ctx.fillText(s.label, 70, 6); 
+                ctx.restore();
+            });
+        }
+        
+        // Малюємо колесо при завантаженні
+        drawWheel();
+        
+        let currentRotation = 0;
+        let isWheelSpinning = false;
+        
+        function playWheel() {
+            if(isWheelSpinning) return;
+            if(balance < 200) return alert("Недостатньо коштів на балансі!");
+            
+            balance -= 200; 
+            exp += 80; 
+            updateUI();
+            
+            isWheelSpinning = true;
+            let btn = document.getElementById('btn-wheel');
+            btn.disabled = true;
+
+            let randSector = Math.floor(Math.random() * 6);
+            currentRotation += (3600 + (randSector * 60));
+            canvas.style.transform = `rotate(-${currentRotation}deg)`;
+            
+            setTimeout(() => { 
+                isWheelSpinning = false;
+                btn.disabled = false;
+                let winAmount = wheelSectors[randSector].win;
+                balance += winAmount; 
+                if(winAmount > 0) alert("ВІТАЄМО! Виграш: " + winAmount + " ₴"); 
+                updateUI(); 
+            }, 4100);
+        }
+
+        /* ==========================
+           ГРА 3: CRASH (РАКЕТА)
+           ========================== */
+        let crashMultiplier = 1.0;
+        let crashInterval;
+        let isCrashRunning = false;
+
+        function startCrash() {
+            if(balance < 150) return alert("Недостатньо коштів на балансі!");
+            
+            balance -= 150; 
+            exp += 100; 
+            updateUI();
+            
+            isCrashRunning = true;
+            crashMultiplier = 1.0;
+            
+            document.getElementById('btn-crash-start').style.display = 'none';
+            document.getElementById('btn-crash-out').style.display = 'block';
+            document.getElementById('crash-mult').style.color = 'var(--blue)';
+
+            let boomPoint = (Math.random() * 4 + 1.1); // Вибух від x1.1 до x5.1
+            let rock = document.getElementById('rocket');
+
+            crashInterval = setInterval(() => {
+                crashMultiplier += 0.02;
+                document.getElementById('crash-mult').innerText = 'x' + crashMultiplier.toFixed(2);
+                
+                // Ракета летить по діагоналі вгору (від 20% до 80% екрану)
+                rock.style.left = (20 + (crashMultiplier - 1) * 15) + '%';
+                rock.style.bottom = (20 + (crashMultiplier - 1) * 15) + '%';
+
+                if(crashMultiplier >= boomPoint) {
+                    clearInterval(crashInterval);
+                    isCrashRunning = false;
+                    document.getElementById('crash-mult').innerText = "BOOM!";
+                    document.getElementById('crash-mult').style.color = 'var(--red)';
+                    
+                    setTimeout(() => { resetCrashUI(); }, 2000);
+                }
+            }, 100);
+        }
+
+        function cashOut() {
+            if(!isCrashRunning) return;
+            clearInterval(crashInterval);
+            isCrashRunning = false;
+            
+            let winAmount = Math.floor(150 * crashMultiplier);
+            balance += winAmount;
+            alert("ЗАБРАЛИ! Виграш: " + winAmount + " ₴");
+            
+            updateUI();
+            resetCrashUI();
+        }
+
+        function resetCrashUI() {
+            document.getElementById('btn-crash-start').style.display = 'block';
+            document.getElementById('btn-crash-out').style.display = 'none';
+            document.getElementById('rocket').style.left = '20px';
+            document.getElementById('rocket').style.bottom = '20px';
+            document.getElementById('crash-mult').innerText = "x1.00";
+            document.getElementById('crash-mult').style.color = 'var(--blue)';
+        }
+
+        /* ==========================
+           МАГАЗИН ID
+           ========================== */
+        const shopItemsData = [ 
+            {id: "777777", price: 5000}, 
+            {id: "000001", price: 20000}, 
+            {id: "KING_TIS", price: 15000}, 
+            {id: "LUCKY_67", price: 7000} 
+        ];
+
+        function initShop() {
+            let htmlStr = "";
+            shopItemsData.forEach(item => {
+                htmlStr += `
+                <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <b style="font-family:monospace; font-size:20px; color:var(--gold)">${item.id}</b><br>
+                        <small style="color:#888;">ЦІНА: ${item.price} ₴</small>
+                    </div>
+                    <button class="btn-action" style="width:auto; padding:10px 20px; font-size:12px;" onclick="buyID('${item.id}', ${item.price})">КУПИТИ</button>
+                </div>`;
+            });
+            document.getElementById('shop-container').innerHTML = htmlStr;
+        }
+
+        function buyID(id, price) { 
+            if(balance >= price) { 
+                balance -= price; 
+                currentID = id; 
+                alert("УСПІШНО! Ваш новий ID: " + id); 
+                updateUI(); 
+            } else {
+                alert("Недостатньо коштів для покупки!");
+            }
+        }
+
+        /* ==========================
+           СИСТЕМА ПОПОВНЕННЯ (ЕКВАЙРИНГ)
+           ========================== */
+        function openPay() { document.getElementById('pay-modal').style.display = 'flex'; }
+        function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
+        
+        function doPay() { 
+            let amount = parseInt(document.getElementById('pay-amt').value); 
+            if(amount > 0) { 
+                balance += amount; 
+                closePay(); 
+                alert("Транзакція успішна! Баланс поповнено на " + amount + " ₴"); 
+                updateUI(); 
+            } 
+        }
+
+        // Ініціалізація при завантаженні сторінки
+        initShop(); 
+        updateUI();
+
+    </script>
 </body>
 </html>
