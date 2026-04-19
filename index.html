@@ -1,515 +1,1067 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CasinoBetStar Ultra</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BetMaster - Ставки на Спорт</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0e1a;color:#fff;min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent;user-select:none;}
+.app{max-width:480px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:70px;}
 
-        :root {
-            --gold: #ffcf4b;
-            --gold-dark: #b8860b;
-            --bg: #0b0b0e;
-            --card: rgba(26, 26, 30, 0.9);
-            --blue: #00d2ff;
-            --green: #00ff88;
-            --red: #ff3e3e;
-        }
+/* Header */
+.header{background:linear-gradient(135deg,#1a1f35,#0d1225);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;border-bottom:1px solid #1e2640;}
+.logo{font-size:20px;font-weight:800;color:#f5a623;}
+.logo span{color:#fff;}
+.balance-box{background:linear-gradient(135deg,#f5a623,#e8950f);padding:6px 14px;border-radius:20px;font-weight:700;font-size:14px;color:#000;display:flex;align-items:center;gap:5px;}
+.balance-box svg{width:16px;height:16px;}
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
+/* Tabs */
+.tabs{display:flex;background:#111627;border-bottom:1px solid #1e2640;overflow-x:auto;scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex:1;min-width:80px;padding:10px 8px;text-align:center;font-size:12px;font-weight:600;color:#6b7280;cursor:pointer;border-bottom:2px solid transparent;transition:.2s;white-space:nowrap;}
+.tab.active{color:#f5a623;border-bottom-color:#f5a623;}
+.tab:hover{color:#f5a623;}
 
-        body {
-            background-color: var(--bg);
-            background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #0b0b0e 70%);
-            color: #fff;
-            min-height: 100vh;
-            padding-bottom: 90px;
-        }
+/* Sport icons */
+.sport-tabs{display:flex;gap:8px;padding:10px 16px;overflow-x:auto;scrollbar-width:none;background:#0f1322;}
+.sport-tabs::-webkit-scrollbar{display:none;}
+.sport-tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 12px;border-radius:10px;background:#1a1f35;cursor:pointer;min-width:60px;transition:.2s;border:1px solid transparent;}
+.sport-tab.active{border-color:#f5a623;background:#1f2847;}
+.sport-tab .icon{font-size:20px;}
+.sport-tab .name{font-size:10px;color:#9ca3af;white-space:nowrap;}
+.sport-tab.active .name{color:#f5a623;}
 
-        /* --- UI Elements --- */
-        header {
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(11, 11, 14, 0.8);
-            backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 207, 75, 0.1);
-        }
+/* Live indicator */
+.live-badge{background:#ef4444;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;animation:pulse 1.5s infinite;display:inline-flex;align-items:center;gap:3px;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+.live-dot{width:5px;height:5px;background:#fff;border-radius:50%;display:inline-block;}
 
-        .logo { font-weight: 900; font-size: 22px; background: linear-gradient(to right, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; }
+/* Match Card */
+.matches{padding:8px;}
+.league-header{display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:12px;color:#9ca3af;font-weight:600;}
+.league-header img{width:16px;height:16px;border-radius:2px;}
+.match-card{background:#141829;border-radius:12px;margin-bottom:8px;overflow:hidden;border:1px solid #1e2640;transition:.2s;}
+.match-card:active{transform:scale(.99);}
+.match-info{padding:12px;display:flex;justify-content:space-between;align-items:center;}
+.match-time{text-align:center;min-width:50px;}
+.match-time .time{font-size:11px;color:#f5a623;font-weight:600;}
+.match-time .date{font-size:10px;color:#6b7280;}
+.match-time .score{font-size:18px;font-weight:800;color:#fff;}
+.match-time .minute{font-size:10px;color:#ef4444;font-weight:600;}
+.teams{flex:1;padding:0 10px;}
+.team{display:flex;align-items:center;gap:8px;padding:3px 0;font-size:13px;font-weight:500;}
+.team-logo{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;}
+.odds-row{display:flex;gap:6px;padding:0 12px 12px;}
+.odd-btn{flex:1;background:#1a2040;border:1px solid #2a3055;border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;transition:.2s;}
+.odd-btn:active{transform:scale(.95);}
+.odd-btn.selected{background:#2d4a1e;border-color:#4ade80;}
+.odd-btn .label{font-size:10px;color:#6b7280;margin-bottom:2px;}
+.odd-btn .value{font-size:14px;font-weight:700;color:#f5a623;}
+.odd-btn.selected .value{color:#4ade80;}
+.more-odds{text-align:center;padding:0 12px 10px;}
+.more-odds span{font-size:11px;color:#6b7280;cursor:pointer;}
 
-        .balance-chip {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 8px 16px;
-            border-radius: 100px;
-            border: 1px solid var(--gold);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            box-shadow: 0 0 15px rgba(255, 207, 75, 0.2);
-            cursor: pointer;
-        }
+/* Betslip */
+.betslip-bar{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:linear-gradient(135deg,#f5a623,#e8950f);padding:10px 16px;display:none;align-items:center;justify-content:space-between;z-index:99;cursor:pointer;}
+.betslip-bar.show{display:flex;}
+.betslip-count{background:#000;color:#f5a623;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;}
+.betslip-text{font-weight:700;color:#000;font-size:14px;}
 
-        /* --- Screen System --- */
-        .screen { display: none; padding: 20px; animation: screenFade 0.4s ease-out; }
-        .screen.active { display: block; }
-        @keyframes screenFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+/* Betslip Modal */
+.betslip-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.8);z-index:200;display:none;justify-content:center;align-items:flex-end;}
+.betslip-modal.show{display:flex;}
+.betslip-content{background:#141829;width:100%;max-width:480px;max-height:85vh;border-radius:20px 20px 0 0;overflow-y:auto;padding:20px 16px;}
+.betslip-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.betslip-title{font-size:18px;font-weight:800;}
+.betslip-close{background:#1e2640;border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.bet-item{background:#1a2040;border-radius:10px;padding:12px;margin-bottom:8px;position:relative;}
+.bet-item-remove{position:absolute;top:8px;right:8px;background:#ef4444;border:none;color:#fff;width:20px;height:20px;border-radius:50%;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.bet-match{font-size:12px;color:#9ca3af;margin-bottom:4px;}
+.bet-pick{font-size:14px;font-weight:600;margin-bottom:4px;}
+.bet-odd{color:#f5a623;font-weight:700;}
+.stake-section{margin-top:16px;padding:16px;background:#1a2040;border-radius:12px;}
+.stake-label{font-size:12px;color:#9ca3af;margin-bottom:8px;}
+.stake-input-row{display:flex;gap:8px;margin-bottom:10px;}
+.stake-input{flex:1;background:#0a0e1a;border:1px solid #2a3055;border-radius:8px;padding:10px;color:#fff;font-size:16px;font-weight:700;text-align:center;outline:none;}
+.stake-input:focus{border-color:#f5a623;}
+.quick-stakes{display:flex;gap:6px;flex-wrap:wrap;}
+.quick-stake{background:#0a0e1a;border:1px solid #2a3055;border-radius:6px;padding:6px 12px;font-size:12px;color:#9ca3af;cursor:pointer;font-weight:600;}
+.quick-stake:active{background:#1e2640;color:#f5a623;border-color:#f5a623;}
+.payout-row{display:flex;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid #2a3055;}
+.payout-label{color:#9ca3af;font-size:13px;}
+.payout-value{color:#4ade80;font-weight:800;font-size:16px;}
+.place-bet-btn{width:100%;padding:14px;background:linear-gradient(135deg,#f5a623,#e8950f);border:none;border-radius:12px;font-size:16px;font-weight:800;color:#000;margin-top:16px;cursor:pointer;transition:.2s;}
+.place-bet-btn:active{transform:scale(.97);opacity:.9;}
+.place-bet-btn:disabled{opacity:.5;cursor:not-allowed;}
 
-        /* --- Cards & Buttons --- */
-        .glass-card {
-            background: var(--card);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+/* Bottom Nav */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#111627;border-top:1px solid #1e2640;display:flex;z-index:100;}
+.nav-item{flex:1;padding:8px 0;text-align:center;cursor:pointer;transition:.2s;}
+.nav-item.active{color:#f5a623;}
+.nav-item .nav-icon{font-size:20px;margin-bottom:2px;}
+.nav-item .nav-label{font-size:10px;color:#6b7280;}
+.nav-item.active .nav-label{color:#f5a623;}
 
-        .btn-action {
-            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-            color: #000;
-            border: none;
-            padding: 18px;
-            border-radius: 16px;
-            font-weight: 900;
-            width: 100%;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.4);
-            transition: 0.3s;
-        }
-        .btn-action:active { transform: translateY(2px); box-shadow: none; }
-        .btn-action:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; }
+/* Pages */
+.page{display:none;}
+.page.active{display:block;}
 
-        /* --- Games Grid (Home) --- */
-        .game-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .game-node {
-            background: linear-gradient(145deg, #1e1e24, #141418);
-            border-radius: 24px;
-            padding: 25px 15px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.03);
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .game-node i { font-size: 32px; margin-bottom: 12px; display: block; background: linear-gradient(var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .game-node b { font-size: 14px; letter-spacing: 1px; }
+/* My Bets */
+.my-bet-card{background:#141829;border:1px solid #1e2640;border-radius:12px;padding:14px;margin:8px 16px;}
+.my-bet-status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:700;margin-bottom:8px;}
+.my-bet-status.pending{background:#f5a62333;color:#f5a623;}
+.my-bet-status.won{background:#4ade8033;color:#4ade80;}
+.my-bet-status.lost{background:#ef444433;color:#ef4444;}
+.my-bet-match{font-size:13px;color:#9ca3af;margin-bottom:3px;}
+.my-bet-pick{font-size:14px;font-weight:600;margin-bottom:8px;}
+.my-bet-row{display:flex;justify-content:space-between;font-size:12px;color:#6b7280;margin-bottom:4px;}
+.my-bet-row span:last-child{color:#fff;font-weight:600;}
 
-        /* --- Level System --- */
-        .lvl-box { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-        .progress-track { background: rgba(255,255,255,0.05); height: 10px; border-radius: 10px; overflow: hidden; }
-        .progress-fill { background: var(--gold); height: 100%; width: 0%; box-shadow: 0 0 10px var(--gold); transition: 0.5s ease; }
+/* Result modal */
+.result-modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.85);z-index:300;display:none;justify-content:center;align-items:center;}
+.result-modal.show{display:flex;}
+.result-box{text-align:center;padding:40px 30px;border-radius:20px;max-width:320px;width:90%;}
+.result-box.win{background:linear-gradient(135deg,#1a3a1a,#0a2a0a);border:2px solid #4ade80;}
+.result-box.lose{background:linear-gradient(135deg,#3a1a1a,#2a0a0a);border:2px solid #ef4444;}
+.result-icon{font-size:60px;margin-bottom:16px;}
+.result-title{font-size:24px;font-weight:800;margin-bottom:8px;}
+.result-text{font-size:14px;color:#9ca3af;margin-bottom:20px;}
+.result-amount{font-size:28px;font-weight:800;margin-bottom:20px;}
+.result-amount.win{color:#4ade80;}
+.result-amount.lose{color:#ef4444;}
+.result-btn{background:linear-gradient(135deg,#f5a623,#e8950f);border:none;border-radius:12px;padding:12px 40px;font-size:14px;font-weight:700;color:#000;cursor:pointer;}
 
-        /* --- Game Arenas --- */
-        .arena { background: #000; border-radius: 30px; padding: 40px 20px; border: 1px solid #222; text-align: center; margin: 20px 0; position: relative; }
-        
-        /* Slots */
-        .slot-reels { display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; }
-        .reel-unit { width: 70px; height: 100px; background: #111; border: 2px solid #333; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 45px; }
+/* Empty state */
+.empty-state{text-align:center;padding:60px 20px;color:#6b7280;}
+.empty-state .icon{font-size:48px;margin-bottom:12px;}
+.empty-state p{font-size:14px;}
 
-        /* Wheel */
-        #wheel-element { width: 260px; height: 260px; transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); margin: 0 auto; display: block; }
-        .pointer { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); color: var(--gold); font-size: 35px; z-index: 10; text-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+/* Scrollbar */
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#2a3055;border-radius:3px;}
 
-        /* Crash */
-        .arena-crash { background: #000; height: 300px; border-radius: 30px; border: 1px solid #222; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
-        #crash-mult { font-size: 60px; font-weight: 900; color: var(--blue); z-index: 10; text-shadow: 0 0 20px rgba(0, 210, 255, 0.5); transition: color 0.3s; }
-        #rocket { position: absolute; bottom: 20px; left: 20px; font-size: 50px; transition: 0.1s linear; z-index: 5; }
+/* Toast */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#4ade80;color:#000;padding:10px 24px;border-radius:10px;font-size:13px;font-weight:700;z-index:400;display:none;animation:slideDown .3s ease;}
+@keyframes slideDown{from{opacity:0;transform:translateX(-50%) translateY(-20px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
 
-        /* --- Navigation --- */
-        nav {
-            position: fixed; bottom: 0; width: 100%; background: rgba(11, 11, 14, 0.95);
-            backdrop-filter: blur(20px); display: flex; justify-content: space-around;
-            padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.05); z-index: 1000;
-        }
-        .nav-tab { color: #555; text-decoration: none; text-align: center; transition: 0.3s; }
-        .nav-tab.active { color: var(--gold); }
-        .nav-tab i { font-size: 24px; display: block; margin-bottom: 4px; }
-        .nav-tab span { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+/* Stats section */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px;}
+.stat-card{background:#141829;border:1px solid #1e2640;border-radius:12px;padding:16px;text-align:center;}
+.stat-value{font-size:22px;font-weight:800;color:#f5a623;}
+.stat-label{font-size:11px;color:#6b7280;margin-top:4px;}
+.stat-card.green .stat-value{color:#4ade80;}
+.stat-card.red .stat-value{color:#ef4444;}
 
-        /* --- Modal Pay --- */
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-        .pay-card { background: #fff; width: 90%; max-width: 400px; border-radius: 30px; padding: 30px; color: #000; }
-        .pay-field { width: 100%; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 15px; background: #f9f9f9; font-size: 16px; outline: none; }
-    </style>
+/* Promo banner */
+.promo-banner{margin:8px 16px;background:linear-gradient(135deg,#1e3a5f,#0d2240);border-radius:12px;padding:16px;border:1px solid #2a5080;}
+.promo-banner h3{font-size:14px;color:#f5a623;margin-bottom:4px;}
+.promo-banner p{font-size:12px;color:#9ca3af;}
+</style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">CasinoBetStar</div>
-        <div class="balance-chip" onclick="openPay()">
-            <span id="header-bal">2500</span> <span style="color:var(--gold)">₴</span>
-            <i class="fas fa-plus-circle" style="color:var(--gold)"></i>
-        </div>
-    </header>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">Bet<span>Master</span></div>
+    <div class="balance-box">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm0-4h-2V7h2v8z"/></svg>
+      <span id="balanceDisplay">1000.00 ₴</span>
+    </div>
+  </div>
 
-    <section id="scr-home" class="screen active">
-        <div class="glass-card" style="background: linear-gradient(135deg, rgba(255,207,75,0.1), transparent);">
-            <div class="lvl-box">
-                <span style="font-weight: 900; letter-spacing: 1px;">TIS VITALIY</span>
-                <span style="color: var(--gold); font-weight: 900;">LVL <span id="u-lvl">1</span></span>
-            </div>
-            <div class="progress-track"><div class="progress-fill" id="u-bar"></div></div>
-            <p style="font-size: 10px; margin-top: 8px; opacity: 0.5;">XP ДО НАСТУПНОГО РІВНЯ: <span id="xp-val">0</span>/1000</p>
-        </div>
-
-        <div class="game-grid">
-            <div class="game-node" onclick="showScreen('scr-slots')">
-                <i class="fas fa-dice"></i>
-                <b>ROYAL SLOTS</b>
-            </div>
-            <div class="game-node" onclick="showScreen('scr-wheel')">
-                <i class="fas fa-dharmachakra"></i>
-                <b>LUCKY WHEEL</b>
-            </div>
-            <div class="game-node" style="grid-column: span 2;" onclick="showScreen('scr-crash')">
-                <div style="display:flex; align-items:center; justify-content:center; gap:20px;">
-                    <i class="fas fa-rocket" style="margin:0; background:linear-gradient(var(--blue), #fff); -webkit-background-clip:text;"></i>
-                    <div style="text-align:left">
-                        <b style="display:block">CRASH GALAXY</b>
-                        <small style="color:var(--blue)">ШВИДКІ ГРОШІ</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="scr-slots" class="screen">
-        <div onclick="showScreen('scr-home')" style="opacity:0.5; margin-bottom:20px; cursor:pointer; display:inline-block;"><i class="fas fa-chevron-left"></i> НАЗАД</div>
-        <div class="arena">
-            <h1 style="font-weight:900; margin-bottom:30px; letter-spacing:2px;">SLOTS</h1>
-            <div class="slot-reels">
-                <div class="reel-unit" id="r1">💎</div>
-                <div class="reel-unit" id="r2">💎</div>
-                <div class="reel-unit" id="r3">💎</div>
-            </div>
-            <p style="color:#888; margin-bottom:15px; font-weight:bold;">СТАВКА: 100 ₴</p>
-            <button class="btn-action" id="btn-spin" onclick="playSlots()">КРУТИТИ</button>
-        </div>
-    </section>
-
-    <section id="scr-wheel" class="screen">
-        <div onclick="showScreen('scr-home')" style="opacity:0.5; margin-bottom:20px; cursor:pointer; display:inline-block;"><i class="fas fa-chevron-left"></i> НАЗАД</div>
-        <div class="arena">
-            <i class="fas fa-caret-down pointer"></i>
-            <canvas id="wheel-element" width="260" height="260"></canvas>
-            <p style="color:#888; margin:20px 0 15px; font-weight:bold;">СТАВКА: 200 ₴</p>
-            <button class="btn-action" id="btn-wheel" onclick="playWheel()">ГРАТИ</button>
-        </div>
-    </section>
-
-    <section id="scr-crash" class="screen">
-        <div onclick="showScreen('scr-home')" style="opacity:0.5; margin-bottom:20px; cursor:pointer; display:inline-block;"><i class="fas fa-chevron-left"></i> НАЗАД</div>
-        <div class="arena-crash">
-            <div id="crash-mult">x1.00</div>
-            <div id="rocket">🚀</div>
-        </div>
-        <div class="glass-card" style="text-align: center;">
-            <p style="color:#888; margin-bottom:15px; font-weight:bold;">СТАВКА: 150 ₴</p>
-            <button class="btn-action" id="btn-crash-start" onclick="startCrash()">ПОСТАВИТИ</button>
-            <button class="btn-action" id="btn-crash-out" onclick="cashOut()" style="display:none; background:var(--green); color:#000;">ЗАБРАТИ ВИГРАШ</button>
-        </div>
-    </section>
-
-    <section id="scr-shop" class="screen">
-        <h1 style="font-weight:900; margin-bottom:20px; text-align:center;">МАГАЗИН ID</h1>
-        <div id="shop-container"></div>
-    </section>
-
-    <section id="scr-prof" class="screen">
-        <div class="glass-card" style="text-align:center;">
-            <div style="width:100px; height:100px; background:var(--gold-dark); border-radius:50%; margin:0 auto 15px; display:flex; align-items:center; justify-content:center; font-size:40px; border: 4px solid var(--gold); color:#000; font-weight:bold;">
-                T
-            </div>
-            <h2 id="p-name">Tis Vitaliy</h2>
-            <p style="color:var(--gold); font-weight:900; letter-spacing:2px; margin-top:5px;">ID: <span id="p-id">672026</span></p>
-        </div>
-        <button class="btn-action" onclick="openPay()">ПОПОВНИТИ БАЛАНС</button>
-    </section>
-
-    <div class="modal-overlay" id="pay-modal">
-        <div class="pay-card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;">
-                <b style="font-size:18px;">ПОПОВНЕННЯ КАРТКОЮ</b>
-                <i class="fas fa-times" onclick="closePay()" style="cursor:pointer; font-size:20px; color:#888;"></i>
-            </div>
-            <input type="text" class="pay-field" placeholder="Номер картки (16 цифр)" maxlength="19">
-            <div style="display:flex; gap:10px;">
-                <input type="text" class="pay-field" placeholder="ММ/РР" maxlength="5">
-                <input type="password" class="pay-field" placeholder="CVV" maxlength="3">
-            </div>
-            <label style="font-size:12px; font-weight:bold; color:#555; margin-bottom:5px; display:block;">Сума поповнення (₴)</label>
-            <input type="number" id="pay-amt" class="pay-field" value="1000">
-            <button class="btn-action" style="background:#000; color:#fff;" onclick="doPay()">ОПЛАТИТИ</button>
-        </div>
+  <!-- Page: Main -->
+  <div class="page active" id="pageSport">
+    <!-- Sport Tabs -->
+    <div class="sport-tabs" id="sportTabs"></div>
+    
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchMatchTab('live')"><span class="live-dot" style="margin-right:4px;"></span> LIVE</div>
+      <div class="tab" onclick="switchMatchTab('prematch')">Прематч</div>
+      <div class="tab" onclick="switchMatchTab('top')">Топ</div>
     </div>
 
-    <nav>
-        <a href="#" class="nav-tab active" onclick="showScreen('scr-home', this)"><i class="fas fa-th-large"></i><span>ЛОБІ</span></a>
-        <a href="#" class="nav-tab" onclick="showScreen('scr-shop', this)"><i class="fas fa-shopping-bag"></i><span>МАГАЗИН</span></a>
-        <a href="#" class="nav-tab" onclick="showScreen('scr-prof', this)"><i class="fas fa-user-shield"></i><span>ПРОФІЛЬ</span></a>
-    </nav>
+    <!-- Promo -->
+    <div class="promo-banner" id="promoBanner">
+      <h3>🎁 Бонус на перший депозит 100%</h3>
+      <p>Отримай до 5000₴ бонусу на спортивні ставки!</p>
+    </div>
 
-    <script>
-        // Глобальні змінні
-        let balance = 2500;
-        let exp = 0;
-        let level = 1;
-        let currentID = "672026";
+    <!-- Matches -->
+    <div class="matches" id="matchesList"></div>
+  </div>
 
-        // Оновлення інтерфейсу (Баланс, Рівень, ID)
-        function updateUI() {
-            document.getElementById('header-bal').innerText = balance;
-            document.getElementById('u-lvl').innerText = level;
-            document.getElementById('p-id').innerText = currentID;
-            
-            let progress = (exp % 1000) / 10;
-            document.getElementById('u-bar').style.width = progress + "%";
-            document.getElementById('xp-val').innerText = exp % 1000;
-            
-            if(Math.floor(exp / 1000) + 1 > level) { 
-                level++; 
-                alert("ВІТАЄМО! НОВИЙ РІВЕНЬ: " + level); 
-            }
-        }
+  <!-- Page: My Bets -->
+  <div class="page" id="pageMyBets">
+    <div style="padding:16px;font-size:18px;font-weight:800;">Мої ставки</div>
+    <div class="tabs">
+      <div class="tab active" onclick="filterBets('all')">Всі</div>
+      <div class="tab" onclick="filterBets('pending')">Активні</div>
+      <div class="tab" onclick="filterBets('won')">Виграні</div>
+      <div class="tab" onclick="filterBets('lost')">Програні</div>
+    </div>
+    <div id="myBetsList"></div>
+  </div>
 
-        // Перемикання екранів
-        function showScreen(id, navElement = null) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            
-            if(navElement) { 
-                document.querySelectorAll('.nav-tab').forEach(n => n.classList.remove('active')); 
-                navElement.classList.add('active'); 
-            }
-        }
+  <!-- Page: Stats -->
+  <div class="page" id="pageStats">
+    <div style="padding:16px;font-size:18px;font-weight:800;">Статистика</div>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div style="padding:0 16px;font-size:14px;font-weight:700;margin-bottom:8px;">Історія балансу</div>
+    <div id="balanceHistory" style="padding:0 16px 16px;"></div>
+  </div>
 
-        /* ==========================
-           ГРА 1: СЛОТИ
-           ========================== */
-        const slotSymbols = ['💎', '🍋', '🔔', '🍒', '7️⃣'];
-        function playSlots() {
-            if(balance < 100) return alert("Недостатньо коштів на балансі!");
-            balance -= 100; 
-            exp += 50; 
-            updateUI();
-            
-            let btn = document.getElementById('btn-spin'); 
-            btn.disabled = true;
-            
-            let interval = setInterval(() => {
-                document.getElementById('r1').innerText = slotSymbols[Math.floor(Math.random()*5)];
-                document.getElementById('r2').innerText = slotSymbols[Math.floor(Math.random()*5)];
-                document.getElementById('r3').innerText = slotSymbols[Math.floor(Math.random()*5)];
-            }, 100);
-            
-            setTimeout(() => {
-                clearInterval(interval); 
-                btn.disabled = false;
-                let res = [document.getElementById('r1').innerText, document.getElementById('r2').innerText, document.getElementById('r3').innerText];
-                if(res[0] === res[1] && res[1] === res[2]) { 
-                    balance += 1500; 
-                    alert("ДЖЕКПОТ! Виграш: 1500 ₴"); 
-                    updateUI(); 
-                }
-            }, 2000);
-        }
+  <!-- Betslip Bar -->
+  <div class="betslip-bar" id="betslipBar" onclick="openBetslip()">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="betslip-count" id="betslipCount">0</div>
+      <div class="betslip-text">Купон</div>
+    </div>
+    <div style="font-weight:700;color:#000;" id="betslipTotalOdd">1.00</div>
+  </div>
 
-        /* ==========================
-           ГРА 2: КОЛЕСО ФОРТУНИ
-           ========================== */
-        const canvas = document.getElementById('wheel-element');
-        const ctx = canvas.getContext('2d');
-        const wheelSectors = [
-            {label: "0", color: "#111", win: 0}, 
-            {label: "500", color: "#b8860b", win: 500}, 
-            {label: "0", color: "#111", win: 0}, 
-            {label: "1000", color: "#ffcf4b", win: 1000}, 
-            {label: "0", color: "#111", win: 0}, 
-            {label: "300", color: "#b8860b", win: 300}
-        ];
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchPage('pageSport',this)">
+      <div class="nav-icon">⚽</div>
+      <div class="nav-label">Спорт</div>
+    </div>
+    <div class="nav-item" onclick="switchPage('pageMyBets',this)">
+      <div class="nav-icon">🎫</div>
+      <div class="nav-label">Мої ставки</div>
+    </div>
+    <div class="nav-item" onclick="switchPage('pageStats',this)">
+      <div class="nav-icon">📊</div>
+      <div class="nav-label">Статистика</div>
+    </div>
+  </div>
+</div>
+
+<!-- Betslip Modal -->
+<div class="betslip-modal" id="betslipModal" onclick="closeBetslipOutside(event)">
+  <div class="betslip-content" id="betslipContent"></div>
+</div>
+
+<!-- Result Modal -->
+<div class="result-modal" id="resultModal">
+  <div class="result-box" id="resultBox"></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ DATA ============
+let balance = 1000;
+let betslip = [];
+let myBets = [];
+let currentSport = 'football';
+let currentTab = 'live';
+let matchData = [];
+let betIdCounter = 1;
+let totalWon = 0;
+let totalLost = 0;
+let totalBets = 0;
+let balanceLog = [{time: new Date(), value: 1000, label: 'Старт'}];
+
+const sports = [
+  {id:'football',name:'Футбол',icon:'⚽'},
+  {id:'basketball',name:'Баскетбол',icon:'🏀'},
+  {id:'tennis',name:'Теніс',icon:'🎾'},
+  {id:'hockey',name:'Хокей',icon:'🏒'},
+  {id:'mma',name:'MMA',icon:'🥊'},
+  {id:'esports',name:'Кіберспорт',icon:'🎮'}
+];
+
+// Реальні команди та ліги
+const leaguesData = {
+  football: {
+    leagues: [
+      {name:'Ліга Чемпіонів УЄФА', flag:'🏆'},
+      {name:'АПЛ - Англія', flag:'🏴'},
+      {name:'Ла Ліга - Іспанія', flag:'🇪🇸'},
+      {name:'Серія А - Італія', flag:'🇮🇹'},
+      {name:'Бундесліга - Німеччина', flag:'🇩🇪'},
+      {name:'Ліга 1 - Франція', flag:'🇫🇷'},
+      {name:'УПЛ - Україна', flag:'🇺🇦'}
+    ],
+    teams: {
+      'Ліга Чемпіонів УЄФА': [
+        ['Реал Мадрид','Манчестер Сіті','#fff','#6cb4ee'],
+        ['Баварія','Барселона','#dc052d','#a50044'],
+        ['ПСЖ','Інтер','#004170','#0068a8'],
+        ['Арсенал','Наполі','#ef0107','#12a0d7'],
+        ['Боруссія Д','Атлетіко','#fde100','#cb3524'],
+        ['Ліверпуль','Аталанта','#c8102e','#1e71b8'],
+      ],
+      'АПЛ - Англія': [
+        ['Манчестер Сіті','Арсенал','#6cb4ee','#ef0107'],
+        ['Ліверпуль','Челсі','#c8102e','#034694'],
+        ['Тоттенхем','Манчестер Юн','#132257','#da291c'],
+        ['Ньюкасл','Астон Вілла','#241f20','#670e36'],
+        ['Брайтон','Вест Хем','#0057b8','#7a263a'],
+        ['Вулвергемптон','Евертон','#fdb913','#003399'],
+      ],
+      'Ла Ліга - Іспанія': [
+        ['Реал Мадрид','Барселона','#fff','#a50044'],
+        ['Атлетіко','Реал Сосьєдад','#cb3524','#003da5'],
+        ['Вільярреал','Севілья','#fde100','#d40027'],
+        ['Бетіс','Атлетик','#00954c','#ee2523'],
+        ['Валенсія','Жирона','#ee3524','#cd1628'],
+      ],
+      'Серія А - Італія': [
+        ['Інтер','Мілан','#0068a8','#fb090b'],
+        ['Наполі','Ювентус','#12a0d7','#000'],
+        ['Рома','Лаціо','#8e1f2f','#87d8f7'],
+        ['Аталанта','Фіорентіна','#1e71b8','#482f8e'],
+      ],
+      'Бундесліга - Німеччина': [
+        ['Баварія','Боруссія Д','#dc052d','#fde100'],
+        ['Лейпциг','Байєр','#dd0741','#e32221'],
+        ['Штутгарт','Айнтрахт','#e32219','#e1000f'],
+        ['Вольфсбург','Фрайбург','#65b32e','#000'],
+      ],
+      'Ліга 1 - Франція': [
+        ['ПСЖ','Марсель','#004170','#2faee0'],
+        ['Монако','Ліон','#e7352b','#104b92'],
+        ['Лілль','Ренн','#e0001a','#000'],
+      ],
+      'УПЛ - Україна': [
+        ['Шахтар','Динамо Київ','#f47920','#005baa'],
+        ['Дніпро-1','Зоря','#005baa','#e31e24'],
+        ['Ворскла','Колос','#2e7d32','#fdd835'],
+        ['Кривбас','Минай','#c62828','#1565c0'],
+      ]
+    }
+  },
+  basketball: {
+    leagues: [
+      {name:'NBA', flag:'🇺🇸'},
+      {name:'Євроліга', flag:'🏆'},
+    ],
+    teams: {
+      'NBA': [
+        ['Лейкерс','Селтікс','#552583','#007a33'],
+        ['Уорріорз','Бакс','#1d428a','#00471b'],
+        ['Наггетс','Маямі','#0e2240','#98002e'],
+        ['Філадельфія','Фінікс','#006bb6','#1d1160'],
+        ['Даллас','Клівленд','#00538c','#860038'],
+        ['Оклахома','Бостон','#007ac1','#007a33'],
+      ],
+      'Євроліга': [
+        ['Реал Мадрид','Барселона','#fff','#a50044'],
+        ['Олімпіакос','Фенербахче','#cc0000','#fdd302'],
+        ['Панатінаїкос','Жальгіріс','#008749','#006838'],
+      ]
+    }
+  },
+  tennis: {
+    leagues: [
+      {name:'ATP Tour', flag:'🎾'},
+      {name:'WTA Tour', flag:'🎾'},
+      {name:'Grand Slam', flag:'🏆'},
+    ],
+    teams: {
+      'ATP Tour': [
+        ['Джокович Н.','Сіннер Я.','#1a5276','#c0392b'],
+        ['Алькарас К.','Медведєв Д.','#e74c3c','#2e86c1'],
+        ['Звєрєв О.','Рублёв А.','#f39c12','#27ae60'],
+        ['Ціціпас С.','Руне Х.','#3498db','#e74c3c'],
+      ],
+      'WTA Tour': [
+        ['Швьонтек І.','Соболенко А.','#e74c3c','#2ecc71'],
+        ['Рибакіна О.','Гауфф К.','#3498db','#9b59b6'],
+      ],
+      'Grand Slam': [
+        ['Джокович Н.','Алькарас К.','#1a5276','#e74c3c'],
+        ['Сіннер Я.','Медведєв Д.','#c0392b','#2e86c1'],
+      ]
+    }
+  },
+  hockey: {
+    leagues: [
+      {name:'NHL', flag:'🇺🇸'},
+    ],
+    teams: {
+      'NHL': [
+        ['Едмонтон','Флорида','#041e42','#c8102e'],
+        ['Тампа','Каролайна','#002868','#cc0000'],
+        ['Торонто','Бостон','#00205b','#fcb514'],
+        ['Рейнджерс','Вашингтон','#0038a8','#c8102e'],
+        ['Вегас','Даллас','#b4975a','#006847'],
+      ]
+    }
+  },
+  mma: {
+    leagues: [
+      {name:'UFC', flag:'🥊'},
+    ],
+    teams: {
+      'UFC': [
+        ['Махачев І.','Оліве\'йра Ш.','#c0392b','#27ae60'],
+        ['Джонс Д.','Аспінал Т.','#e74c3c','#3498db'],
+        ['Дюплессі Д.','Адесанья І.','#8e44ad','#2c3e50'],
+        ['Топурія І.','Холловей М.','#e67e22','#16a085'],
+      ]
+    }
+  },
+  esports: {
+    leagues: [
+      {name:'CS2 - ESL Pro', flag:'🎮'},
+      {name:'Dota 2 - TI', flag:'🎮'},
+    ],
+    teams: {
+      'CS2 - ESL Pro': [
+        ['NAVI','FaZe','#ffd700','#e74c3c'],
+        ['G2','Vitality','#000','#f1c40f'],
+        ['Spirit','Heroic','#4a90d9','#c0392b'],
+        ['Cloud9','MOUZ','#009bff','#e74c3c'],
+      ],
+      'Dota 2 - TI': [
+        ['Team Spirit','Gaimin','#4a90d9','#e74c3c'],
+        ['Tundra','Team Liquid','#2ecc71','#0a4d8c'],
+      ]
+    }
+  }
+};
+
+// ============ GENERATE MATCHES ============
+function generateMatches() {
+  matchData = [];
+  const sportData = leaguesData[currentSport];
+  if (!sportData) return;
+
+  const now = new Date();
+  let matchId = 0;
+
+  sportData.leagues.forEach(league => {
+    const teamPairs = sportData.teams[league.name] || [];
+    teamPairs.forEach(pair => {
+      matchId++;
+      const isLive = Math.random() < 0.4;
+      const isTop = Math.random() < 0.3;
+      
+      let minute = 0, score1 = 0, score2 = 0;
+      let startTime;
+      
+      if (isLive) {
+        minute = Math.floor(Math.random() * 90) + 1;
+        if (currentSport === 'basketball') minute = Math.floor(Math.random() * 48) + 1;
+        if (currentSport === 'tennis') minute = 0;
+        if (currentSport === 'hockey') minute = Math.floor(Math.random() * 60) + 1;
         
-        function drawWheel() {
-            let arc = (Math.PI * 2) / 6;
-            wheelSectors.forEach((s, i) => {
-                ctx.beginPath(); 
-                ctx.fillStyle = s.color; 
-                ctx.moveTo(130, 130); 
-                ctx.arc(130, 130, 125, i * arc, (i + 1) * arc); 
-                ctx.fill();
-                
-                ctx.save(); 
-                ctx.translate(130, 130); 
-                ctx.rotate(i * arc + arc / 2); 
-                ctx.fillStyle = "#fff"; 
-                ctx.font = "bold 18px Montserrat"; 
-                ctx.fillText(s.label, 70, 6); 
-                ctx.restore();
-            });
+        // Генерація правдоподібного рахунку
+        if (currentSport === 'football') {
+          score1 = Math.random() < 0.3 ? 0 : Math.floor(Math.random() * 3) + (Math.random() < 0.2 ? 1 : 0);
+          score2 = Math.random() < 0.3 ? 0 : Math.floor(Math.random() * 3) + (Math.random() < 0.2 ? 1 : 0);
+        } else if (currentSport === 'basketball') {
+          const q = Math.ceil(minute / 12);
+          score1 = Math.floor(Math.random() * 25 * q) + 15 * q;
+          score2 = Math.floor(Math.random() * 25 * q) + 15 * q;
+        } else if (currentSport === 'tennis') {
+          score1 = Math.floor(Math.random() * 3);
+          score2 = Math.floor(Math.random() * 3);
+          if (score1 === 0 && score2 === 0) score1 = 1;
+        } else if (currentSport === 'hockey') {
+          score1 = Math.floor(Math.random() * 4);
+          score2 = Math.floor(Math.random() * 4);
+        } else if (currentSport === 'mma' || currentSport === 'esports') {
+          score1 = Math.floor(Math.random() * 2);
+          score2 = Math.floor(Math.random() * 2);
         }
-        
-        // Малюємо колесо при завантаженні
-        drawWheel();
-        
-        let currentRotation = 0;
-        let isWheelSpinning = false;
-        
-        function playWheel() {
-            if(isWheelSpinning) return;
-            if(balance < 200) return alert("Недостатньо коштів на балансі!");
-            
-            balance -= 200; 
-            exp += 80; 
-            updateUI();
-            
-            isWheelSpinning = true;
-            let btn = document.getElementById('btn-wheel');
-            btn.disabled = true;
+        startTime = null;
+      } else {
+        const hoursAhead = Math.floor(Math.random() * 48) + 1;
+        startTime = new Date(now.getTime() + hoursAhead * 3600000);
+      }
 
-            let randSector = Math.floor(Math.random() * 6);
-            currentRotation += (3600 + (randSector * 60));
-            canvas.style.transform = `rotate(-${currentRotation}deg)`;
-            
-            setTimeout(() => { 
-                isWheelSpinning = false;
-                btn.disabled = false;
-                let winAmount = wheelSectors[randSector].win;
-                balance += winAmount; 
-                if(winAmount > 0) alert("ВІТАЄМО! Виграш: " + winAmount + " ₴"); 
-                updateUI(); 
-            }, 4100);
-        }
+      // Генерація коефіцієнтів
+      let home, draw, away;
+      const r = Math.random();
+      if (r < 0.33) {
+        // фаворит - хазяї
+        home = +(1.2 + Math.random() * 0.8).toFixed(2);
+        draw = currentSport !== 'tennis' && currentSport !== 'mma' && currentSport !== 'esports' ? +(3.0 + Math.random() * 1.5).toFixed(2) : null;
+        away = +(2.8 + Math.random() * 3.0).toFixed(2);
+      } else if (r < 0.66) {
+        // рівні
+        home = +(1.8 + Math.random() * 0.5).toFixed(2);
+        draw = currentSport !== 'tennis' && currentSport !== 'mma' && currentSport !== 'esports' ? +(3.0 + Math.random() * 0.8).toFixed(2) : null;
+        away = +(1.8 + Math.random() * 0.5).toFixed(2);
+      } else {
+        // фаворит - гості
+        home = +(2.8 + Math.random() * 3.0).toFixed(2);
+        draw = currentSport !== 'tennis' && currentSport !== 'mma' && currentSport !== 'esports' ? +(3.0 + Math.random() * 1.5).toFixed(2) : null;
+        away = +(1.2 + Math.random() * 0.8).toFixed(2);
+      }
 
-        /* ==========================
-           ГРА 3: CRASH (РАКЕТА)
-           ========================== */
-        let crashMultiplier = 1.0;
-        let crashInterval;
-        let isCrashRunning = false;
+      matchData.push({
+        id: currentSport + '_' + matchId,
+        league: league,
+        team1: pair[0],
+        team2: pair[1],
+        color1: pair[2],
+        color2: pair[3],
+        isLive,
+        isTop,
+        minute,
+        score1,
+        score2,
+        startTime,
+        home,
+        draw,
+        away,
+        sport: currentSport
+      });
+    });
+  });
+}
 
-        function startCrash() {
-            if(balance < 150) return alert("Недостатньо коштів на балансі!");
-            
-            balance -= 150; 
-            exp += 100; 
-            updateUI();
-            
-            isCrashRunning = true;
-            crashMultiplier = 1.0;
-            
-            document.getElementById('btn-crash-start').style.display = 'none';
-            document.getElementById('btn-crash-out').style.display = 'block';
-            document.getElementById('crash-mult').style.color = 'var(--blue)';
+// ============ RENDER ============
+function renderSportTabs() {
+  const c = document.getElementById('sportTabs');
+  c.innerHTML = sports.map(s => `
+    <div class="sport-tab ${s.id===currentSport?'active':''}" onclick="switchSport('${s.id}')">
+      <div class="icon">${s.icon}</div>
+      <div class="name">${s.name}</div>
+    </div>
+  `).join('');
+}
 
-            let boomPoint = (Math.random() * 4 + 1.1); // Вибух від x1.1 до x5.1
-            let rock = document.getElementById('rocket');
+function renderMatches() {
+  const c = document.getElementById('matchesList');
+  let filtered;
+  
+  if (currentTab === 'live') {
+    filtered = matchData.filter(m => m.isLive);
+  } else if (currentTab === 'top') {
+    filtered = matchData.filter(m => m.isTop);
+  } else {
+    filtered = matchData.filter(m => !m.isLive);
+  }
 
-            crashInterval = setInterval(() => {
-                crashMultiplier += 0.02;
-                document.getElementById('crash-mult').innerText = 'x' + crashMultiplier.toFixed(2);
-                
-                // Ракета летить по діагоналі вгору (від 20% до 80% екрану)
-                rock.style.left = (20 + (crashMultiplier - 1) * 15) + '%';
-                rock.style.bottom = (20 + (crashMultiplier - 1) * 15) + '%';
+  if (filtered.length === 0) {
+    c.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><p>Немає доступних матчів</p></div>`;
+    return;
+  }
 
-                if(crashMultiplier >= boomPoint) {
-                    clearInterval(crashInterval);
-                    isCrashRunning = false;
-                    document.getElementById('crash-mult').innerText = "BOOM!";
-                    document.getElementById('crash-mult').style.color = 'var(--red)';
-                    
-                    setTimeout(() => { resetCrashUI(); }, 2000);
-                }
-            }, 100);
-        }
+  // Групуємо по лігах
+  const grouped = {};
+  filtered.forEach(m => {
+    const key = m.league.name;
+    if (!grouped[key]) grouped[key] = {league: m.league, matches: []};
+    grouped[key].matches.push(m);
+  });
 
-        function cashOut() {
-            if(!isCrashRunning) return;
-            clearInterval(crashInterval);
-            isCrashRunning = false;
-            
-            let winAmount = Math.floor(150 * crashMultiplier);
-            balance += winAmount;
-            alert("ЗАБРАЛИ! Виграш: " + winAmount + " ₴");
-            
-            updateUI();
-            resetCrashUI();
-        }
+  let html = '';
+  Object.values(grouped).forEach(g => {
+    html += `<div class="league-header">${g.league.flag} ${g.league.name}</div>`;
+    g.matches.forEach(m => {
+      const hasDraw = m.draw !== null;
+      html += `
+        <div class="match-card" id="card_${m.id}">
+          <div class="match-info">
+            <div class="teams">
+              <div class="team">
+                <div class="team-logo" style="background:${m.color1};color:${getContrast(m.color1)}">${m.team1.charAt(0)}</div>
+                ${m.team1}
+              </div>
+              <div class="team">
+                <div class="team-logo" style="background:${m.color2};color:${getContrast(m.color2)}">${m.team2.charAt(0)}</div>
+                ${m.team2}
+              </div>
+            </div>
+            <div class="match-time">
+              ${m.isLive ? `
+                <div class="score">${m.score1} : ${m.score2}</div>
+                <div class="minute"><span class="live-badge"><span class="live-dot"></span> ${m.minute}'</span></div>
+              ` : `
+                <div class="time">${formatTime(m.startTime)}</div>
+                <div class="date">${formatDate(m.startTime)}</div>
+              `}
+            </div>
+          </div>
+          <div class="odds-row">
+            <div class="odd-btn ${isSelected(m.id,'1')?'selected':''}" onclick="toggleBet('${m.id}','1',${m.home},'${esc(m.team1)} vs ${esc(m.team2)}','П1 - ${esc(m.team1)}')">
+              <div class="label">1</div>
+              <div class="value">${m.home}</div>
+            </div>
+            ${hasDraw ? `
+            <div class="odd-btn ${isSelected(m.id,'X')?'selected':''}" onclick="toggleBet('${m.id}','X',${m.draw},'${esc(m.team1)} vs ${esc(m.team2)}','Нічия')">
+              <div class="label">X</div>
+              <div class="value">${m.draw}</div>
+            </div>
+            ` : ''}
+            <div class="odd-btn ${isSelected(m.id,'2')?'selected':''}" onclick="toggleBet('${m.id}','2',${m.away},'${esc(m.team1)} vs ${esc(m.team2)}','П2 - ${esc(m.team2)}')">
+              <div class="label">2</div>
+              <div class="value">${m.away}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  });
+  c.innerHTML = html;
+}
 
-        function resetCrashUI() {
-            document.getElementById('btn-crash-start').style.display = 'block';
-            document.getElementById('btn-crash-out').style.display = 'none';
-            document.getElementById('rocket').style.left = '20px';
-            document.getElementById('rocket').style.bottom = '20px';
-            document.getElementById('crash-mult').innerText = "x1.00";
-            document.getElementById('crash-mult').style.color = 'var(--blue)';
-        }
+function esc(s) { return s.replace(/'/g, "\\'"); }
 
-        /* ==========================
-           МАГАЗИН ID
-           ========================== */
-        const shopItemsData = [ 
-            {id: "777777", price: 5000}, 
-            {id: "000001", price: 20000}, 
-            {id: "KING_TIS", price: 15000}, 
-            {id: "LUCKY_67", price: 7000} 
-        ];
+function getContrast(hex) {
+  if (!hex || hex === '#fff' || hex === '#ffffff' || hex === '#fde100' || hex === '#fdd302' || hex === '#fcb514' || hex === '#ffd700' || hex === '#f1c40f' || hex === '#fdd835' || hex === '#f47920' || hex === '#f39c12' || hex === '#e67e22' || hex === '#fdb913' || hex === '#b4975a' || hex === '#65b32e' || hex === '#4ade80' || hex === '#2ecc71' || hex === '#27ae60' || hex === '#87d8f7' || hex === '#009bff' || hex === '#6cb4ee') return '#000';
+  return '#fff';
+}
 
-        function initShop() {
-            let htmlStr = "";
-            shopItemsData.forEach(item => {
-                htmlStr += `
-                <div class="glass-card" style="display:flex; justify-content:space-between; align-items:center;">
-                    <div>
-                        <b style="font-family:monospace; font-size:20px; color:var(--gold)">${item.id}</b><br>
-                        <small style="color:#888;">ЦІНА: ${item.price} ₴</small>
-                    </div>
-                    <button class="btn-action" style="width:auto; padding:10px 20px; font-size:12px;" onclick="buyID('${item.id}', ${item.price})">КУПИТИ</button>
-                </div>`;
-            });
-            document.getElementById('shop-container').innerHTML = htmlStr;
-        }
+function formatTime(d) {
+  if (!d) return '';
+  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+}
 
-        function buyID(id, price) { 
-            if(balance >= price) { 
-                balance -= price; 
-                currentID = id; 
-                alert("УСПІШНО! Ваш новий ID: " + id); 
-                updateUI(); 
-            } else {
-                alert("Недостатньо коштів для покупки!");
-            }
-        }
+function formatDate(d) {
+  if (!d) return '';
+  const months = ['Січ','Лют','Бер','Кві','Тра','Чер','Лип','Сер','Вер','Жов','Лис','Гру'];
+  return d.getDate() + ' ' + months[d.getMonth()];
+}
 
-        /* ==========================
-           СИСТЕМА ПОПОВНЕННЯ (ЕКВАЙРИНГ)
-           ========================== */
-        function openPay() { document.getElementById('pay-modal').style.display = 'flex'; }
-        function closePay() { document.getElementById('pay-modal').style.display = 'none'; }
-        
-        function doPay() { 
-            let amount = parseInt(document.getElementById('pay-amt').value); 
-            if(amount > 0) { 
-                balance += amount; 
-                closePay(); 
-                alert("Транзакція успішна! Баланс поповнено на " + amount + " ₴"); 
-                updateUI(); 
-            } 
-        }
+function isSelected(matchId, pick) {
+  return betslip.some(b => b.matchId === matchId && b.pick === pick);
+}
 
-        // Ініціалізація при завантаженні сторінки
-        initShop(); 
-        updateUI();
+// ============ BETSLIP ============
+function toggleBet(matchId, pick, odd, matchName, pickName) {
+  const idx = betslip.findIndex(b => b.matchId === matchId);
+  if (idx > -1) {
+    if (betslip[idx].pick === pick) {
+      betslip.splice(idx, 1);
+    } else {
+      betslip[idx] = {matchId, pick, odd, matchName, pickName};
+    }
+  } else {
+    if (betslip.length >= 10) {
+      showToast('Максимум 10 подій в купоні');
+      return;
+    }
+    betslip.push({matchId, pick, odd, matchName, pickName});
+  }
+  updateBetslipBar();
+  renderMatches();
+}
 
-    </script>
+function updateBetslipBar() {
+  const bar = document.getElementById('betslipBar');
+  const count = document.getElementById('betslipCount');
+  const totalOdd = document.getElementById('betslipTotalOdd');
+  
+  if (betslip.length > 0) {
+    bar.classList.add('show');
+    count.textContent = betslip.length;
+    const tot = betslip.reduce((acc, b) => acc * b.odd, 1);
+    totalOdd.textContent = tot.toFixed(2);
+  } else {
+    bar.classList.remove('show');
+  }
+}
+
+function openBetslip() {
+  if (betslip.length === 0) return;
+  const modal = document.getElementById('betslipModal');
+  modal.classList.add('show');
+  renderBetslipContent();
+}
+
+function renderBetslipContent() {
+  const c = document.getElementById('betslipContent');
+  const totalOdd = betslip.reduce((acc, b) => acc * b.odd, 1);
+  
+  let itemsHtml = betslip.map((b, i) => `
+    <div class="bet-item">
+      <button class="bet-item-remove" onclick="removeBetItem(${i})">✕</button>
+      <div class="bet-match">${b.matchName}</div>
+      <div class="bet-pick">${b.pickName}</div>
+      <div class="bet-odd">Коеф: ${b.odd}</div>
+    </div>
+  `).join('');
+
+  c.innerHTML = `
+    <div class="betslip-header">
+      <div class="betslip-title">Купон (${betslip.length})</div>
+      <button class="betslip-close" onclick="closeBetslip()">✕</button>
+    </div>
+    ${itemsHtml}
+    <div class="stake-section">
+      <div class="stake-label">Сума ставки (₴)</div>
+      <div class="stake-input-row">
+        <input type="number" class="stake-input" id="stakeInput" placeholder="0" value="100" oninput="updatePayout()">
+      </div>
+      <div class="quick-stakes">
+        <div class="quick-stake" onclick="setStake(50)">50</div>
+        <div class="quick-stake" onclick="setStake(100)">100</div>
+        <div class="quick-stake" onclick="setStake(200)">200</div>
+        <div class="quick-stake" onclick="setStake(500)">500</div>
+        <div class="quick-stake" onclick="setStake(0,'all')">Все</div>
+      </div>
+      <div class="payout-row">
+        <div class="payout-label">Загальний коеф:</div>
+        <div style="color:#f5a623;font-weight:700;">${totalOdd.toFixed(2)}</div>
+      </div>
+      <div class="payout-row">
+        <div class="payout-label">Можливий виграш:</div>
+        <div class="payout-value" id="payoutValue">${(100 * totalOdd).toFixed(2)} ₴</div>
+      </div>
+    </div>
+    <button class="place-bet-btn" id="placeBetBtn" onclick="placeBet()">
+      ПОСТАВИТИ ${(100).toFixed(2)} ₴
+    </button>
+  `;
+  updatePayout();
+}
+
+function removeBetItem(i) {
+  betslip.splice(i, 1);
+  if (betslip.length === 0) {
+    closeBetslip();
+  } else {
+    renderBetslipContent();
+  }
+  updateBetslipBar();
+  renderMatches();
+}
+
+function setStake(val, type) {
+  const inp = document.getElementById('stakeInput');
+  if (type === 'all') {
+    inp.value = Math.floor(balance);
+  } else {
+    inp.value = val;
+  }
+  updatePayout();
+}
+
+function updatePayout() {
+  const inp = document.getElementById('stakeInput');
+  const payout = document.getElementById('payoutValue');
+  const btn = document.getElementById('placeBetBtn');
+  const stake = parseFloat(inp.value) || 0;
+  const totalOdd = betslip.reduce((acc, b) => acc * b.odd, 1);
+  payout.textContent = (stake * totalOdd).toFixed(2) + ' ₴';
+  btn.textContent = `ПОСТАВИТИ ${stake.toFixed(2)} ₴`;
+  btn.disabled = stake <= 0 || stake > balance;
+}
+
+function placeBet() {
+  const inp = document.getElementById('stakeInput');
+  const stake = parseFloat(inp.value) || 0;
+  
+  if (stake <= 0) { showToast('Введіть суму ставки'); return; }
+  if (stake > balance) { showToast('Недостатньо коштів'); return; }
+  
+  const totalOdd = betslip.reduce((acc, b) => acc * b.odd, 1);
+  const possibleWin = stake * totalOdd;
+  
+  balance -= stake;
+  updateBalance();
+  
+  const bet = {
+    id: betIdCounter++,
+    picks: [...betslip],
+    stake,
+    totalOdd,
+    possibleWin,
+    status: 'pending',
+    placedAt: new Date(),
+    result: null
+  };
+  
+  myBets.unshift(bet);
+  totalBets++;
+  
+  betslip = [];
+  updateBetslipBar();
+  closeBetslip();
+  renderMatches();
+  
+  showToast('✅ Ставку прийнято!');
+  balanceLog.push({time: new Date(), value: balance, label: `Ставка -${stake}₴`});
+  
+  // Симуляція результату через 5-15 секунд
+  const delay = (Math.random() * 10000) + 5000;
+  setTimeout(() => resolveBet(bet.id), delay);
+}
+
+function resolveBet(betId) {
+  const bet = myBets.find(b => b.id === betId);
+  if (!bet || bet.status !== 'pending') return;
+  
+  // Визначаємо результат на основі ймовірності (коефіцієнти впливають)
+  // Менший коефіцієнт = більша ймовірність виграшу
+  let winProbability = 0;
+  
+  bet.picks.forEach(pick => {
+    // Ймовірність виграшу ≈ 1/коеф, але з невеликим бонусом
+    const p = (1 / pick.odd) * 0.9; // Трохи менше реальної ймовірності (маржа)
+    winProbability += Math.log(p);
+  });
+  
+  // Для експрес-ставок ймовірність падає
+  const totalProb = Math.exp(winProbability);
+  const won = Math.random() < totalProb;
+  
+  bet.status = won ? 'won' : 'lost';
+  
+  if (won) {
+    bet.result = bet.possibleWin;
+    balance += bet.possibleWin;
+    totalWon += bet.possibleWin - bet.stake;
+    balanceLog.push({time: new Date(), value: balance, label: `Виграш +${bet.possibleWin.toFixed(2)}₴`});
+    showResultModal(true, bet.possibleWin, bet);
+  } else {
+    bet.result = 0;
+    totalLost += bet.stake;
+    balanceLog.push({time: new Date(), value: balance, label: `Програш -${bet.stake.toFixed(2)}₴`});
+    showResultModal(false, bet.stake, bet);
+  }
+  
+  updateBalance();
+}
+
+function showResultModal(won, amount, bet) {
+  const modal = document.getElementById('resultModal');
+  const box = document.getElementById('resultBox');
+  
+  const picksText = bet.picks.map(p => `${p.matchName}<br><b>${p.pickName}</b> (${p.odd})`).join('<br><br>');
+  
+  box.className = `result-box ${won ? 'win' : 'lose'}`;
+  box.innerHTML = `
+    <div class="result-icon">${won ? '🎉' : '😔'}</div>
+    <div class="result-title">${won ? 'ВИГРАШ!' : 'ПРОГРАШ'}</div>
+    <div class="result-text" style="font-size:12px;line-height:1.6;margin-bottom:16px;">${picksText}</div>
+    <div class="result-amount ${won ? 'win' : 'lose'}">${won ? '+' : '-'}${amount.toFixed(2)} ₴</div>
+    <button class="result-btn" onclick="closeResult()">OK</button>
+  `;
+  modal.classList.add('show');
+  
+  // Вібрація
+  if (navigator.vibrate) {
+    navigator.vibrate(won ? [100, 50, 100, 50, 200] : [300]);
+  }
+}
+
+function closeResult() {
+  document.getElementById('resultModal').classList.remove('show');
+}
+
+function closeBetslip() {
+  document.getElementById('betslipModal').classList.remove('show');
+}
+
+function closeBetslipOutside(e) {
+  if (e.target === document.getElementById('betslipModal')) {
+    closeBetslip();
+  }
+}
+
+// ============ NAVIGATION ============
+function switchPage(pageId, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+  
+  if (pageId === 'pageMyBets') renderMyBets();
+  if (pageId === 'pageStats') renderStats();
+}
+
+function switchSport(sportId) {
+  currentSport = sportId;
+  renderSportTabs();
+  generateMatches();
+  renderMatches();
+}
+
+function switchMatchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tabs .tab').forEach((t, i) => {
+    t.classList.toggle('active', 
+      (tab === 'live' && i === 0) || 
+      (tab === 'prematch' && i === 1) || 
+      (tab === 'top' && i === 2)
+    );
+  });
+  renderMatches();
+}
+
+// ============ MY BETS ============
+let betsFilter = 'all';
+
+function filterBets(filter) {
+  betsFilter = filter;
+  document.querySelectorAll('#pageMyBets .tab').forEach((t, i) => {
+    t.classList.toggle('active', 
+      (filter === 'all' && i === 0) ||
+      (filter === 'pending' && i === 1) ||
+      (filter === 'won' && i === 2) ||
+      (filter === 'lost' && i === 3)
+    );
+  });
+  renderMyBets();
+}
+
+function renderMyBets() {
+  const c = document.getElementById('myBetsList');
+  let filtered = betsFilter === 'all' ? myBets : myBets.filter(b => b.status === betsFilter);
+  
+  if (filtered.length === 0) {
+    c.innerHTML = `<div class="empty-state"><div class="icon">🎫</div><p>Немає ставок</p></div>`;
+    return;
+  }
+  
+  c.innerHTML = filtered.map(b => {
+    const picksHtml = b.picks.map(p => `
+      <div class="my-bet-match">${p.matchName}</div>
+      <div class="my-bet-pick">${p.pickName} <span style="color:#f5a623;">(${p.odd})</span></div>
+    `).join('');
+    
+    return `
+      <div class="my-bet-card">
+        <div class="my-bet-status ${b.status}">
+          ${b.status === 'pending' ? '⏳ Очікується' : b.status === 'won' ? '✅ Виграш' : '❌ Програш'}
+        </div>
+        ${picksHtml}
+        <div class="my-bet-row"><span>Ставка:</span><span>${b.stake.toFixed(2)} ₴</span></div>
+        <div class="my-bet-row"><span>Коеф:</span><span>${b.totalOdd.toFixed(2)}</span></div>
+        <div class="my-bet-row"><span>${b.status === 'won' ? 'Виграш:' : 'Можл. виграш:'}</span>
+          <span style="color:${b.status === 'won' ? '#4ade80' : b.status === 'lost' ? '#ef4444' : '#f5a623'}">
+            ${b.status === 'won' ? '+' + b.possibleWin.toFixed(2) : b.status === 'lost' ? '-' + b.stake.toFixed(2) : b.possibleWin.toFixed(2)} ₴
+          </span>
+        </div>
+        <div class="my-bet-row"><span>Час:</span><span>${b.placedAt.toLocaleTimeString('uk')}</span></div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ============ STATS ============
+function renderStats() {
+  const wonCount = myBets.filter(b => b.status === 'won').length;
+  const lostCount = myBets.filter(b => b.status === 'lost').length;
+  const pendingCount = myBets.filter(b => b.status === 'pending').length;
+  const winRate = totalBets > 0 ? ((wonCount / (wonCount + lostCount || 1)) * 100).toFixed(1) : '0.0';
+  const profit = totalWon - totalLost;
+  
+  document.getElementById('statsGrid').innerHTML = `
+    <div class="stat-card"><div class="stat-value">${balance.toFixed(0)}</div><div class="stat-label">Баланс ₴</div></div>
+    <div class="stat-card"><div class="stat-value">${totalBets}</div><div class="stat-label">Всього ставок</div></div>
+    <div class="stat-card green"><div class="stat-value">${wonCount}</div><div class="stat-label">Виграно</div></div>
+    <div class="stat-card red"><div class="stat-value">${lostCount}</div><div class="stat-label">Програно</div></div>
+    <div class="stat-card"><div class="stat-value">${pendingCount}</div><div class="stat-label">Активні</div></div>
+    <div class="stat-card"><div class="stat-value">${winRate}%</div><div class="stat-label">Вінрейт</div></div>
+    <div class="stat-card ${profit >= 0 ? 'green' : 'red'}"><div class="stat-value">${profit >= 0 ? '+' : ''}${profit.toFixed(0)}</div><div class="stat-label">Прибуток ₴</div></div>
+    <div class="stat-card green"><div class="stat-value">${totalWon.toFixed(0)}</div><div class="stat-label">Виграно ₴</div></div>
+  `;
+  
+  document.getElementById('balanceHistory').innerHTML = balanceLog.slice(-10).reverse().map(l => `
+    <div style="display:flex;justify-content:space-between;padding:8px 12px;background:#141829;border-radius:8px;margin-bottom:4px;font-size:12px;">
+      <span style="color:#9ca3af;">${l.label}</span>
+      <span style="font-weight:700;color:${l.value >= 1000 ? '#4ade80' : '#ef4444'}">${l.value.toFixed(0)} ₴</span>
+    </div>
+  `).join('');
+}
+
+// ============ UTILS ============
+function updateBalance() {
+  document.getElementById('balanceDisplay').textContent = balance.toFixed(2) + ' ₴';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 2500);
+}
+
+// ============ LIVE SIMULATION ============
+function simulateLive() {
+  matchData.forEach(m => {
+    if (!m.isLive) return;
+    
+    // Оновлення хвилин
+    m.minute += 1;
+    
+    if (currentSport === 'football' && m.minute > 90) {
+      m.minute = 90;
+    }
+    if (currentSport === 'basketball' && m.minute > 48) {
+      m.minute = 48;
+    }
+    
+    // Шанс гола/очка
+    if (currentSport === 'football') {
+      if (Math.random() < 0.03) {
+        if (Math.random() < 0.5) m.score1++; else m.score2++;
+        // Перерахунок коефіцієнтів
+        recalcOdds(m);
+      }
+    } else if (currentSport === 'basketball') {
+      if (Math.random() < 0.4) {
+        const pts = Math.random() < 0.3 ? 3 : 2;
+        if (Math.random() < 0.5) m.score1 += pts; else m.score2 += pts;
+        recalcOdds(m);
+      }
+    } else if (currentSport === 'hockey') {
+      if (Math.random() < 0.02) {
+        if (Math.random() < 0.5) m.score1++; else m.score2++;
+        recalcOdds(m);
+      }
+    }
+    
+    // Невеликі зміни коефіцієнтів
+    if (Math.random() < 0.15) {
+      m.home = Math.max(1.01, +(m.home + (Math.random() - 0.5) * 0.1).toFixed(2));
+      m.away = Math.max(1.01, +(m.away + (Math.random() - 0.5) * 0.1).toFixed(2));
+      if (m.draw) m.draw = Math.max(1.01, +(m.draw + (Math.random() - 0.5) * 0.1).toFixed(2));
+    }
+  });
+  
+  renderMatches();
+}
+
+function recalcOdds(m) {
+  const diff = m.score1 - m.score2;
+  if (diff > 0) {
+    m.home = Math.max(1.05, +(m.home * 0.85).toFixed(2));
+    m.away = +(m.away * 1.2).toFixed(2);
+  } else if (diff < 0) {
+    m.away = Math.max(1.05, +(m.away * 0.85).toFixed(2));
+    m.home = +(m.home * 1.2).toFixed(2);
+  }
+  if (m.draw) {
+    m.draw = +(3.0 + Math.random() * 1.5).toFixed(2);
+  }
+}
+
+// ============ INIT ============
+function init() {
+  renderSportTabs();
+  generateMatches();
+  renderMatches();
+  updateBalance();
+  
+  // Live update кожні 3 секунди
+  setInterval(simulateLive, 3000);
+  
+  // Оновлення матчів кожні 60 секунд (нові матчі)
+  setInterval(() => {
+    generateMatches();
+    renderMatches();
+  }, 60000);
+}
+
+// Блокуємо зум на double-tap
+document.addEventListener('dblclick', e => e.preventDefault());
+
+init();
+</script>
 </body>
 </html>
