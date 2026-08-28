@@ -632,6 +632,104 @@
       pointer-events: none;
     }
 
+
+    .scanner-toolbar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .scanner-tool {
+      min-height: 46px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .scanner-tool:hover { transform: translateY(-1px); border-color: rgba(124,58,237,.24); }
+    .scanner-tool.active { color:#fff; background:linear-gradient(135deg,#6d28d9,#8b5cf6); border-color:transparent; }
+    .scanner-tool:disabled { opacity:.42; cursor:not-allowed; transform:none; }
+
+    .scanner-control {
+      margin-top: 12px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.76);
+    }
+
+    .scanner-control-head {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:8px;
+      font-size:.82rem;
+      font-weight:800;
+    }
+
+    .scanner-control input[type="range"] { width:100%; accent-color:var(--purple); }
+
+    .scanner-hint {
+      position:absolute;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      z-index:3;
+      width:max-content;
+      max-width:calc(100% - 36px);
+      padding:9px 12px;
+      border-radius:999px;
+      background:rgba(15,15,17,.68);
+      color:rgba(255,255,255,.92);
+      backdrop-filter:blur(10px);
+      font-size:.76rem;
+      font-weight:760;
+      text-align:center;
+      pointer-events:none;
+    }
+
+    .focus-ring {
+      position:absolute;
+      width:72px;
+      height:72px;
+      border:2px solid #fff;
+      border-radius:50%;
+      pointer-events:none;
+      opacity:0;
+      transform:translate(-50%,-50%) scale(.75);
+      transition:opacity .15s ease, transform .15s ease;
+      z-index:5;
+      box-shadow:0 0 0 2px rgba(124,58,237,.45);
+    }
+
+    .focus-ring.show { opacity:1; transform:translate(-50%,-50%) scale(1); }
+
+    .quality-badge {
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:.76rem;
+      font-weight:850;
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      margin-top:10px;
+    }
+
+    .quality-badge.good { color:#166534; background:#ecfdf3; border-color:#bbf7d0; }
+    .quality-badge.warn { color:#92400e; background:#fffbeb; border-color:#fde68a; }
+
     .camera-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -999,15 +1097,34 @@
           <video id="cameraVideo" autoplay playsinline muted></video>
           <img id="capturedPreview" class="hidden" alt="Фото чека" />
           <div id="cameraGuide" class="camera-guide"></div>
+          <div id="focusRing" class="focus-ring"></div>
+          <div id="scannerHint" class="scanner-hint">Тримай чек рівно та заповни ним рамку</div>
         </div>
 
         <canvas id="captureCanvas" class="hidden"></canvas>
+        <canvas id="ocrCanvas" class="hidden"></canvas>
+
+        <div class="scanner-toolbar">
+          <button id="torchBtn" class="scanner-tool" type="button" disabled>🔦 Ліхтарик</button>
+          <button id="focusBtn" class="scanner-tool" type="button" disabled>◎ Фокус</button>
+          <button id="enhanceBtn" class="scanner-tool active" type="button">✦ Auto</button>
+        </div>
+
+        <div id="zoomControl" class="scanner-control hidden">
+          <div class="scanner-control-head">
+            <span>Зум</span>
+            <span id="zoomValue">1.0×</span>
+          </div>
+          <input id="zoomRange" type="range" min="1" max="1" step="0.1" value="1" />
+        </div>
 
         <div class="camera-actions">
-          <button id="captureBtn" class="button button-primary" type="button">Сфотографувати</button>
+          <button id="captureBtn" class="button button-primary" type="button">Сканувати чек</button>
           <label class="button button-light" for="fileInput" style="cursor:pointer;">Обрати фото</label>
           <input id="fileInput" class="hidden" type="file" accept="image/*" capture="environment" />
         </div>
+
+        <div id="qualityBadge" class="quality-badge hidden"></div>
 
         <button id="retakeBtn" class="button button-light hidden" style="width:100%; margin-top:10px;" type="button">Зняти ще раз</button>
 
@@ -1127,6 +1244,9 @@
       session: null,
       receipts: [],
       stream: null,
+      videoTrack: null,
+      torchOn: false,
+      autoEnhance: true,
       imageBlob: null,
       editingReceiptId: null,
       detailReceiptId: null,
@@ -1552,6 +1672,7 @@
     async function openScanner() {
       state.imageBlob = null;
       resetScannerPreview();
+      $("#scannerHint").textContent = "Тримай чек рівно та заповни ним рамку";
       openModal("scanModal");
 
       try {
@@ -1572,13 +1693,62 @@
       state.stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: { ideal: "environment" },
-          width: { ideal: 1920 },
-          height: { ideal: 1080 }
+          width: { ideal: 2560 },
+          height: { ideal: 1920 },
+          frameRate: { ideal: 30 }
         },
         audio: false
       });
 
-      $("#cameraVideo").srcObject = state.stream;
+      const video = $("#cameraVideo");
+      video.srcObject = state.stream;
+      state.videoTrack = state.stream.getVideoTracks()[0] || null;
+      state.torchOn = false;
+
+      await configureCameraCapabilities();
+
+      try { await video.play(); } catch (_) {}
+    }
+
+    async function configureCameraCapabilities() {
+      const track = state.videoTrack;
+      if (!track) return;
+
+      const capabilities = typeof track.getCapabilities === "function" ? track.getCapabilities() : {};
+      const torchBtn = $("#torchBtn");
+      const focusBtn = $("#focusBtn");
+      const zoomControl = $("#zoomControl");
+      const zoomRange = $("#zoomRange");
+      const zoomValue = $("#zoomValue");
+
+      torchBtn.disabled = !capabilities.torch;
+      torchBtn.classList.remove("active");
+      torchBtn.textContent = "🔦 Ліхтарик";
+
+      const focusModes = capabilities.focusMode || [];
+      focusBtn.disabled = !Array.isArray(focusModes) || focusModes.length === 0;
+
+      if (capabilities.zoom) {
+        const min = Number(capabilities.zoom.min ?? 1);
+        const max = Number(capabilities.zoom.max ?? 1);
+        const step = Number(capabilities.zoom.step ?? 0.1) || 0.1;
+        const current = Number(track.getSettings?.().zoom ?? min);
+
+        zoomRange.min = String(min);
+        zoomRange.max = String(max);
+        zoomRange.step = String(step);
+        zoomRange.value = String(current);
+        zoomValue.textContent = `${current.toFixed(1)}×`;
+        zoomControl.classList.remove("hidden");
+      } else {
+        zoomControl.classList.add("hidden");
+      }
+
+      if (Array.isArray(focusModes) && focusModes.includes("continuous")) {
+        try {
+          await track.applyConstraints({ advanced: [{ focusMode: "continuous" }] });
+        } catch (_) {}
+      }
     }
 
     function stopCamera() {
@@ -1586,21 +1756,135 @@
         state.stream.getTracks().forEach((track) => track.stop());
         state.stream = null;
       }
+
+      state.videoTrack = null;
+      state.torchOn = false;
       $("#cameraVideo").srcObject = null;
+
+      if ($("#torchBtn")) {
+        $("#torchBtn").classList.remove("active");
+        $("#torchBtn").textContent = "🔦 Ліхтарик";
+      }
+    }
+
+    async function toggleTorch() {
+      const track = state.videoTrack;
+      if (!track) return;
+
+      const capabilities = track.getCapabilities?.() || {};
+      if (!capabilities.torch) {
+        toast("На цьому телефоні браузер не дає доступ до ліхтарика.", "error");
+        return;
+      }
+
+      try {
+        state.torchOn = !state.torchOn;
+        await track.applyConstraints({ advanced: [{ torch: state.torchOn }] });
+
+        $("#torchBtn").classList.toggle("active", state.torchOn);
+        $("#torchBtn").textContent = state.torchOn ? "🔦 Увімкнено" : "🔦 Ліхтарик";
+      } catch (error) {
+        console.error(error);
+        state.torchOn = false;
+        toast("Не вдалося перемкнути ліхтарик.", "error");
+      }
+    }
+
+    async function setZoom(value) {
+      const track = state.videoTrack;
+      if (!track) return;
+
+      try {
+        await track.applyConstraints({ advanced: [{ zoom: Number(value) }] });
+        $("#zoomValue").textContent = `${Number(value).toFixed(1)}×`;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function triggerFocus() {
+      const track = state.videoTrack;
+      if (!track) return;
+
+      const capabilities = track.getCapabilities?.() || {};
+      const focusModes = capabilities.focusMode || [];
+
+      try {
+        if (Array.isArray(focusModes) && focusModes.includes("single-shot")) {
+          await track.applyConstraints({ advanced: [{ focusMode: "single-shot" }] });
+        } else if (Array.isArray(focusModes) && focusModes.includes("continuous")) {
+          await track.applyConstraints({ advanced: [{ focusMode: "continuous" }] });
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    function showFocusRing(clientX, clientY) {
+      const wrap = $("#cameraWrap");
+      const ring = $("#focusRing");
+      const rect = wrap.getBoundingClientRect();
+
+      ring.style.left = `${clientX - rect.left}px`;
+      ring.style.top = `${clientY - rect.top}px`;
+      ring.classList.add("show");
+
+      clearTimeout(showFocusRing.timer);
+      showFocusRing.timer = setTimeout(() => ring.classList.remove("show"), 650);
     }
 
     function resetScannerPreview() {
       $("#cameraVideo").classList.remove("hidden");
       $("#capturedPreview").classList.add("hidden");
       $("#cameraGuide").classList.remove("hidden");
+      $("#scannerHint").classList.remove("hidden");
       $("#captureBtn").classList.remove("hidden");
       $("#retakeBtn").classList.add("hidden");
       $("#ocrStatus").classList.add("hidden");
+      $("#qualityBadge").classList.add("hidden");
       $("#ocrProgressBar").style.width = "0%";
+    }
+
+    function estimateSharpness(canvas) {
+      const sample = document.createElement("canvas");
+      const width = 320;
+      const scale = width / canvas.width;
+
+      sample.width = width;
+      sample.height = Math.max(1, Math.round(canvas.height * scale));
+
+      const sctx = sample.getContext("2d", { willReadFrequently: true });
+      sctx.drawImage(canvas, 0, 0, sample.width, sample.height);
+
+      const { data } = sctx.getImageData(0, 0, sample.width, sample.height);
+      const gray = new Float32Array(sample.width * sample.height);
+
+      for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+        gray[p] = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+      }
+
+      let sum = 0;
+      let sumSq = 0;
+      let count = 0;
+
+      for (let y = 1; y < sample.height - 1; y++) {
+        for (let x = 1; x < sample.width - 1; x++) {
+          const i = y * sample.width + x;
+          const lap = gray[i - sample.width] + gray[i + sample.width] + gray[i - 1] + gray[i + 1] - 4 * gray[i];
+          sum += lap;
+          sumSq += lap * lap;
+          count++;
+        }
+      }
+
+      if (!count) return 0;
+      const mean = sum / count;
+      return (sumSq / count) - mean * mean;
     }
 
     async function capturePhoto() {
       const video = $("#cameraVideo");
+
       if (!video.videoWidth || !video.videoHeight) {
         toast("Камера ще не готова.", "error");
         return;
@@ -1609,13 +1893,27 @@
       const canvas = $("#captureCanvas");
       const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-      // Менше зображення = швидше OCR, але достатньо деталей для чека.
-      const maxWidth = 1800;
+      const maxWidth = 2400;
       const scale = Math.min(1, maxWidth / video.videoWidth);
 
       canvas.width = Math.round(video.videoWidth * scale);
       canvas.height = Math.round(video.videoHeight * scale);
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
       ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const sharpness = estimateSharpness(canvas);
+      const badge = $("#qualityBadge");
+      badge.classList.remove("hidden", "good", "warn");
+
+      if (sharpness < 90) {
+        badge.classList.add("warn");
+        badge.textContent = "⚠ Фото трохи розмите — OCR може помилятися";
+      } else {
+        badge.classList.add("good");
+        badge.textContent = "✓ Якість фото хороша";
+      }
 
       canvas.toBlob(async (blob) => {
         if (!blob) {
@@ -1627,18 +1925,20 @@
         showCapturedBlob(blob);
         stopCamera();
         await recognizeReceipt(blob);
-      }, "image/jpeg", 0.92);
+      }, "image/jpeg", 0.96);
     }
 
     function showCapturedBlob(blob) {
       const url = URL.createObjectURL(blob);
       const img = $("#capturedPreview");
+
       img.src = url;
       img.onload = () => URL.revokeObjectURL(url);
 
       $("#cameraVideo").classList.add("hidden");
       img.classList.remove("hidden");
       $("#cameraGuide").classList.add("hidden");
+      $("#scannerHint").classList.add("hidden");
       $("#captureBtn").classList.add("hidden");
       $("#retakeBtn").classList.remove("hidden");
     }
@@ -1658,52 +1958,189 @@
     // ============================================================
     // 7. OCR + RECEIPT PARSING
     // ============================================================
+    async function imageToCanvas(imageSource) {
+      const bitmap = await createImageBitmap(imageSource);
+      const canvas = $("#ocrCanvas");
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
+      const targetWidth = Math.min(2600, Math.max(1800, bitmap.width));
+      const scale = targetWidth / bitmap.width;
+
+      canvas.width = Math.round(bitmap.width * scale);
+      canvas.height = Math.round(bitmap.height * scale);
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+      bitmap.close?.();
+
+      return canvas;
+    }
+
+    function preprocessReceiptCanvas(sourceCanvas, aggressive = false) {
+      const out = document.createElement("canvas");
+      out.width = sourceCanvas.width;
+      out.height = sourceCanvas.height;
+
+      const ctx = out.getContext("2d", { willReadFrequently: true });
+      ctx.drawImage(sourceCanvas, 0, 0);
+
+      const imageData = ctx.getImageData(0, 0, out.width, out.height);
+      const data = imageData.data;
+      const histogram = new Uint32Array(256);
+      const grayValues = new Uint8Array(out.width * out.height);
+
+      for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+        const gray = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
+        grayValues[p] = gray;
+        histogram[gray]++;
+      }
+
+      const pixels = grayValues.length;
+      const lowTarget = pixels * 0.01;
+      const highTarget = pixels * 0.99;
+
+      let acc = 0;
+      let low = 0;
+      let high = 255;
+
+      for (let i = 0; i < 256; i++) {
+        acc += histogram[i];
+        if (acc >= lowTarget) {
+          low = i;
+          break;
+        }
+      }
+
+      acc = 0;
+      for (let i = 0; i < 256; i++) {
+        acc += histogram[i];
+        if (acc >= highTarget) {
+          high = i;
+          break;
+        }
+      }
+
+      const range = Math.max(30, high - low);
+
+      for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+        let v = ((grayValues[p] - low) / range) * 255;
+        v = Math.max(0, Math.min(255, v));
+
+        if (aggressive) {
+          const threshold = 178;
+          v = v > threshold ? 255 : Math.max(0, v * 0.70);
+        } else {
+          v = 255 * Math.pow(v / 255, 0.82);
+          v = Math.max(0, Math.min(255, (v - 128) * 1.28 + 128));
+        }
+
+        data[i] = data[i + 1] = data[i + 2] = v;
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+      return out;
+    }
+
+    function scoreReceiptText(text) {
+      const t = String(text || "").toLocaleLowerCase("uk-UA");
+      let score = t.length * 0.02;
+
+      const keywords = [
+        "разом", "всього", "сума", "до сплати", "грн", "uah",
+        "пдв", "чек", "каса", "total", "оплата", "карт"
+      ];
+
+      keywords.forEach((word) => {
+        if (t.includes(word)) score += 20;
+      });
+
+      const priceMatches = t.match(/\d{1,6}[.,]\d{2}/g) || [];
+      score += priceMatches.length * 8;
+
+      return score;
+    }
+
     async function recognizeReceipt(image) {
       const status = $("#ocrStatus");
       const statusText = $("#ocrStatusText");
       const progressBar = $("#ocrProgressBar");
 
       status.classList.remove("hidden");
-      statusText.textContent = "Готую OCR…";
-      progressBar.style.width = "2%";
+      statusText.textContent = "Покращую фото чека…";
+      progressBar.style.width = "3%";
+
+      let worker;
 
       try {
-        const worker = await Tesseract.createWorker(["ukr", "eng"], 1, {
+        const originalCanvas = await imageToCanvas(image);
+        const mildCanvas = state.autoEnhance ? preprocessReceiptCanvas(originalCanvas, false) : originalCanvas;
+        const strongCanvas = state.autoEnhance ? preprocessReceiptCanvas(originalCanvas, true) : originalCanvas;
+
+        worker = await Tesseract.createWorker(["ukr", "eng"], 1, {
           logger: (m) => {
             if (typeof m.progress === "number") {
-              const pct = Math.max(3, Math.round(m.progress * 100));
+              const secondPass = statusText.dataset.pass === "2";
+              const base = secondPass ? 55 : 8;
+              const span = secondPass ? 42 : 45;
+              const pct = Math.min(98, Math.round(base + m.progress * span));
               progressBar.style.width = `${pct}%`;
             }
 
             const labels = {
-              "loading tesseract core": "Завантажую OCR-движок…",
-              "initializing tesseract": "Запускаю OCR…",
+              "loading tesseract core": "Завантажую OCR…",
+              "initializing tesseract": "Запускаю розпізнавання…",
               "loading language traineddata": "Завантажую мови…",
-              "initializing api": "Готую розпізнавання…",
-              "recognizing text": "Читаю чек…"
+              "initializing api": "Готую OCR…",
+              "recognizing text": statusText.dataset.pass === "2" ? "Уточнюю дрібний текст…" : "Читаю чек…"
             };
 
             statusText.textContent = labels[m.status] || "Розпізнаю чек…";
           }
         });
 
-        const { data } = await worker.recognize(image);
+        try {
+          await worker.setParameters({
+            tessedit_pageseg_mode: "6",
+            preserve_interword_spaces: "1",
+            user_defined_dpi: "300"
+          });
+        } catch (_) {}
+
+        statusText.dataset.pass = "1";
+        const first = await worker.recognize(mildCanvas);
+
+        statusText.dataset.pass = "2";
+        statusText.textContent = "Уточнюю результат…";
+        const second = await worker.recognize(strongCanvas);
+
         await worker.terminate();
+        worker = null;
+
+        const firstText = first?.data?.text || "";
+        const secondText = second?.data?.text || "";
+        const text = scoreReceiptText(secondText) > scoreReceiptText(firstText) ? secondText : firstText;
 
         progressBar.style.width = "100%";
         statusText.textContent = "Готово. Перевір результат.";
 
-        const text = data?.text || "";
         const parsed = parseReceiptText(text);
 
         setTimeout(() => {
           closeModal("scanModal");
           openReview(parsed, text);
-        }, 300);
+        }, 260);
       } catch (error) {
         console.error(error);
+
+        if (worker) {
+          try { await worker.terminate(); } catch (_) {}
+        }
+
         statusText.textContent = "Не вдалося розпізнати чек.";
-        toast("OCR помилився. Спробуй чіткіше фото або додай чек вручну.", "error");
+        toast("Не прочитав чек. Спробуй ближче, рівніше або з ліхтариком.", "error");
+      } finally {
+        delete statusText.dataset.pass;
       }
     }
 
@@ -1723,7 +2160,8 @@
         .filter(Boolean);
 
       const totalKeywords = [
-        "до сплати", "сума", "разом", "всього", "оплата", "total", "amount", "itogo", "итого"
+        "до сплати", "сума до сплати", "сума", "разом", "всього", "всього до сплати",
+        "оплата", "total", "grand total", "amount", "itogo", "итого", "к оплате"
       ];
 
       const stopItemKeywords = [
@@ -1732,7 +2170,7 @@
         "total", "сума", "всього", "разом", "до сплати"
       ];
 
-      const priceAtEnd = /(?:^|\s)(\d{1,6}(?:[.,]\d{2}))\s*(?:грн|uah|₴)?\s*$/i;
+      const priceAtEnd = /(?:^|\s)(\d{1,6}(?:[.,]\d{1,2}))\s*(?:грн|uah|₴)?\s*$/i;
       const allPrices = [];
 
       lines.forEach((line, index) => {
@@ -2173,6 +2611,26 @@
     $("#manualBtn").addEventListener("click", openManualReceipt);
     $("#refreshBtn").addEventListener("click", loadDashboard);
     $("#captureBtn").addEventListener("click", capturePhoto);
+    $("#torchBtn").addEventListener("click", toggleTorch);
+    $("#focusBtn").addEventListener("click", triggerFocus);
+
+    $("#enhanceBtn").addEventListener("click", () => {
+      state.autoEnhance = !state.autoEnhance;
+      $("#enhanceBtn").classList.toggle("active", state.autoEnhance);
+      $("#enhanceBtn").textContent = state.autoEnhance ? "✦ Auto" : "✦ Original";
+      toast(state.autoEnhance ? "Автопокращення OCR увімкнено." : "OCR без фільтра.");
+    });
+
+    $("#zoomRange").addEventListener("input", (event) => {
+      setZoom(event.target.value);
+    });
+
+    $("#cameraWrap").addEventListener("click", async (event) => {
+      if ($("#cameraVideo").classList.contains("hidden")) return;
+      showFocusRing(event.clientX, event.clientY);
+      await triggerFocus();
+    });
+
     $("#addItemBtn").addEventListener("click", addBlankItem);
     $("#saveReceiptBtn").addEventListener("click", saveReceipt);
     $("#deleteReceiptBtn").addEventListener("click", deleteCurrentReceipt);
