@@ -1,871 +1,1955 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPGRADER - Один в один як у Фігмі</title>
-    <style>
-        :root {
-            --bg-main: #0c0d12;
-            --bg-panel: #14151c;
-            --bg-card: #1a1c24;
-            --accent-yellow: #ffd000;
-            --accent-yellow-hover: #e6bc00;
-            --text-white: #ffffff;
-            --text-gray: #787d91;
-            --border-color: #222530;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Evently — Події та нагадування</title>
+  <meta name="description" content="Evently — персональний планувальник подій та нагадувань." />
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            -webkit-user-select: none;
-            user-select: none;
-        }
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-white);
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+  <style>
+    :root {
+      --bg: #f6f6f6;
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-2: #ffffff;
+      --text: #0b0b0b;
+      --muted: #71717a;
+      --border: #e5e7eb;
+      --black: #0a0a0a;
+      --black-2: #18181b;
+      --red: #e11d2e;
+      --red-dark: #b80f20;
+      --red-soft: #fff0f1;
+      --green: #128044;
+      --shadow: 0 16px 50px rgba(0, 0, 0, 0.08);
+      --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.06);
+      --radius: 24px;
+      --radius-sm: 16px;
+    }
 
-        /* --- ХЕДЕР --- */
-        header {
-            height: 60px;
-            background-color: var(--bg-panel);
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 20px;
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 10;
-        }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 25px;
-        }
+    html { scroll-behavior: smooth; }
 
-        .logo {
-            font-size: 20px;
-            font-weight: 900;
-            letter-spacing: 1px;
-        }
-        .logo span { color: var(--accent-yellow); }
+    body {
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(225, 29, 46, .09), transparent 28%),
+        radial-gradient(circle at 100% 35%, rgba(0, 0, 0, .055), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
 
-        .stats {
-            display: flex;
-            gap: 20px;
-            font-size: 13px;
-            color: var(--text-gray);
-        }
-        .stats span { color: #fff; font-weight: 600; margin-left: 4px; }
-        .stats .online::before {
-            content: ''; display: inline-block; width: 6px; height: 6px; 
-            background: #2ed573; border-radius: 50%; margin-right: 6px; transform: translateY(-1px);
-        }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { opacity: .55; cursor: not-allowed; }
+    img { display: block; max-width: 100%; }
 
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
+    .hidden { display: none !important; }
 
-        .user-profile-block {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: #1a1c24;
-            padding: 6px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
+    .app-shell {
+      width: min(1240px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 20px 0 50px;
+    }
 
-        .user-avatar {
-            width: 32px; height: 32px;
-            border-radius: 4px;
-            background: var(--accent-yellow);
-        }
+    .topbar {
+      position: sticky;
+      top: 14px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 72px;
+      padding: 12px 14px 12px 20px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(255,255,255,.85);
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(18px);
+      border-radius: 22px;
+      animation: slideDown .55s ease both;
+    }
 
-        .user-balance {
-            font-weight: 700;
-            color: var(--accent-yellow);
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 850;
+      font-size: 20px;
+      letter-spacing: -.5px;
+    }
 
-        .btn-add-funds {
-            background: #2ed573;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            font-size: 11px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--black);
+      color: white;
+      box-shadow: 0 8px 18px rgba(0,0,0,.16);
+      position: relative;
+      overflow: hidden;
+    }
 
-        /* --- ОСНОВНИЙ КОНТЕНТ --- */
-        .wrapper {
-            display: flex;
-            margin-top: 60px;
-            height: calc(100vh - 60px);
-            width: 100%;
-        }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: var(--red);
+      border-radius: 999px;
+      right: -6px;
+      bottom: -6px;
+    }
 
-        /* Лівий Сайдбар */
-        .sidebar {
-            width: 110px;
-            background-color: var(--bg-panel);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            padding: 10px 5px;
-            gap: 8px;
-        }
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-        .sidebar::-webkit-scrollbar { width: 4px; }
-        .sidebar::-webkit-scrollbar-thumb { background: #222530; border-radius: 2px; }
+    .icon-btn, .profile-btn, .btn {
+      border: 0;
+      transition: .2s ease;
+    }
 
-        .sidebar-item {
-            background: linear-gradient(135deg, #191b24 0%, #111218 100%);
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            padding: 8px;
-            text-align: center;
-            font-size: 10px;
-            color: var(--text-gray);
-        }
-        .sidebar-item img { width: 100%; height: 50px; object-fit: contain; }
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
 
-        /* Робоча зона */
-        .main-workspace {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: var(--bg-main);
-            overflow-y: auto;
-            padding: 25px;
-        }
+    .icon-btn:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
 
-        /* Зони вибору та Апгрейдер */
-        .upgrade-floor {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+    .badge {
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--red);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 0 6px;
+      display: grid;
+      place-items: center;
+      border: 2px solid white;
+    }
 
-        .drop-zone {
-            flex: 1;
-            height: 240px;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-        }
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--black);
+      color: white;
+      border-radius: 15px;
+      padding: 7px 12px 7px 7px;
+    }
 
-        .drop-zone .placeholder-text {
-            color: var(--text-gray);
-            font-size: 13px;
-            max-width: 220px;
-            line-height: 1.5;
-            z-index: 2;
-        }
+    .profile-btn:hover { background: #222; transform: translateY(-1px); }
 
-        .drop-zone .bg-icon {
-            position: absolute;
-            font-size: 70px;
-            color: #1c1e29;
-            font-weight: 900;
-            z-index: 1;
-        }
+    .avatar {
+      width: 34px;
+      height: 34px;
+      object-fit: cover;
+      border-radius: 11px;
+      background: #ddd;
+      border: 1px solid rgba(255,255,255,.15);
+    }
 
-        /* --- ІДЕАЛЬНЕ КОЛЕСО АПГРЕЙДУ --- */
-        .center-wheel-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            width: 260px;
-        }
+    .profile-text { text-align: left; line-height: 1.1; }
+    .profile-name { font-size: 13px; font-weight: 800; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .profile-user { font-size: 11px; color: #a1a1aa; margin-top: 4px; }
 
-        /* Зовнішній контейнер крутилки */
-        .wheel-container {
-            position: relative;
-            width: 220px;
-            height: 220px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.5fr .8fr;
+      gap: 20px;
+      margin-top: 34px;
+    }
 
-        /* Сама крутилка (SVG) - НЕ КРУТИТЬСЯ */
-        .wheel-spinner {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
+    .hero-main {
+      min-height: 300px;
+      border-radius: 30px;
+      padding: clamp(26px, 5vw, 54px);
+      background: linear-gradient(145deg, #060606, #191919 72%, #250408);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 70px rgba(0,0,0,.18);
+      animation: fadeUp .6s .06s ease both;
+    }
 
-        /* СТРІЛКА ЩО КРУТИТЬСЯ */
-        .wheel-ticker-arrow {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            animation: none;
-        }
+    .hero-main::before {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      right: -90px;
+      top: -100px;
+      border: 44px solid rgba(225,29,46,.3);
+      border-radius: 50%;
+      filter: blur(.2px);
+    }
 
-        .wheel-ticker-arrow.spinning {
-            animation: spinTicker 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 90px;
+      right: 40px;
+      bottom: -60px;
+      background: var(--red);
+      filter: blur(55px);
+      opacity: .4;
+    }
 
-        @keyframes spinTicker {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(var(--final-rotation, 0deg)); }
-        }
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+      color: #d4d4d8;
+      margin-bottom: 20px;
+    }
 
-        /* Центральний текст відсотків */
-        .radial-center-button {
-            position: relative;
-            z-index: 4;
-            color: #ffffff;
-            font-size: 26px;
-            font-weight: 900;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-        .radial-center-button span {
-            color: var(--accent-yellow);
-        }
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--red);
+      border-radius: 999px;
+      box-shadow: 0 0 0 5px rgba(225,29,46,.15);
+    }
 
-        /* Фіксована стрілка внизу */
-        .wheel-pointer {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 5;
-            width: 0;
-            height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 12px solid var(--accent-yellow);
-            filter: drop-shadow(0 0 3px var(--accent-yellow));
-        }
+    .hero h1 {
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: .98;
+      letter-spacing: -3px;
+      max-width: 720px;
+    }
 
-        .btn-action-upgrade {
-            width: 100%;
-            background-color: var(--accent-yellow);
-            color: #000;
-            border: none;
-            padding: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            border-radius: 6px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: 0.2s;
-        }
-        .btn-action-upgrade:disabled {
-            background-color: #222530;
-            color: var(--text-gray);
-            cursor: not-allowed;
-        }
+    .hero p {
+      color: #bdbdc3;
+      margin-top: 20px;
+      max-width: 580px;
+      line-height: 1.7;
+      font-size: clamp(14px, 1.5vw, 16px);
+    }
 
-        /* --- ІНВЕНТАРІ ТА МАГАЗИН --- */
-        .inventory-floor {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+    .hero-actions { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
 
-        .inventory-box {
-            flex: 1;
-            min-width: 340px;
-            background-color: var(--bg-panel);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            height: 400px;
-        }
+    .btn {
+      min-height: 46px;
+      border-radius: 14px;
+      padding: 0 18px;
+      font-weight: 800;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .box-header {
-            font-size: 14px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+    .btn-primary { background: var(--red); color: white; }
+    .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(225,29,46,.25); }
+    .btn-dark { background: var(--black); color: white; }
+    .btn-dark:hover { background: #222; transform: translateY(-2px); }
+    .btn-light { background: white; color: var(--black); border: 1px solid var(--border); }
+    .btn-light:hover { background: #fafafa; transform: translateY(-2px); }
+    .btn-danger-soft { background: #fff0f1; color: #bb1021; border: 1px solid #ffd5d9; }
+    .btn-danger-soft:hover { background: #ffe5e8; }
 
-        .box-header span { color: var(--accent-yellow); }
+    .hero-side {
+      background: #fff;
+      border-radius: 30px;
+      padding: 26px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      animation: fadeUp .6s .12s ease both;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 8px;
-            overflow-y: auto;
-            flex: 1;
-            padding-right: 5px;
-        }
-        .inventory-grid::-webkit-scrollbar { width: 4px; }
-        .inventory-grid::-webkit-scrollbar-thumb { background: #222530; border-radius: 2px; }
+    .today-label { color: var(--muted); font-size: 13px; font-weight: 700; }
+    .today-date { font-size: clamp(30px, 4vw, 48px); font-weight: 900; letter-spacing: -2px; margin-top: 8px; }
+    .today-sub { color: var(--muted); margin-top: 8px; }
 
-        /* Картки скінів */
-        .skin-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            position: relative;
-        }
-        .skin-card:hover { border-color: var(--accent-yellow); }
-        
-        .skin-img-wrapper {
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 5px 0;
-        }
+    .stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+    .stat { border-radius: 18px; background: #f7f7f8; padding: 17px; border: 1px solid #eee; }
+    .stat-value { font-size: 28px; font-weight: 900; }
+    .stat-name { font-size: 12px; color: var(--muted); margin-top: 3px; }
 
-        .skin-card img { 
-            max-width: 100%; 
-            max-height: 100%; 
-            object-fit: contain; 
-        }
-        
-        .skin-card .card-name {
-            font-size: 10px; font-weight: 600; white-space: nowrap;
-            overflow: hidden; text-overflow: ellipsis;
-        }
-        .skin-card .card-price {
-            font-size: 11px; color: var(--accent-yellow); font-weight: 700;
-        }
+    .content {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 22px;
+      align-items: start;
+    }
 
-        .btn-buy-skin {
-            background: #ffd000;
-            border: none;
-            color: black;
-            font-size: 9px;
-            font-weight: bold;
-            padding: 3px 0;
-            border-radius: 4px;
-            margin-top: 5px;
-            cursor: pointer;
-        }
+    .panel {
+      background: var(--surface);
+      border: 1px solid rgba(226,232,240,.9);
+      border-radius: 26px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+    }
 
-        .empty-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: var(--text-gray);
-            font-size: 13px;
-            text-align: center;
-        }
+    .events-panel { padding: 22px; animation: fadeUp .65s .16s ease both; }
+    .sidebar { display: grid; gap: 16px; animation: fadeUp .65s .2s ease both; }
 
-        /* Обраний скін в слоті */
-        .selected-skin-inner {
-            z-index: 5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .selected-skin-inner img { height: 100px; object-fit: contain; }
-        .selected-skin-inner .s-name { font-weight: 700; margin-top: 8px; font-size: 13px;}
-        .selected-skin-inner .s-price { color: var(--accent-yellow); font-weight: 800; margin-top: 3px; font-size: 14px;}
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
 
-        /* Модалка результату */
-        .modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s;
-        }
-        .modal.active { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            background: var(--bg-panel); padding: 40px; border-radius: 16px;
-            border: 1px solid var(--border-color); text-align: center; max-width: 400px; width: 90%;
-        }
-        .m-status { font-size: 24px; font-weight: 900; margin-bottom: 15px; }
-        .m-success { color: #2ed573; }
-        .m-fail { color: #ff4757; }
-        .m-btn {
-            margin-top: 20px; padding: 10px 30px; background: var(--accent-yellow);
-            color: #000; border: none; font-weight: 700; border-radius: 4px; cursor: pointer;
-        }
-    </style>
+    .panel-title { font-size: 20px; font-weight: 900; letter-spacing: -.5px; }
+    .panel-subtitle { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .input-wrap { position: relative; }
+    .input-wrap .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #888; }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      border-radius: 14px;
+      outline: none;
+      transition: .2s ease;
+    }
+
+    input, select { min-height: 46px; padding: 0 14px; }
+    textarea { min-height: 118px; resize: vertical; padding: 14px; line-height: 1.5; }
+    .search-input { padding-left: 40px; }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #b9b9be;
+      box-shadow: 0 0 0 4px rgba(0,0,0,.045);
+    }
+
+    .events-list { display: grid; gap: 12px; }
+
+    .event-card {
+      position: relative;
+      display: grid;
+      grid-template-columns: 74px minmax(0, 1fr) auto;
+      gap: 15px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: white;
+      transition: .24s ease;
+      overflow: hidden;
+      animation: fadeUp .35s ease both;
+    }
+
+    .event-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      bottom: 14px;
+      width: 3px;
+      border-radius: 999px;
+      background: var(--event-color, var(--red));
+    }
+
+    .event-card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.07); }
+    .event-card.is-past { opacity: .72; }
+
+    .date-box {
+      min-height: 68px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: #f6f6f6;
+      border: 1px solid #eee;
+      text-align: center;
+      line-height: 1;
+    }
+
+    .date-day { font-size: 27px; font-weight: 900; }
+    .date-month { font-size: 11px; font-weight: 850; color: var(--muted); margin-top: 5px; text-transform: uppercase; }
+    .event-title { font-size: 16px; font-weight: 900; word-break: break-word; }
+    .event-message { color: var(--muted); margin-top: 6px; line-height: 1.45; word-break: break-word; }
+    .event-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 9px; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 9px;
+      background: #f5f5f5;
+      border-radius: 999px;
+      color: #52525b;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .chip.due { color: #b21121; background: #fff0f1; }
+
+    .event-actions { display: flex; gap: 7px; }
+    .small-btn { width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--border); background: white; display: grid; place-items: center; transition: .2s; }
+    .small-btn:hover { background: #f7f7f7; transform: translateY(-1px); }
+    .small-btn.delete:hover { background: #fff0f1; color: var(--red); border-color: #ffd0d5; }
+
+    .empty-state { padding: 46px 20px; text-align: center; color: var(--muted); border: 1px dashed #d8d8dc; border-radius: 20px; background: #fafafa; }
+    .empty-icon { width: 54px; height: 54px; margin: 0 auto 12px; display: grid; place-items: center; border-radius: 16px; background: white; border: 1px solid #eee; color: var(--red); }
+    .empty-state strong { color: var(--text); display: block; margin-bottom: 6px; }
+
+    .sidebar-card { padding: 20px; }
+    .next-event { background: var(--black); color: white; border-color: var(--black); }
+    .next-event .panel-subtitle { color: #a1a1aa; }
+    .next-label { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #a1a1aa; font-weight: 800; }
+    .next-title { font-weight: 900; font-size: 20px; margin-top: 10px; }
+    .next-time { color: #d4d4d8; margin-top: 9px; line-height: 1.5; font-size: 13px; }
+
+    .mini-list { display: grid; gap: 8px; margin-top: 14px; }
+    .mini-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 0; border-bottom: 1px solid #eee; }
+    .mini-item:last-child { border-bottom: 0; }
+    .mini-item span:first-child { color: var(--muted); font-size: 13px; }
+    .mini-item strong { font-size: 13px; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(0,0,0,.48);
+      backdrop-filter: blur(9px);
+      opacity: 0;
+      visibility: hidden;
+      transition: .25s ease;
+    }
+
+    .modal.open { opacity: 1; visibility: visible; }
+
+    .modal-card {
+      width: min(600px, 100%);
+      max-height: min(88vh, 820px);
+      overflow-y: auto;
+      background: white;
+      border-radius: 26px;
+      padding: 24px;
+      box-shadow: 0 28px 90px rgba(0,0,0,.26);
+      transform: translateY(22px) scale(.98);
+      transition: .28s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .modal.open .modal-card { transform: translateY(0) scale(1); }
+    .modal-card.auth-card { width: min(460px, 100%); }
+
+    .modal-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; margin-bottom: 20px; }
+    .modal-title { font-size: 24px; font-weight: 900; letter-spacing: -.8px; }
+    .close-btn { width: 38px; height: 38px; border-radius: 12px; border: 0; background: #f4f4f5; display: grid; place-items: center; }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: grid; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+    label { font-size: 12px; font-weight: 800; color: #3f3f46; }
+    .hint { color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .form-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
+
+    .auth-logo { width: 54px; height: 54px; border-radius: 17px; background: var(--black); color: white; display: grid; place-items: center; font-size: 24px; margin-bottom: 18px; }
+    .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; background: #f4f4f5; padding: 4px; border-radius: 13px; margin: 18px 0; }
+    .auth-tab { border: 0; background: transparent; border-radius: 10px; min-height: 40px; font-weight: 800; color: #71717a; }
+    .auth-tab.active { background: white; color: var(--black); box-shadow: 0 3px 10px rgba(0,0,0,.06); }
+
+    .profile-avatar-row { display: flex; gap: 16px; align-items: center; padding: 16px; background: #f7f7f8; border-radius: 18px; margin-bottom: 18px; }
+    .profile-avatar-large { width: 72px; height: 72px; border-radius: 21px; object-fit: cover; background: #ddd; }
+    .file-input { display: none; }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      height: 100vh;
+      width: min(430px, 100%);
+      z-index: 90;
+      background: white;
+      box-shadow: -30px 0 80px rgba(0,0,0,.16);
+      transform: translateX(102%);
+      transition: .3s cubic-bezier(.2,.8,.2,1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.open { transform: translateX(0); }
+    .drawer-head { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .drawer-body { padding: 14px; overflow-y: auto; flex: 1; }
+
+    .notification-item {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      margin-bottom: 9px;
+      background: #fff;
+      transition: .2s ease;
+    }
+    .notification-item.unread { border-color: #ffcdd2; background: #fff7f8; }
+    .notification-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .notification-title { font-weight: 900; font-size: 14px; }
+    .notification-time { color: var(--muted); font-size: 11px; white-space: nowrap; }
+    .notification-message { margin-top: 7px; color: #52525b; font-size: 13px; line-height: 1.5; }
+
+    .toast-container { position: fixed; z-index: 200; right: 18px; bottom: 18px; display: grid; gap: 9px; width: min(360px, calc(100% - 36px)); pointer-events: none; }
+    .toast { pointer-events: auto; background: #111; color: white; border-radius: 16px; padding: 14px 15px; box-shadow: 0 20px 50px rgba(0,0,0,.22); display: flex; gap: 10px; align-items: flex-start; animation: toastIn .3s ease both; }
+    .toast.success { border-left: 4px solid #24a565; }
+    .toast.error { border-left: 4px solid var(--red); }
+    .toast.info { border-left: 4px solid #a1a1aa; }
+    .toast-text strong { display: block; font-size: 13px; }
+    .toast-text span { display: block; color: #d4d4d8; margin-top: 3px; font-size: 12px; line-height: 1.4; }
+
+    .loading-overlay { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; background: rgba(255,255,255,.75); backdrop-filter: blur(10px); }
+    .spinner { width: 42px; height: 42px; border: 4px solid #e5e5e5; border-top-color: var(--red); border-radius: 50%; animation: spin .8s linear infinite; }
+
+    .auth-required { position: fixed; inset: 0; z-index: 80; background: rgba(246,246,246,.86); backdrop-filter: blur(8px); display: grid; place-items: center; padding: 20px; }
+    .auth-gate-card { max-width: 480px; background: white; padding: 30px; border-radius: 28px; border: 1px solid var(--border); box-shadow: var(--shadow); text-align: center; }
+    .auth-gate-card h2 { font-size: 28px; letter-spacing: -1px; }
+    .auth-gate-card p { color: var(--muted); margin: 10px 0 22px; line-height: 1.55; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    @media (max-width: 900px) {
+      .hero, .content { grid-template-columns: 1fr; }
+      .sidebar { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 650px) {
+      .app-shell { width: min(100% - 20px, 1240px); padding-top: 10px; }
+      .topbar { top: 8px; padding: 10px 10px 10px 14px; }
+      .profile-text { display: none; }
+      .profile-btn { padding: 5px; border-radius: 13px; }
+      .brand span:last-child { font-size: 18px; }
+      .hero { margin-top: 18px; }
+      .hero-main, .hero-side, .panel { border-radius: 22px; }
+      .hero-main { min-height: auto; padding: 30px 22px; }
+      .hero h1 { letter-spacing: -2px; }
+      .events-panel { padding: 14px; }
+      .filters { grid-template-columns: 1fr; }
+      .event-card { grid-template-columns: 64px 1fr; align-items: start; }
+      .event-actions { grid-column: 1 / -1; justify-content: flex-end; }
+      .sidebar { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .modal-card { border-radius: 22px; padding: 18px; }
+      .form-actions { flex-direction: column-reverse; }
+      .form-actions .btn { width: 100%; }
+    }
+
+
+    /* =========================
+       Premium visual refresh
+       ========================= */
+    :root {
+      --bg: #f3f3f1;
+      --surface: rgba(255,255,255,.86);
+      --surface-2: #fff;
+      --text: #0b0b0c;
+      --muted: #77777f;
+      --border: rgba(15,15,18,.09);
+      --red: #ef233c;
+      --red-dark: #cf1730;
+      --black: #0a0a0b;
+      --shadow-sm: 0 14px 38px rgba(14,14,17,.07);
+      --shadow: 0 26px 80px rgba(14,14,17,.10);
+    }
+
+    body {
+      background:
+        radial-gradient(900px 500px at 12% -10%, rgba(239,35,60,.11), transparent 58%),
+        radial-gradient(700px 420px at 105% 12%, rgba(0,0,0,.07), transparent 58%),
+        linear-gradient(180deg, #f8f8f7 0%, #f1f1ef 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .25;
+      background-image: radial-gradient(rgba(0,0,0,.12) .55px, transparent .55px);
+      background-size: 8px 8px;
+      mask-image: linear-gradient(to bottom, #000, transparent 58%);
+      z-index: -1;
+    }
+
+    .app-shell { width: min(1280px, calc(100% - 36px)); padding-top: 18px; }
+
+    .topbar {
+      min-height: 76px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.92);
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 12px 40px rgba(18,18,20,.07);
+      padding-left: 17px;
+    }
+
+    .brand { font-size: 21px; letter-spacing: -.7px; }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, #171719, #050505);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.12), 0 10px 22px rgba(0,0,0,.16);
+    }
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      width: 18px;
+      height: 3px;
+      background: rgba(255,255,255,.8);
+      top: 10px;
+      border-radius: 999px;
+    }
+    .brand-mark::after { width: 14px; height: 14px; right: -4px; bottom: -4px; box-shadow: 0 0 0 4px rgba(239,35,60,.14); }
+    .brand-glyph { position: relative; z-index: 2; transform: translateY(2px); font-size: 16px; }
+
+    .icon-btn {
+      background: rgba(255,255,255,.82);
+      border-color: rgba(0,0,0,.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+    }
+    .icon-btn:hover { transform: translateY(-2px) scale(1.02); }
+
+    .profile-btn {
+      background: linear-gradient(135deg, #0b0b0c, #242427);
+      min-height: 48px;
+      padding-right: 15px;
+      box-shadow: 0 10px 26px rgba(0,0,0,.14);
+    }
+    .profile-btn:hover { background: #151517; box-shadow: 0 14px 32px rgba(0,0,0,.18); }
+    .avatar { width: 36px; height: 36px; border-radius: 12px; }
+
+    .hero { grid-template-columns: minmax(0,1.55fr) minmax(310px,.62fr); gap: 18px; margin-top: 22px; }
+    .hero-main {
+      min-height: 380px;
+      border-radius: 34px;
+      padding: clamp(32px, 5vw, 62px);
+      background:
+        radial-gradient(340px 260px at 92% 10%, rgba(239,35,60,.28), transparent 70%),
+        linear-gradient(145deg, #09090a 0%, #121214 55%, #1a0a0d 100%);
+      border: 1px solid rgba(255,255,255,.07);
+      box-shadow: 0 30px 80px rgba(11,11,12,.22);
+    }
+    .hero-main::before {
+      width: 430px;
+      height: 430px;
+      right: -175px;
+      top: -225px;
+      border: 62px solid rgba(239,35,60,.15);
+    }
+    .hero-main::after {
+      width: 280px;
+      height: 140px;
+      right: 1%;
+      bottom: -70px;
+      opacity: .34;
+    }
+    .eyebrow { margin-bottom: 24px; color: #bcbcc4; letter-spacing: .11em; }
+    .eyebrow-dot { background: #ff334d; box-shadow: 0 0 0 6px rgba(239,35,60,.12), 0 0 26px rgba(239,35,60,.45); }
+    .hero h1 { font-size: clamp(48px, 6.4vw, 82px); max-width: 780px; letter-spacing: -4.4px; line-height: .94; position: relative; z-index: 2; }
+    .hero-accent { color: #ff3d54; text-shadow: 0 12px 42px rgba(239,35,60,.18); }
+    .hero p { max-width: 640px; color: #aaaab2; font-size: 15px; line-height: 1.72; position: relative; z-index: 2; }
+    .hero-actions { position: relative; z-index: 2; margin-top: 30px; }
+    .hero-proof { display: inline-flex; align-items: center; gap: 9px; margin-top: 22px; color: #8f8f98; font-size: 12px; font-weight: 650; position: relative; z-index: 2; }
+    .proof-dot { width: 8px; height: 8px; border-radius: 50%; background: #39d98a; box-shadow: 0 0 0 5px rgba(57,217,138,.09); }
+
+    .btn { border-radius: 15px; min-height: 48px; padding-inline: 19px; letter-spacing: -.15px; }
+    .btn-primary { background: linear-gradient(135deg, #f32640, #df1731); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
+    .btn-primary:hover { box-shadow: 0 14px 34px rgba(239,35,60,.28); }
+    .btn-light { background: rgba(255,255,255,.88); }
+
+    .hero-side {
+      min-height: 380px;
+      border-radius: 34px;
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(160deg, rgba(255,255,255,.96), rgba(249,249,248,.9));
+      box-shadow: 0 24px 65px rgba(10,10,12,.09);
+      border: 1px solid rgba(255,255,255,.92);
+    }
+    .calendar-glow { position:absolute; width:190px; height:190px; right:-70px; top:-80px; background:rgba(239,35,60,.11); filter:blur(34px); border-radius:50%; }
+    .hero-side-top { display:flex; justify-content:flex-end; position:relative; z-index:2; min-height:24px; }
+    .mini-status { display:inline-flex; align-items:center; gap:7px; padding:7px 9px; border-radius:999px; background:#111113; color:#fff; font-size:9px; font-weight:900; letter-spacing:.12em; }
+    .mini-status i { width:6px; height:6px; border-radius:50%; background:#42df91; box-shadow:0 0 0 4px rgba(66,223,145,.12); }
+    .today-label { text-transform: uppercase; letter-spacing: .09em; font-size: 10px; font-weight: 900; }
+    .today-date { font-size: clamp(38px,4vw,52px); line-height: 1; letter-spacing: -2.8px; }
+    .stats { gap: 9px; }
+    .stat { border-radius: 18px; padding: 16px; background: rgba(245,245,245,.85); border-color: rgba(0,0,0,.06); }
+    .stat:first-child { background: #111113; color: white; }
+    .stat:first-child .stat-name { color: #9d9da5; }
+    .stat-value { letter-spacing: -1.5px; }
+
+    .content { margin-top: 18px; gap: 18px; grid-template-columns:minmax(0,1fr) 320px; }
+    .panel { border-radius: 28px; border-color: rgba(255,255,255,.9); box-shadow: 0 17px 46px rgba(10,10,12,.065); }
+    .events-panel { padding: 25px; }
+    .panel-title { letter-spacing: -.7px; }
+    .filters { background: #f6f6f5; border: 1px solid rgba(0,0,0,.055); padding: 7px; border-radius: 18px; }
+    .filters input, .filters select { border: 0; background: transparent; box-shadow: none !important; }
+    .filters select { background: #fff; border: 1px solid rgba(0,0,0,.06); min-width: 150px; }
+
+    .event-card {
+      border-color: rgba(0,0,0,.07);
+      border-radius: 22px;
+      padding: 15px;
+      background: linear-gradient(180deg,#fff,#fdfdfc);
+    }
+    .event-card::before { left: 7px; width: 4px; top: 18px; bottom: 18px; }
+    .event-card:hover { transform: translateY(-3px) scale(1.003); box-shadow: 0 18px 44px rgba(0,0,0,.085); border-color: rgba(0,0,0,.10); }
+    .date-box { border-radius: 18px; background: #f4f4f3; border-color: rgba(0,0,0,.055); }
+    .small-btn { border-radius: 13px; background: #fafafa; }
+    .chip { background: #f2f2f1; border: 1px solid rgba(0,0,0,.035); }
+
+    .sidebar-card { padding: 22px; }
+    .next-event {
+      background:
+        radial-gradient(180px 120px at 90% 0%, rgba(239,35,60,.25), transparent 72%),
+        linear-gradient(145deg,#0b0b0c,#18181b);
+      border-color: rgba(255,255,255,.05);
+      box-shadow: 0 22px 52px rgba(0,0,0,.16);
+    }
+    .next-title { font-size: 22px; letter-spacing: -.6px; }
+    .mini-item { padding-block: 12px; }
+
+    input, textarea, select { border-color: rgba(0,0,0,.09); border-radius: 15px; background: #fcfcfc; }
+    input:focus, textarea:focus, select:focus { border-color: rgba(239,35,60,.55); box-shadow: 0 0 0 4px rgba(239,35,60,.08); background:#fff; }
+    label { color: #2d2d31; font-size: 11px; text-transform: uppercase; letter-spacing: .055em; }
+
+    .modal { background: rgba(7,7,8,.56); backdrop-filter: blur(13px); }
+    .modal-card { border-radius: 30px; border: 1px solid rgba(255,255,255,.42); box-shadow: 0 34px 100px rgba(0,0,0,.30); padding: 27px; }
+    .modal-card.auth-card { width: min(475px, 100%); padding: 30px; }
+    .modal-title { font-size: 27px; letter-spacing: -1.25px; }
+    .auth-logo { width: 60px; height: 60px; border-radius: 19px; background: linear-gradient(145deg,#151516,#050505); position:relative; overflow:hidden; box-shadow:0 14px 28px rgba(0,0,0,.18); }
+    .auth-logo::after { content:""; position:absolute; width:23px; height:23px; background:var(--red); border-radius:50%; right:-9px; bottom:-9px; }
+    .auth-logo span { position:relative; z-index:2; font-weight:900; }
+    .auth-tabs { border-radius: 15px; padding: 5px; background: #f0f0ef; }
+    .auth-tab { border-radius: 11px; transition: .2s ease; }
+    .auth-tab.active { box-shadow: 0 5px 15px rgba(0,0,0,.07); }
+
+    .auth-required {
+      background:
+        radial-gradient(480px 300px at 20% 15%, rgba(239,35,60,.13), transparent 68%),
+        rgba(244,244,242,.84);
+      backdrop-filter: blur(14px);
+    }
+    .auth-gate-card {
+      max-width: 510px;
+      padding: 40px;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,.92);
+      box-shadow: 0 32px 90px rgba(0,0,0,.12);
+    }
+    .auth-gate-card h2 { font-size: 34px; letter-spacing: -1.8px; }
+
+    .drawer { border-left: 1px solid rgba(0,0,0,.07); }
+    .notification-item { border-radius: 19px; }
+    .notification-item.unread { border-color: rgba(239,35,60,.22); background: #fff8f8; }
+
+    .toast { border-radius: 18px; padding: 15px 16px; }
+
+    @media (max-width: 900px) {
+      .hero-side { min-height: 270px; }
+      .hero-main { min-height: 350px; }
+    }
+
+    @media (max-width: 650px) {
+      .app-shell { width: min(100% - 16px, 1280px); }
+      .topbar { min-height: 66px; border-radius: 20px; }
+      .brand-mark { width: 38px; height: 38px; border-radius: 13px; }
+      .hero { margin-top: 14px; gap: 12px; }
+      .hero-main, .hero-side, .panel { border-radius: 24px; }
+      .hero-main { padding: 34px 23px; min-height: 390px; }
+      .hero h1 { font-size: clamp(45px, 15vw, 64px); letter-spacing: -3px; }
+      .hero p { font-size: 14px; }
+      .hero-actions { display:grid; grid-template-columns:1fr; }
+      .hero-actions .btn { width: 100%; }
+      .hero-proof { font-size: 11px; }
+      .hero-side { min-height: 260px; padding: 21px; }
+      .events-panel { padding: 13px; }
+      .panel-head { padding: 5px 3px 0; }
+      .filters { padding: 6px; }
+      .event-card { padding: 12px; border-radius: 19px; }
+      .modal-card.auth-card { padding: 22px; }
+      .auth-gate-card { padding: 28px 22px; border-radius: 28px; }
+    }
+
+  </style>
 </head>
 <body>
+  <div id="loadingOverlay" class="loading-overlay"><div class="spinner"></div></div>
 
-    <!-- ХЕДЕР -->
-    <header>
-        <div class="header-left">
-            <div class="logo">▲ UPGRADER.sewa<span></span></div>
-            <div class="stats">
-                <div class="online">Онлайн: <span>451</span></div>
-                <div>Апгрейдів: <span>174532</span></div>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="user-profile-block">
-                <div class="user-avatar"></div>
-                <div>
-                    <div style="font-size: 11px; color: var(--text-gray);">Мій баланс</div>
-                    <div class="user-balance">$<span id="balance-amount">550.0</span></div>
-                </div>
-                <button class="btn-add-funds" onclick="depositMoney()">+ $50</button>
-            </div>
-        </div>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"><span class="brand-glyph">E</span></div>
+        <span>Evently</span>
+      </div>
+
+      <div class="top-actions">
+        <button id="notificationBtn" class="icon-btn" aria-label="Повідомлення" title="Повідомлення">
+          🔔
+          <span id="notificationBadge" class="badge hidden">0</span>
+        </button>
+        <button id="profileBtn" class="profile-btn" type="button">
+          <img id="topAvatar" class="avatar" alt="Аватар" />
+          <span class="profile-text">
+            <span id="topName" class="profile-name">Профіль</span>
+            <span id="topUsername" class="profile-user">@user</span>
+          </span>
+        </button>
+      </div>
     </header>
 
-    <div class="wrapper">
-        <!-- ЛІВИЙ САЙДБАР -->
-        <div class="sidebar" id="live-sidebar"></div>
-
-        <!-- РОБОЧА ЗОНА -->
-        <div class="main-workspace">
-            
-            <!-- ВЕРХНЯ ПАНЕЛЬ -->
-            <div class="upgrade-floor">
-                <!-- Ліва зона (Твій скін) -->
-                <div class="drop-zone" id="user-zone" onclick="removeSelectedUserSkin()">
-                    <div class="bg-icon">▲</div>
-                    <div class="placeholder-text" id="user-placeholder">
-                        Виберіть предмет із вашого інвентарю нижче
-                    </div>
-                </div>
-
-                <!-- Центр (Перероблена крутилка) -->
-                <div class="center-wheel-area">
-                    <div class="wheel-container">
-                        <!-- СТАТИЧНИЙ КРУГ З СЕКТОРАМИ -->
-                        <svg class="wheel-spinner" id="wheel-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Зелений сектор (шанс вигри) -->
-                            <path id="success-sector" d="M 110 110 L 110 10 A 100 100 0 0 1 160 23 Z" fill="#2ed573" opacity="0.9"/>
-                            
-                            <!-- Червоний сектор (шанс програшу) -->
-                            <path id="fail-sector" d="M 110 110 L 160 23 A 100 100 0 0 1 110 210 Z" fill="#ff4757" opacity="0.9"/>
-                            
-                            <!-- Зовнішній край кільця -->
-                            <circle cx="110" cy="110" r="100" fill="none" stroke="#444" stroke-width="1" opacity="0.4"/>
-                            
-                            <!-- Рисочки по периметру -->
-                            <g id="tick-marks" stroke="#666" stroke-width="1" opacity="0.6">
-                                <line x1="110" y1="8" x2="110" y2="15" />
-                                <line x1="161.5" y1="13.5" x2="165.5" y2="19.5" />
-                                <line x1="205" y1="35" x2="209" y2="40" />
-                                <line x1="200.5" y1="72" x2="207.5" y2="73" />
-                                <line x1="200" y1="110" x2="207.5" y2="110" />
-                                <line x1="200.5" y1="148" x2="207.5" y2="147" />
-                                <line x1="205" y1="185" x2="209" y2="180" />
-                                <line x1="161.5" y1="206.5" x2="165.5" y2="200.5" />
-                                <line x1="110" y1="212" x2="110" y2="205" />
-                                <line x1="58.5" y1="206.5" x2="54.5" y2="200.5" />
-                                <line x1="15" y1="185" x2="11" y2="180" />
-                                <line x1="19.5" y1="148" x2="12.5" y2="147" />
-                                <line x1="20" y1="110" x2="12.5" y2="110" />
-                                <line x1="19.5" y1="72" x2="12.5" y2="73" />
-                                <line x1="15" y1="35" x2="11" y2="40" />
-                                <line x1="58.5" y1="13.5" x2="54.5" y2="19.5" />
-                            </g>
-
-                            <!-- Внутрішнє кільце (темне) -->
-                            <circle cx="110" cy="110" r="68" fill="#0c0d12" stroke="#14151c" stroke-width="2"/>
-                        </svg>
-
-                        <!-- КРУТИЛКА СТРІЛКА -->
-                        <svg class="wheel-ticker-arrow" id="wheel-ticker" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Стрілка зверху, вказує на успіх/провал -->
-                            <g transform="translate(110, 110)">
-                                <!-- Стрілка -->
-                                <polygon points="0,-95 8,-75 -8,-75" fill="#ffd000" filter="drop-shadow(0 0 4px #ffd000)"/>
-                                <!-- Центральна точка -->
-                                <circle cx="0" cy="0" r="5" fill="#ffd000" opacity="0.8"/>
-                            </g>
-                        </svg>
-
-                        <!-- Центральний текст -->
-                        <div class="radial-center-button">
-                            <span id="chance-text">0.00%</span>
-                        </div>
-                    </div>
-
-                    <button class="btn-action-upgrade" id="btn-fire" disabled onclick="executeUpgrade()">▲ Прокачати</button>
-                </div>
-
-                <!-- Права зона (Ціль) -->
-                <div class="drop-zone" id="target-zone" onclick="removeSelectedTargetSkin()">
-                    <div class="bg-icon">▲</div>
-                    <div class="placeholder-text" id="target-placeholder">
-                        Виберіть бажаний предмет із магазину праворуч
-                    </div>
-                </div>
-            </div>
-
-            <!-- НИЖНЯ ПАНЕЛЬ: ІНВЕНТАР ТА МАГАЗИН -->
-            <div class="inventory-floor">
-                
-                <!-- ТВІЙ ІНВЕНТАР -->
-                <div class="inventory-box">
-                    <div class="box-header">📁 Мій інвентар (<span id="inv-count">0</span>)</div>
-                    <div class="inventory-grid" id="user-inventory-grid">
-                        <div class="empty-placeholder">Ваш інвентар порожній. Купіть щось у магазині навпроти!</div>
-                    </div>
-                </div>
-
-                <!-- МАГАЗИН СКІНІВ -->
-                <div class="inventory-box">
-                    <div class="box-header"><span>🛒 Магазин скінів</span></div>
-                    <div class="inventory-grid" id="store-inventory-grid"></div>
-                </div>
-
-            </div>
-
+    <section class="hero">
+      <div class="hero-main">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> Твій простір для важливого</div>
+        <h1>Все важливе —<br><span class="hero-accent">вчасно.</span></h1>
+        <p>Створюй події, додавай власний текст і отримуй нагадування саме тоді, коли потрібно. Простий планувальник без зайвого.</p>
+        <div class="hero-proof">
+          <span class="proof-dot"></span>
+          <span>Події синхронізуються з твоїм акаунтом</span>
         </div>
-    </div>
-
-    <!-- МОДАЛКА РЕЗУЛЬТАТУ -->
-    <div class="modal" id="result-modal">
-        <div class="modal-content">
-            <div class="m-status" id="m-title">УСПІХ</div>
-            <div id="m-body"></div>
-            <button class="m-btn" onclick="closeModal()">Закрити</button>
+        <div class="hero-actions">
+          <button id="heroAddBtn" class="btn btn-primary">＋ Створити подію</button>
+          <button id="enableNotificationsBtn" class="btn btn-light">🔔 Увімкнути браузерні сповіщення</button>
         </div>
+      </div>
+
+      <div class="hero-side">
+        <div class="calendar-glow"></div>
+        <div class="hero-side-top"><span class="mini-status"><i></i> LIVE</span></div>
+        <div>
+          <div class="today-label">Сьогодні</div>
+          <div id="todayDate" class="today-date">—</div>
+          <div id="todayWeekday" class="today-sub">—</div>
+        </div>
+        <div class="stats">
+          <div class="stat"><div id="upcomingCount" class="stat-value">0</div><div class="stat-name">Майбутні</div></div>
+          <div class="stat"><div id="todayCount" class="stat-value">0</div><div class="stat-name">На сьогодні</div></div>
+        </div>
+      </div>
+    </section>
+
+    <main class="content">
+      <section class="panel events-panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Мої події</div>
+            <div class="panel-subtitle">Усі нагадування в одному місці</div>
+          </div>
+          <button id="addEventBtn" class="btn btn-dark">＋ Додати</button>
+        </div>
+
+        <div class="filters">
+          <div class="input-wrap">
+            <span class="search-icon">⌕</span>
+            <input id="searchInput" class="search-input" type="search" placeholder="Пошук за назвою або текстом..." />
+          </div>
+          <select id="filterSelect" aria-label="Фільтр подій">
+            <option value="all">Усі події</option>
+            <option value="upcoming">Майбутні</option>
+            <option value="today">Сьогодні</option>
+            <option value="past">Минулі</option>
+          </select>
+        </div>
+
+        <div id="eventsList" class="events-list"></div>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel sidebar-card next-event">
+          <div class="next-label">Найближча подія</div>
+          <div id="nextEventTitle" class="next-title">Поки немає</div>
+          <div id="nextEventTime" class="next-time">Створи першу подію, щоб побачити її тут.</div>
+        </section>
+
+        <section class="panel sidebar-card">
+          <div class="panel-title" style="font-size:17px">Огляд</div>
+          <div class="mini-list">
+            <div class="mini-item"><span>Усього подій</span><strong id="totalCount">0</strong></div>
+            <div class="mini-item"><span>Минулі</span><strong id="pastCount">0</strong></div>
+            <div class="mini-item"><span>Непрочитані</span><strong id="unreadCount">0</strong></div>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div id="authGate" class="auth-required hidden">
+    <div class="auth-gate-card">
+      <div class="auth-logo" style="margin-left:auto;margin-right:auto"><span>E</span></div>
+      <h2>Твій Evently</h2>
+      <p>Увійди або створи акаунт, щоб події, профіль і повідомлення зберігалися між пристроями.</p>
+      <button id="openAuthFromGate" class="btn btn-primary">Увійти / Зареєструватися</button>
     </div>
+  </div>
 
-    <script>
-        // ==========================================
-        // 🛒 НАЛАШТУВАННЯ МАГАЗИНУ (ДОДАВАЙ СКІНИ СЮДИ)
-        // ==========================================
-        const globalStoreProducts = [
-            { id: 101, name: "AK-47 | Захисна сітка (НФ)", price: 4.00, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/60202_b.png" },
-            { id: 102, name: "Glock-18 | AXIA (ПН)", price: 34.36, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/184796_b.png" },
-            { id: 103, name: "AK-47 | Сланец (ППИ)", price: 5.88, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/149103_b.png" },
-            { id: 104, name: "★ StatTrak™ Нож-бабочка | Градиент (НП)", price: 144563.67, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/12474_b.png" },
-            { id: 105, name: "Desert Eagle | Бронзовая декорация (ППИ)", price: 0.23, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/12406_b.png" },
-            { id: 106, name: "P250 | Copper Oxide (ПЗ)", price: 0.54, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/187364_b.png" },
-            { id: 107, name: "AK-47 | Сланці", price: 42.00, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/149156_b.png" },
-            { id: 108, name: "AK-47 | Поверхнева закалка (ПЗ)", price: 530.00, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/8931_b.png" },
-            { id: 109, name: "AK-47 | Дикий лотос (ПЗ)", price: 15000.00, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/145355_b.png" },
-            { id: 110, name: "Glock-18 | Зимний вариант (ПН)", price: 0.25, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/156695_b.png" },
-            { id: 111, name: "Sticker | Titan (Holo) | Katowice 2014", price: 79866.98, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/11396_b.png" },
-            { id: 112, name: "Desert Eagle | Океанское побережье (ПЗ)", price: 391.18, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/151293_b.png" },
-            { id: 113, name: "Наклейка | Lynn Vision | Кёльн-2026", price: 1.51, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/216542_b.png" },
-            { id: 114, name: "★ Мотоциклетные перчатки | Третья рота коммандо (ЗБ)", price: 45.67, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/148338_b.png" },
-        
-        
-        ];
+  <div id="authModal" class="modal" aria-hidden="true">
+    <div class="modal-card auth-card">
+      <div class="auth-logo"><span>E</span></div>
+      <div class="modal-title">Ласкаво просимо</div>
+      <div class="panel-subtitle">Увійди по пошті та паролю або створи акаунт за хвилину.</div>
 
-        // ==========================================
-        // 📁 СТАРТОВИЙ ІНВЕНТАР КОРИСТУВАЧА
-        // ==========================================
-        let userInventory = [
-            { id: 1, name: "AK-47 | Захисна сітка (НФ)", price: 4.00, img: "https://assets.lis-skins.com/cdn-cgi/image/f=auto,fit=scale-down/https://assets.lis-skins.com/market_images/60202_b.png" },
-        ];
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-auth-tab="login">Вхід</button>
+        <button class="auth-tab" data-auth-tab="register">Реєстрація</button>
+      </div>
 
-        let userBalance = 550.00;
-        let selectedUserSkin = null;
-        let selectedTargetSkin = null;
-        let activeUpgradeChance = 0;
-        let isUpgrading = false;
+      <form id="loginForm">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="loginEmail">Пошта</label>
+            <input id="loginEmail" type="email" required autocomplete="email" placeholder="name@example.com" />
+          </div>
+          <div class="field full">
+            <label for="loginPassword">Пароль</label>
+            <input id="loginPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="Мінімум 6 символів" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button id="loginSubmit" class="btn btn-dark" type="submit">Увійти</button>
+        </div>
+      </form>
 
-        window.onload = function() {
-            renderUserInventory();
-            renderStore();
-            renderLiveFeed();
-            updateBalanceUI();
-        };
+      <form id="registerForm" class="hidden">
+        <div class="form-grid">
+          <div class="field full">
+            <label for="registerName">Ім’я</label>
+            <input id="registerName" type="text" required minlength="2" maxlength="50" placeholder="Твоє ім’я" />
+          </div>
+          <div class="field full">
+            <label for="registerUsername">Нік</label>
+            <input id="registerUsername" type="text" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_.]+" placeholder="nickname" />
+            <div class="hint">Латинські літери, цифри, _ та крапка.</div>
+          </div>
+          <div class="field full">
+            <label for="registerEmail">Пошта</label>
+            <input id="registerEmail" type="email" required autocomplete="email" placeholder="name@example.com" />
+            <div class="hint">Потрібна для входу та відновлення доступу.</div>
+          </div>
+          <div class="field full">
+            <label for="registerPassword">Пароль</label>
+            <input id="registerPassword" type="password" required minlength="6" autocomplete="new-password" placeholder="Мінімум 6 символів" />
+          </div>
+        </div>
+        <div class="form-actions">
+          <button id="registerSubmit" class="btn btn-primary" type="submit">Створити акаунт</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
-        function updateBalanceUI() {
-            document.getElementById('balance-amount').innerText = userBalance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  <div id="eventModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div id="eventModalTitle" class="modal-title">Нова подія</div>
+          <div class="panel-subtitle">Вкажи, коли і що тобі нагадати.</div>
+        </div>
+        <button class="close-btn" data-close-modal="eventModal">✕</button>
+      </div>
+
+      <form id="eventForm">
+        <input id="eventId" type="hidden" />
+        <div class="form-grid">
+          <div class="field full">
+            <label for="eventTitle">Назва події</label>
+            <input id="eventTitle" type="text" required minlength="2" maxlength="80" placeholder="Наприклад: День народження" />
+          </div>
+          <div class="field">
+            <label for="eventDate">Дата</label>
+            <input id="eventDate" type="date" required />
+          </div>
+          <div class="field">
+            <label for="eventTime">Час</label>
+            <input id="eventTime" type="time" required />
+          </div>
+          <div class="field full">
+            <label for="eventMessage">Текст повідомлення</label>
+            <textarea id="eventMessage" required minlength="2" maxlength="500" placeholder="Напиши повідомлення, яке хочеш отримати..."></textarea>
+          </div>
+          <div class="field full">
+            <label for="eventColor">Акцент</label>
+            <select id="eventColor">
+              <option value="#e11d2e">Червоний</option>
+              <option value="#111111">Чорний</option>
+              <option value="#6b7280">Сірий</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-light" data-close-modal="eventModal">Скасувати</button>
+          <button id="saveEventBtn" type="submit" class="btn btn-primary">Зберегти подію</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="profileModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title">Мій акаунт</div>
+          <div class="panel-subtitle">Зміни ім’я, нік, пароль або аватар.</div>
+        </div>
+        <button class="close-btn" data-close-modal="profileModal">✕</button>
+      </div>
+
+      <div class="profile-avatar-row">
+        <img id="profileAvatarPreview" class="profile-avatar-large" alt="Аватар" />
+        <div>
+          <input id="avatarInput" class="file-input" type="file" accept="image/png,image/jpeg,image/webp" />
+          <button id="chooseAvatarBtn" class="btn btn-light" type="button">Змінити аватар</button>
+          <div class="hint" style="margin-top:7px">PNG, JPG або WEBP, до 3 МБ.</div>
+        </div>
+      </div>
+
+      <form id="profileForm">
+        <div class="form-grid">
+          <div class="field">
+            <label for="profileName">Ім’я</label>
+            <input id="profileName" type="text" required minlength="2" maxlength="50" />
+          </div>
+          <div class="field">
+            <label for="profileUsername">Нік</label>
+            <input id="profileUsername" type="text" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_.]+" />
+          </div>
+          <div class="field full">
+            <label for="profileEmail">Пошта</label>
+            <input id="profileEmail" type="email" required autocomplete="email" />
+          </div>
+          <div class="field full">
+            <label for="profilePassword">Новий пароль</label>
+            <input id="profilePassword" type="password" minlength="6" placeholder="Залиш порожнім, якщо не змінюєш" />
+          </div>
+        </div>
+        <div class="form-actions" style="justify-content:space-between">
+          <button id="logoutBtn" type="button" class="btn btn-danger-soft">Вийти</button>
+          <button id="saveProfileBtn" type="submit" class="btn btn-dark">Зберегти зміни</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <aside id="notificationDrawer" class="drawer">
+    <div class="drawer-head">
+      <div>
+        <div class="panel-title">Повідомлення</div>
+        <div class="panel-subtitle">Твої нагадування</div>
+      </div>
+      <button id="closeDrawerBtn" class="close-btn">✕</button>
+    </div>
+    <div style="padding:12px 14px 0; display:flex; justify-content:flex-end">
+      <button id="markAllReadBtn" class="btn btn-light" style="min-height:38px; padding:0 13px; font-size:12px">Прочитати всі</button>
+    </div>
+    <div id="notificationsList" class="drawer-body"></div>
+  </aside>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <script>
+    // ============================================================
+    // 1. SUPABASE CONFIG
+    // ============================================================
+    // Вставте значення з Supabase Dashboard -> Project Settings -> API.
+    // На фронтенді використовується ТІЛЬКИ publishable/anon key.
+    const SUPABASE_URL = 'https://iyegzszvekcoiwvxildv.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_aXqBqYRzalvQsToKNz2xOQ_2RhDuZOg';
+
+    const isConfigured =
+      !SUPABASE_URL.includes('YOUR_PROJECT') &&
+      !SUPABASE_ANON_KEY.includes('YOUR_KEY');
+
+    const supabaseClient = isConfigured
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+          auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+        })
+      : null;
+
+    // ============================================================
+    // 2. APP STATE
+    // ============================================================
+    const state = {
+      user: null,
+      profile: null,
+      events: [],
+      notifications: [],
+      timer: null,
+      activeAuthTab: 'login'
+    };
+
+    const els = {};
+    const $ = (id) => document.getElementById(id);
+
+    // ============================================================
+    // 3. SAFE HELPERS
+    // ============================================================
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function safeColor(value) {
+      const allowed = ['#e11d2e', '#111111', '#6b7280'];
+      return allowed.includes(value) ? value : '#e11d2e';
+    }
+
+    function avatarFallback(name = 'U') {
+      const letter = String(name).trim().charAt(0).toUpperCase() || 'U';
+      const svg = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160">
+          <rect width="100%" height="100%" rx="36" fill="#111111"/>
+          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle"
+                font-family="Arial" font-size="68" font-weight="700" fill="#ffffff">${letter}</text>
+          <circle cx="142" cy="142" r="30" fill="#e11d2e"/>
+        </svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    }
+
+    function toLocalDateTime(dateString, timeString) {
+      return new Date(`${dateString}T${timeString}:00`);
+    }
+
+    function formatFullDate(date) {
+      return new Intl.DateTimeFormat('uk-UA', {
+        day: '2-digit', month: 'long', year: 'numeric'
+      }).format(date);
+    }
+
+    function formatDateTime(date) {
+      return new Intl.DateTimeFormat('uk-UA', {
+        day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+      }).format(date);
+    }
+
+    function sameDay(a, b) {
+      return a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate();
+    }
+
+    function showToast(title, message = '', type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div>${type === 'success' ? '✓' : type === 'error' ? '!' : '•'}</div>
+        <div class="toast-text">
+          <strong>${escapeHtml(title)}</strong>
+          ${message ? `<span>${escapeHtml(message)}</span>` : ''}
+        </div>`;
+      els.toastContainer.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(8px)';
+        setTimeout(() => toast.remove(), 250);
+      }, 4200);
+    }
+
+    function setButtonLoading(button, loading, loadingText = 'Зачекайте...') {
+      if (!button) return;
+      if (loading) {
+        button.dataset.originalText = button.textContent;
+        button.disabled = true;
+        button.textContent = loadingText;
+      } else {
+        button.disabled = false;
+        button.textContent = button.dataset.originalText || button.textContent;
+      }
+    }
+
+    function openModal(id) {
+      const modal = $(id);
+      if (!modal) return;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal(id) {
+      const modal = $(id);
+      if (!modal) return;
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    // ============================================================
+    // 4. AUTH
+    // ============================================================
+    async function handleRegister(event) {
+      event.preventDefault();
+      if (!supabaseClient) return configError();
+
+      const name = els.registerName.value.trim();
+      const username = els.registerUsername.value.trim().toLowerCase();
+      const email = els.registerEmail.value.trim().toLowerCase();
+      const password = els.registerPassword.value;
+
+      if (name.length < 2 || username.length < 3 || !email.includes('@') || password.length < 6) {
+        showToast('Заповніть всі поля правильно', 'Перевірте ім’я, нік, пошту та пароль.', 'error');
+        return;
+      }
+
+      try {
+        setButtonLoading(els.registerSubmit, true, 'Створення...');
+
+        const { data: existing } = await supabaseClient
+          .from('profiles')
+          .select('id')
+          .eq('username', username)
+          .maybeSingle();
+
+        if (existing) {
+          showToast('Цей нік вже зайнятий', 'Спробуйте інший нік.', 'error');
+          return;
         }
 
-        function depositMoney() {
-            if (isUpgrading) return;
-            userBalance += 50;
-            updateBalanceUI();
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name, username }
+          }
+        });
+
+        if (error) throw error;
+
+        if (!data.session) {
+          showToast('Акаунт створено', 'Перевір пошту та підтвердь реєстрацію.', 'success');
+          switchAuthTab('login');
+        } else {
+          showToast('Акаунт створено', 'Вітаємо в Evently!', 'success');
+          closeModal('authModal');
+        }
+      } catch (error) {
+        console.error(error);
+        showToast('Помилка реєстрації', humanizeError(error), 'error');
+      } finally {
+        setButtonLoading(els.registerSubmit, false);
+      }
+    }
+
+    async function handleLogin(event) {
+      event.preventDefault();
+      if (!supabaseClient) return configError();
+
+      const email = els.loginEmail.value.trim().toLowerCase();
+      const password = els.loginPassword.value;
+
+      try {
+        setButtonLoading(els.loginSubmit, true, 'Вхід...');
+        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+
+        showToast('Вхід виконано', 'Раді бачити знову.', 'success');
+        closeModal('authModal');
+      } catch (error) {
+        console.error(error);
+        showToast('Не вдалося увійти', humanizeError(error), 'error');
+      } finally {
+        setButtonLoading(els.loginSubmit, false);
+      }
+    }
+
+    async function logout() {
+      if (!supabaseClient) return;
+      try {
+        const { error } = await supabaseClient.auth.signOut();
+        if (error) throw error;
+        closeModal('profileModal');
+        showToast('Ви вийшли з акаунта', '', 'success');
+      } catch (error) {
+        showToast('Помилка виходу', humanizeError(error), 'error');
+      }
+    }
+
+    function switchAuthTab(tab) {
+      state.activeAuthTab = tab;
+      document.querySelectorAll('.auth-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.authTab === tab);
+      });
+      els.loginForm.classList.toggle('hidden', tab !== 'login');
+      els.registerForm.classList.toggle('hidden', tab !== 'register');
+    }
+
+    // ============================================================
+    // 5. PROFILE
+    // ============================================================
+    async function loadProfile() {
+      if (!state.user) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('profiles')
+          .select('*')
+          .eq('id', state.user.id)
+          .single();
+
+        if (error) throw error;
+        state.profile = data;
+        renderProfile();
+      } catch (error) {
+        console.error(error);
+        showToast('Не вдалося завантажити профіль', humanizeError(error), 'error');
+      }
+    }
+
+    function renderProfile() {
+      const profile = state.profile || {};
+      const name = profile.full_name || state.user?.user_metadata?.full_name || 'Користувач';
+      const username = profile.username || state.user?.user_metadata?.username || 'user';
+      const avatar = profile.avatar_url || avatarFallback(name);
+
+      els.topName.textContent = name;
+      els.topUsername.textContent = `@${username}`;
+      els.topAvatar.src = avatar;
+      els.profileAvatarPreview.src = avatar;
+      els.profileName.value = name;
+      els.profileUsername.value = username;
+      els.profileEmail.value = state.user?.email || '';
+      els.profilePassword.value = '';
+    }
+
+    async function uploadAvatar(file) {
+      if (!state.user || !file) return null;
+      if (file.size > 3 * 1024 * 1024) {
+        throw new Error('Файл завеликий. Максимальний розмір — 3 МБ.');
+      }
+      if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+        throw new Error('Оберіть PNG, JPG або WEBP.');
+      }
+
+      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+      const path = `${state.user.id}/avatar-${Date.now()}.${ext}`;
+
+      const { error } = await supabaseClient.storage
+        .from('avatars')
+        .upload(path, file, { cacheControl: '3600', upsert: false, contentType: file.type });
+
+      if (error) throw error;
+
+      const { data } = supabaseClient.storage.from('avatars').getPublicUrl(path);
+      return data.publicUrl;
+    }
+
+    async function saveProfile(event) {
+      event.preventDefault();
+      if (!state.user) return;
+
+      const fullName = els.profileName.value.trim();
+      const username = els.profileUsername.value.trim().toLowerCase();
+      const email = els.profileEmail.value.trim().toLowerCase();
+      const newPassword = els.profilePassword.value;
+      const avatarFile = els.avatarInput.files[0];
+
+      if (fullName.length < 2 || username.length < 3 || !email.includes('@')) {
+        showToast('Перевірте дані', 'Перевір ім’я, нік та пошту.', 'error');
+        return;
+      }
+
+      try {
+        setButtonLoading(els.saveProfileBtn, true, 'Збереження...');
+
+        const { data: usernameOwner, error: usernameError } = await supabaseClient
+          .from('profiles')
+          .select('id')
+          .eq('username', username)
+          .neq('id', state.user.id)
+          .maybeSingle();
+
+        if (usernameError) throw usernameError;
+        if (usernameOwner) throw new Error('Цей нік вже використовується.');
+
+        let avatarUrl = state.profile?.avatar_url || null;
+        if (avatarFile) avatarUrl = await uploadAvatar(avatarFile);
+
+        const oldUsername = state.profile?.username || state.user?.user_metadata?.username || '';
+        const oldEmail = state.user?.email || '';
+        const updates = { data: { full_name: fullName, username } };
+        if (email !== oldEmail) updates.email = email;
+        if (newPassword) updates.password = newPassword;
+
+        const { data: authData, error: authError } = await supabaseClient.auth.updateUser(updates);
+        if (authError) throw authError;
+        state.user = authData.user;
+
+        const { data: profileData, error: profileError } = await supabaseClient
+          .from('profiles')
+          .update({ full_name: fullName, username, avatar_url: avatarUrl })
+          .eq('id', state.user.id)
+          .select()
+          .single();
+
+        if (profileError) throw profileError;
+        state.profile = profileData;
+        els.avatarInput.value = '';
+        renderProfile();
+        const emailNote = email !== oldEmail ? ' Якщо в Supabase увімкнене підтвердження email, перевір нову пошту.' : '';
+        showToast('Профіль оновлено', 'Зміни збережено.' + emailNote, 'success');
+        closeModal('profileModal');
+      } catch (error) {
+        console.error(error);
+        showToast('Не вдалося зберегти профіль', humanizeError(error), 'error');
+      } finally {
+        setButtonLoading(els.saveProfileBtn, false);
+      }
+    }
+
+    // ============================================================
+    // 6. EVENTS CRUD
+    // ============================================================
+    async function loadEvents() {
+      if (!state.user) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('events')
+          .select('*')
+          .eq('user_id', state.user.id)
+          .order('event_at', { ascending: false });
+
+        if (error) throw error;
+        state.events = data || [];
+        renderEvents();
+        renderStats();
+        await checkDueEvents();
+      } catch (error) {
+        console.error(error);
+        showToast('Помилка завантаження подій', humanizeError(error), 'error');
+      }
+    }
+
+    function openCreateEvent() {
+      if (!state.user) return openModal('authModal');
+      els.eventForm.reset();
+      els.eventId.value = '';
+      els.eventModalTitle.textContent = 'Нова подія';
+      els.saveEventBtn.textContent = 'Зберегти подію';
+
+      const now = new Date(Date.now() + 5 * 60 * 1000);
+      els.eventDate.value = now.toISOString().slice(0, 10);
+      els.eventTime.value = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+      els.eventColor.value = '#e11d2e';
+      openModal('eventModal');
+    }
+
+    function openEditEvent(id) {
+      const event = state.events.find(item => item.id === id);
+      if (!event) return;
+      const date = new Date(event.event_at);
+
+      els.eventId.value = event.id;
+      els.eventTitle.value = event.title;
+      els.eventMessage.value = event.message;
+      els.eventDate.value = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+      els.eventTime.value = `${String(date.getHours()).padStart(2,'0')}:${String(date.getMinutes()).padStart(2,'0')}`;
+      els.eventColor.value = safeColor(event.color);
+      els.eventModalTitle.textContent = 'Редагувати подію';
+      els.saveEventBtn.textContent = 'Зберегти зміни';
+      openModal('eventModal');
+    }
+
+    async function saveEvent(event) {
+      event.preventDefault();
+      if (!state.user) return;
+
+      const id = els.eventId.value;
+      const title = els.eventTitle.value.trim();
+      const message = els.eventMessage.value.trim();
+      const eventDate = els.eventDate.value;
+      const eventTime = els.eventTime.value;
+      const color = safeColor(els.eventColor.value);
+
+      if (title.length < 2 || message.length < 2 || !eventDate || !eventTime) {
+        showToast('Заповніть всі поля', 'Назва, дата, час і повідомлення є обов’язковими.', 'error');
+        return;
+      }
+
+      const dateObject = toLocalDateTime(eventDate, eventTime);
+      if (Number.isNaN(dateObject.getTime())) {
+        showToast('Неправильна дата', 'Перевірте дату та час.', 'error');
+        return;
+      }
+
+      const payload = {
+        user_id: state.user.id,
+        title,
+        message,
+        event_at: dateObject.toISOString(),
+        color,
+        notified_at: null,
+        updated_at: new Date().toISOString()
+      };
+
+      try {
+        setButtonLoading(els.saveEventBtn, true, id ? 'Оновлення...' : 'Створення...');
+
+        if (id) {
+          const { error } = await supabaseClient.from('events').update(payload).eq('id', id).eq('user_id', state.user.id);
+          if (error) throw error;
+          showToast('Подію оновлено', '', 'success');
+        } else {
+          const { error } = await supabaseClient.from('events').insert(payload);
+          if (error) throw error;
+          showToast('Подію додано', '', 'success');
         }
 
-        function renderUserInventory() {
-            const grid = document.getElementById('user-inventory-grid');
-            document.getElementById('inv-count').innerText = userInventory.length;
-            
-            if (userInventory.length === 0) {
-                grid.innerHTML = '<div class="empty-placeholder">Ваш інвентар порожній. Купіть щось у магазині!</div>';
-                return;
-            }
+        closeModal('eventModal');
+        await loadEvents();
+      } catch (error) {
+        console.error(error);
+        showToast('Помилка збереження', humanizeError(error), 'error');
+      } finally {
+        setButtonLoading(els.saveEventBtn, false);
+      }
+    }
 
-            grid.innerHTML = '';
-            userInventory.forEach((skin, index) => {
-                const card = document.createElement('div');
-                card.className = 'skin-card';
-                card.innerHTML = `
-                    <div class="card-name">${skin.name}</div>
-                    <div class="skin-img-wrapper"><img src="${skin.img}"></div>
-                    <div class="card-price">$${skin.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
-                `;
-                card.onclick = () => selectUserSkin(skin, index);
-                grid.appendChild(card);
+    async function deleteEvent(id) {
+      const event = state.events.find(item => item.id === id);
+      if (!event) return;
+      if (!confirm(`Видалити подію “${event.title}”?`)) return;
+
+      try {
+        const { error } = await supabaseClient
+          .from('events')
+          .delete()
+          .eq('id', id)
+          .eq('user_id', state.user.id);
+        if (error) throw error;
+
+        state.events = state.events.filter(item => item.id !== id);
+        renderEvents();
+        renderStats();
+        showToast('Подію видалено', '', 'success');
+      } catch (error) {
+        console.error(error);
+        showToast('Помилка видалення', humanizeError(error), 'error');
+      }
+    }
+
+    // ============================================================
+    // 7. REMINDERS / NOTIFICATIONS
+    // ============================================================
+    async function checkDueEvents() {
+      if (!state.user || !state.events.length) return;
+      const now = new Date();
+      const dueEvents = state.events.filter(item => !item.notified_at && new Date(item.event_at) <= now);
+      if (!dueEvents.length) return;
+
+      for (const item of dueEvents) {
+        try {
+          const { data: existingNotification, error: findError } = await supabaseClient
+            .from('notifications')
+            .select('id')
+            .eq('event_id', item.id)
+            .maybeSingle();
+          if (findError) throw findError;
+
+          if (!existingNotification) {
+            const { error: insertError } = await supabaseClient.from('notifications').insert({
+              user_id: state.user.id,
+              event_id: item.id,
+              title: item.title,
+              message: item.message,
+              is_read: false
             });
+            if (insertError) throw insertError;
+          }
+
+          const notifiedAt = new Date().toISOString();
+          const { error: updateError } = await supabaseClient
+            .from('events')
+            .update({ notified_at: notifiedAt })
+            .eq('id', item.id)
+            .eq('user_id', state.user.id);
+          if (updateError) throw updateError;
+
+          item.notified_at = notifiedAt;
+          showToast(item.title, item.message, 'info');
+          sendBrowserNotification(item.title, item.message);
+        } catch (error) {
+          console.error('Reminder error:', error);
         }
+      }
 
-        function renderStore() {
-            const grid = document.getElementById('store-inventory-grid');
-            grid.innerHTML = '';
+      await loadNotifications();
+      renderEvents();
+    }
 
-            globalStoreProducts.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'skin-card';
-                card.innerHTML = `
-                    <div class="card-name">${product.name}</div>
-                    <div class="skin-img-wrapper"><img src="${product.img}"></div>
-                    <div class="card-price">$${product.price.toLocaleString('en-US', {minimumFractionDigits: product.price > 1000 ? 0 : 2})}</div>
-                    <button class="btn-buy-skin" onclick="buySkinFromStore(event, ${product.id})">Купити</button>
-                `;
-                card.onclick = () => selectTargetSkin(product);
-                grid.appendChild(card);
-            });
+    async function loadNotifications() {
+      if (!state.user) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('notifications')
+          .select('*')
+          .eq('user_id', state.user.id)
+          .order('created_at', { ascending: false })
+          .limit(100);
+        if (error) throw error;
+        state.notifications = data || [];
+        renderNotifications();
+        renderStats();
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    async function markAllNotificationsRead() {
+      if (!state.user) return;
+      try {
+        const { error } = await supabaseClient
+          .from('notifications')
+          .update({ is_read: true })
+          .eq('user_id', state.user.id)
+          .eq('is_read', false);
+        if (error) throw error;
+        state.notifications.forEach(item => item.is_read = true);
+        renderNotifications();
+        renderStats();
+      } catch (error) {
+        showToast('Не вдалося оновити повідомлення', humanizeError(error), 'error');
+      }
+    }
+
+    async function requestBrowserNotifications() {
+      if (!('Notification' in window)) {
+        showToast('Не підтримується', 'Цей браузер не підтримує системні сповіщення.', 'error');
+        return;
+      }
+
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        showToast('Сповіщення увімкнено', 'Поки сайт відкритий, нагадування можуть з’являтися системно.', 'success');
+      } else {
+        showToast('Доступ не надано', 'Дозвіл можна змінити в налаштуваннях браузера.', 'info');
+      }
+    }
+
+    function sendBrowserNotification(title, message) {
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try { new Notification(title, { body: message }); } catch (e) { console.warn(e); }
+      }
+    }
+
+    function startReminderLoop() {
+      clearInterval(state.timer);
+      state.timer = setInterval(() => {
+        if (state.user) checkDueEvents();
+      }, 15000);
+    }
+
+    // ============================================================
+    // 8. RENDERING
+    // ============================================================
+    function renderToday() {
+      const now = new Date();
+      els.todayDate.textContent = new Intl.DateTimeFormat('uk-UA', { day: '2-digit', month: 'long' }).format(now);
+      els.todayWeekday.textContent = new Intl.DateTimeFormat('uk-UA', { weekday: 'long', year: 'numeric' }).format(now);
+    }
+
+    function getFilteredEvents() {
+      const query = els.searchInput.value.trim().toLowerCase();
+      const filter = els.filterSelect.value;
+      const now = new Date();
+
+      return state.events.filter(item => {
+        const date = new Date(item.event_at);
+        const matchesSearch = !query ||
+          String(item.title).toLowerCase().includes(query) ||
+          String(item.message).toLowerCase().includes(query);
+
+        let matchesFilter = true;
+        if (filter === 'upcoming') matchesFilter = date > now;
+        if (filter === 'past') matchesFilter = date <= now;
+        if (filter === 'today') matchesFilter = sameDay(date, now);
+        return matchesSearch && matchesFilter;
+      });
+    }
+
+    function renderEvents() {
+      const list = getFilteredEvents();
+      const now = new Date();
+
+      if (!list.length) {
+        els.eventsList.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">◷</div>
+            <strong>Подій не знайдено</strong>
+            <span>Створи нову подію або зміни фільтр.</span>
+          </div>`;
+        return;
+      }
+
+      els.eventsList.innerHTML = list.map(item => {
+        const date = new Date(item.event_at);
+        const isPast = date <= now;
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = new Intl.DateTimeFormat('uk-UA', { month: 'short' }).format(date).replace('.', '');
+        const time = new Intl.DateTimeFormat('uk-UA', { hour: '2-digit', minute: '2-digit' }).format(date);
+
+        return `
+          <article class="event-card ${isPast ? 'is-past' : ''}" style="--event-color:${safeColor(item.color)}">
+            <div class="date-box">
+              <div>
+                <div class="date-day">${escapeHtml(day)}</div>
+                <div class="date-month">${escapeHtml(month)}</div>
+              </div>
+            </div>
+            <div>
+              <div class="event-title">${escapeHtml(item.title)}</div>
+              <div class="event-message">${escapeHtml(item.message)}</div>
+              <div class="event-meta">
+                <span class="chip">◷ ${escapeHtml(time)}</span>
+                <span class="chip ${isPast ? 'due' : ''}">${isPast ? 'Настала' : 'Заплановано'}</span>
+              </div>
+            </div>
+            <div class="event-actions">
+              <button class="small-btn" onclick="openEditEvent('${item.id}')" title="Редагувати">✎</button>
+              <button class="small-btn delete" onclick="deleteEvent('${item.id}')" title="Видалити">⌫</button>
+            </div>
+          </article>`;
+      }).join('');
+    }
+
+    function renderStats() {
+      const now = new Date();
+      const upcoming = state.events.filter(item => new Date(item.event_at) > now);
+      const today = state.events.filter(item => sameDay(new Date(item.event_at), now));
+      const past = state.events.filter(item => new Date(item.event_at) <= now);
+      const unread = state.notifications.filter(item => !item.is_read);
+
+      els.upcomingCount.textContent = upcoming.length;
+      els.todayCount.textContent = today.length;
+      els.totalCount.textContent = state.events.length;
+      els.pastCount.textContent = past.length;
+      els.unreadCount.textContent = unread.length;
+      els.notificationBadge.textContent = unread.length > 99 ? '99+' : unread.length;
+      els.notificationBadge.classList.toggle('hidden', unread.length === 0);
+
+      const next = [...upcoming].sort((a,b) => new Date(a.event_at) - new Date(b.event_at))[0];
+      if (next) {
+        els.nextEventTitle.textContent = next.title;
+        els.nextEventTime.textContent = `${formatDateTime(new Date(next.event_at))} — ${next.message}`;
+      } else {
+        els.nextEventTitle.textContent = 'Поки немає';
+        els.nextEventTime.textContent = 'Створи нову майбутню подію.';
+      }
+    }
+
+    function renderNotifications() {
+      if (!state.notifications.length) {
+        els.notificationsList.innerHTML = `
+          <div class="empty-state" style="margin-top:10px">
+            <div class="empty-icon">🔔</div>
+            <strong>Повідомлень ще немає</strong>
+            <span>Коли настане час події, нагадування з’явиться тут.</span>
+          </div>`;
+        return;
+      }
+
+      els.notificationsList.innerHTML = state.notifications.map(item => `
+        <div class="notification-item ${item.is_read ? '' : 'unread'}">
+          <div class="notification-top">
+            <div class="notification-title">${escapeHtml(item.title)}</div>
+            <div class="notification-time">${escapeHtml(formatDateTime(new Date(item.created_at)))}</div>
+          </div>
+          <div class="notification-message">${escapeHtml(item.message)}</div>
+        </div>`).join('');
+    }
+
+    // ============================================================
+    // 9. SESSION LIFECYCLE
+    // ============================================================
+    async function handleSession(session) {
+      state.user = session?.user || null;
+
+      if (state.user) {
+        els.authGate.classList.add('hidden');
+        await Promise.all([loadProfile(), loadEvents(), loadNotifications()]);
+        startReminderLoop();
+      } else {
+        clearInterval(state.timer);
+        state.profile = null;
+        state.events = [];
+        state.notifications = [];
+        els.authGate.classList.remove('hidden');
+        els.topAvatar.src = avatarFallback('U');
+        els.topName.textContent = 'Профіль';
+        els.topUsername.textContent = '@user';
+        renderEvents();
+        renderNotifications();
+        renderStats();
+      }
+    }
+
+    function humanizeError(error) {
+      const message = String(error?.message || error || 'Перевірте підключення.');
+      const map = [
+        ['Invalid login credentials', 'Неправильна пошта або пароль.'],
+        ['Email not confirmed', 'Підтвердь свою пошту або вимкни Confirm email у Supabase.'],
+        ['User already registered', 'Акаунт з такою поштою вже існує.'],
+        ['email rate limit exceeded', 'Забагато листів за короткий час. Спробуй трохи пізніше або вимкни Confirm email у Supabase.'],
+        ['Password should be at least', 'Пароль занадто короткий.'],
+        ['duplicate key value', 'Таке значення вже використовується.'],
+        ['Failed to fetch', 'Перевірте підключення до інтернету та Supabase.']
+      ];
+      for (const [needle, text] of map) if (message.includes(needle)) return text;
+      return message;
+    }
+
+    function configError() {
+      showToast('Потрібно підключити Supabase', 'Вставте SUPABASE_URL та SUPABASE_ANON_KEY у коді.', 'error');
+    }
+
+    // ============================================================
+    // 10. INITIALIZATION
+    // ============================================================
+    function cacheElements() {
+      [
+        'loadingOverlay','toastContainer','notificationBtn','notificationBadge','profileBtn','topAvatar','topName','topUsername',
+        'todayDate','todayWeekday','upcomingCount','todayCount','totalCount','pastCount','unreadCount','nextEventTitle','nextEventTime',
+        'heroAddBtn','addEventBtn','enableNotificationsBtn','searchInput','filterSelect','eventsList','authGate','openAuthFromGate',
+        'authModal','loginForm','registerForm','loginEmail','loginPassword','loginSubmit','registerName','registerUsername','registerEmail','registerPassword','registerSubmit',
+        'eventModal','eventForm','eventId','eventTitle','eventDate','eventTime','eventMessage','eventColor','eventModalTitle','saveEventBtn',
+        'profileModal','profileForm','profileAvatarPreview','avatarInput','chooseAvatarBtn','profileName','profileUsername','profileEmail','profilePassword','saveProfileBtn','logoutBtn',
+        'notificationDrawer','closeDrawerBtn','markAllReadBtn','notificationsList'
+      ].forEach(id => els[id] = $(id));
+    }
+
+    function bindEvents() {
+      document.querySelectorAll('[data-close-modal]').forEach(button => {
+        button.addEventListener('click', () => closeModal(button.dataset.closeModal));
+      });
+
+      document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', event => {
+          if (event.target === modal && modal.id !== 'authModal') closeModal(modal.id);
+        });
+      });
+
+      document.querySelectorAll('.auth-tab').forEach(button => {
+        button.addEventListener('click', () => switchAuthTab(button.dataset.authTab));
+      });
+
+      els.loginForm.addEventListener('submit', handleLogin);
+      els.registerForm.addEventListener('submit', handleRegister);
+      els.eventForm.addEventListener('submit', saveEvent);
+      els.profileForm.addEventListener('submit', saveProfile);
+
+      els.heroAddBtn.addEventListener('click', openCreateEvent);
+      els.addEventBtn.addEventListener('click', openCreateEvent);
+      els.openAuthFromGate.addEventListener('click', () => openModal('authModal'));
+      els.profileBtn.addEventListener('click', () => state.user ? openModal('profileModal') : openModal('authModal'));
+      els.logoutBtn.addEventListener('click', logout);
+      els.enableNotificationsBtn.addEventListener('click', requestBrowserNotifications);
+
+      els.searchInput.addEventListener('input', renderEvents);
+      els.filterSelect.addEventListener('change', renderEvents);
+
+      els.chooseAvatarBtn.addEventListener('click', () => els.avatarInput.click());
+      els.avatarInput.addEventListener('change', () => {
+        const file = els.avatarInput.files[0];
+        if (!file) return;
+        if (file.size > 3 * 1024 * 1024) {
+          showToast('Файл завеликий', 'Максимум 3 МБ.', 'error');
+          els.avatarInput.value = '';
+          return;
         }
+        els.profileAvatarPreview.src = URL.createObjectURL(file);
+      });
 
-        function buySkinFromStore(event, productId) {
-            event.stopPropagation();
-            if (isUpgrading) return;
-            const product = globalStoreProducts.find(p => p.id === productId);
-            
-            if (userBalance < product.price) {
-                alert("Недостатньо балансу для купівлі!");
-                return;
-            }
+      els.notificationBtn.addEventListener('click', async () => {
+        els.notificationDrawer.classList.add('open');
+        await loadNotifications();
+      });
+      els.closeDrawerBtn.addEventListener('click', () => els.notificationDrawer.classList.remove('open'));
+      els.markAllReadBtn.addEventListener('click', markAllNotificationsRead);
 
-            userBalance -= product.price;
-            updateBalanceUI();
-
-            userInventory.push({
-                id: Date.now(),
-                name: product.name,
-                price: product.price,
-                img: product.img
-            });
-
-            renderUserInventory();
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape') {
+          document.querySelectorAll('.modal.open').forEach(modal => {
+            if (modal.id !== 'authModal') closeModal(modal.id);
+          });
+          els.notificationDrawer.classList.remove('open');
         }
+      });
+    }
 
-        function selectUserSkin(skin, index) {
-            if (isUpgrading) return;
-            selectedUserSkin = { ...skin, indexInInv: index };
-            const zone = document.getElementById('user-zone');
-            zone.innerHTML = `
-                <div class="selected-skin-inner">
-                    <img src="${skin.img}">
-                    <div class="s-name">${skin.name}</div>
-                    <div class="s-price">$${skin.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
-                </div>
-            `;
-            calculateUpgradeOdds();
-        }
+    async function init() {
+      cacheElements();
+      bindEvents();
+      renderToday();
+      renderEvents();
+      renderNotifications();
+      renderStats();
 
-        function selectTargetSkin(skin) {
-            if (isUpgrading) return;
-            if (selectedUserSkin && skin.price <= selectedUserSkin.price) {
-                alert("Ціль повинна бути дорожчою за твій скін!");
-                return;
-            }
-            selectedTargetSkin = skin;
-            const zone = document.getElementById('target-zone');
-            zone.innerHTML = `
-                <div class="selected-skin-inner">
-                    <img src="${skin.img}">
-                    <div class="s-name">${skin.name}</div>
-                    <div class="s-price">$${skin.price.toLocaleString('en-US', {minimumFractionDigits: skin.price > 1000 ? 0 : 2})}</div>
-                </div>
-            `;
-            calculateUpgradeOdds();
-        }
+      if (!supabaseClient) {
+        els.loadingOverlay.classList.add('hidden');
+        els.authGate.classList.remove('hidden');
+        setTimeout(configError, 350);
+        return;
+      }
 
-        function removeSelectedUserSkin() {
-            if (isUpgrading) return;
-            selectedUserSkin = null;
-            document.getElementById('user-zone').innerHTML = '<div class="bg-icon">▲</div><div class="placeholder-text">Виберіть предмет із вашого інвентарю нижче</div>';
-            calculateUpgradeOdds();
-        }
+      try {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (error) throw error;
+        await handleSession(session);
 
-        function removeSelectedTargetSkin() {
-            if (isUpgrading) return;
-            selectedTargetSkin = null;
-            document.getElementById('target-zone').innerHTML = '<div class="bg-icon">▲</div><div class="placeholder-text">Виберіть бажаний предмет із магазину праворуч</div>';
-            calculateUpgradeOdds();
-        }
+        supabaseClient.auth.onAuthStateChange(async (_event, newSession) => {
+          await handleSession(newSession);
+        });
+      } catch (error) {
+        console.error(error);
+        showToast('Помилка запуску', humanizeError(error), 'error');
+      } finally {
+        els.loadingOverlay.classList.add('hidden');
+      }
+    }
 
-        function calculateUpgradeOdds() {
-            if (!selectedUserSkin || !selectedTargetSkin) {
-                document.getElementById('chance-text').innerText = '0.00%';
-                document.getElementById('btn-fire').disabled = true;
-                updateWheelSectors(0);
-                return;
-            }
+    window.openEditEvent = openEditEvent;
+    window.deleteEvent = deleteEvent;
 
-            activeUpgradeChance = (selectedUserSkin.price / selectedTargetSkin.price) * 100;
-            if (activeUpgradeChance > 100) activeUpgradeChance = 100;
-
-            document.getElementById('chance-text').innerText = `${activeUpgradeChance.toFixed(2)}%`;
-            document.getElementById('btn-fire').disabled = false;
-            updateWheelSectors(activeUpgradeChance);
-        }
-
-        function updateWheelSectors(successChance) {
-            // Перетворюємо шанс у градуси (360 градусів = 100%)
-            const successDegrees = (successChance / 100) * 360;
-            
-            // Зелений сектор (успіх) - від 0 до successDegrees
-            // Червоний сектор (провал) - від successDegrees до 360
-            
-            const successSector = document.getElementById('success-sector');
-            const failSector = document.getElementById('fail-sector');
-
-            if (successChance === 0) {
-                successSector.style.display = 'none';
-                failSector.setAttribute('d', 'M 110 110 L 110 10 A 100 100 0 1 1 109.99 10 Z');
-            } else if (successChance >= 100) {
-                failSector.style.display = 'none';
-                successSector.setAttribute('d', 'M 110 110 L 110 10 A 100 100 0 1 1 109.99 10 Z');
-            } else {
-                successSector.style.display = 'block';
-                failSector.style.display = 'block';
-
-                // Рахуємо координати дляpath
-                const angle = (successDegrees * Math.PI) / 180;
-                const x2 = 110 + 100 * Math.sin(angle);
-                const y2 = 110 - 100 * Math.cos(angle);
-
-                const largeArc = successDegrees > 180 ? 1 : 0;
-
-                // Зелений: від 0° (вверху) до successDegrees (за годинниковою стрілкою)
-                successSector.setAttribute('d', `M 110 110 L 110 10 A 100 100 0 ${largeArc} 1 ${x2} ${y2} Z`);
-
-                // Червоний: від successDegrees до 360° (повний круг)
-                const failLargeArc = successDegrees <= 180 ? 1 : 0;
-                failSector.setAttribute('d', `M 110 110 L ${x2} ${y2} A 100 100 0 ${failLargeArc} 1 110 10 Z`);
-            }
-        }
-
-        // ==========================================
-        // 🎡 ПЛАВНА АНІМАЦІЯ СТРІЛКИ
-        // ==========================================
-        function executeUpgrade() {
-            if (!selectedUserSkin || !selectedTargetSkin || isUpgrading) return;
-            
-            isUpgrading = true;
-            document.getElementById('btn-fire').disabled = true;
-
-            // Випадкова фінальна позиція стрілки (0-359 градусів)
-            const finalRollDegree = Math.random() * 360;
-            
-            // 4 повні оберти стрілки + фінальна позиція
-            const totalRotations = 4;
-            const finalTargetDegrees = (totalRotations * 360) + finalRollDegree;
-
-            const wheelTicker = document.getElementById('wheel-ticker');
-            wheelTicker.style.setProperty('--final-rotation', finalTargetDegrees + 'deg');
-            wheelTicker.classList.add('spinning');
-
-            setTimeout(() => {
-                // Визначаємо виграш: якщо стрілка (0°) вказує на зелений сектор
-                // Зелений сектор займає: 0° → successDegrees
-                const winAreaDegrees = (activeUpgradeChance / 100) * 360;
-                const isWinner = finalRollDegree <= winAreaDegrees;
-                
-                determineOutcome(isWinner);
-                wheelTicker.classList.remove('spinning');
-            }, 3000);
-        }
-
-        function determineOutcome(isWinner) {
-            const modal = document.getElementById('result-modal');
-            const title = document.getElementById('m-title');
-            const body = document.getElementById('m-body');
-
-            if (isWinner) {
-                title.innerText = "УСПІШНИЙ АПГРЕЙД!";
-                title.className = "m-status m-success";
-                body.innerHTML = `
-                    <p>Ви отримали новий предмет:</p>
-                    <img src="${selectedTargetSkin.img}" style="height:100px; margin: 15px 0;">
-                    <p style="font-weight:700;">${selectedTargetSkin.name} ($${selectedTargetSkin.price.toLocaleString('en-US')})</p>
-                `;
-
-                userInventory.splice(selectedUserSkin.indexInInv, 1, {
-                    id: Date.now(),
-                    name: selectedTargetSkin.name,
-                    price: selectedTargetSkin.price,
-                    img: selectedTargetSkin.img
-                });
-
-            } else {
-                title.innerText = "АПГРЕЙД НЕ ВДАВСЯ";
-                title.className = "m-status m-fail";
-                body.innerHTML = `
-                    <p>Ваш предмет згорів.</p>
-                    <img src="${selectedUserSkin.img}" style="height:100px; margin: 15px 0; opacity: 0.15; filter: grayscale(100%);">
-                    <p style="color:var(--text-gray); font-size:12px;">${selectedUserSkin.name} втрачено</p>
-                `;
-
-                userInventory.splice(selectedUserSkin.indexInInv, 1);
-            }
-
-            renderUserInventory();
-            removeSelectedUserSkin();
-            removeSelectedTargetSkin();
-            modal.classList.add('active');
-            renderLiveFeed();
-            
-            isUpgrading = false;
-        }
-
-        function closeModal() {
-            document.getElementById('result-modal').classList.remove('active');
-        }
-
-        function renderLiveFeed() {
-            const sidebar = document.getElementById('live-sidebar');
-            sidebar.innerHTML = '';
-            for(let i = 0; i < 10; i++) {
-                const randomItem = globalStoreProducts[Math.floor(Math.random() * globalStoreProducts.length)];
-                const div = document.createElement('div');
-                div.className = 'sidebar-item';
-                div.innerHTML = `
-                    <img src="${randomItem.img}">
-                    <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${randomItem.name}</div>
-                `;
-                sidebar.appendChild(div);
-            }
-        }
-    </script>
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
 </body>
 </html>
