@@ -890,8 +890,8 @@
         </div>
 
         <div class="auth-actions">
-          <button id="loginBtn" class="button button-primary" type="submit">Увійти</button>
-          <button id="signupBtn" class="button button-light" type="button">Реєстрація</button>
+          <button id="loginBtn" class="button button-primary" type="submit">Продовжити</button>
+          <button id="signupBtn" class="button button-light" type="button">Створити акаунт</button>
         </div>
       </form>
     </div>
@@ -1259,13 +1259,79 @@
     async function login(nickname, password) {
       try {
         showLoading(true);
+
         const email = nicknameToEmail(nickname);
-        const { error } = await db.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-        toast("Вхід виконано.", "success");
+
+        // Спочатку пробуємо звичайний вхід.
+        const { data: loginData, error: loginError } = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (!loginError && loginData?.session) {
+          toast("Вхід виконано.", "success");
+          return;
+        }
+
+        // Якщо такого користувача ще немає, автоматично пробуємо створити акаунт.
+        // Це прибирає необхідність окремо думати, чи треба "Увійти" або "Реєстрація".
+        const isInvalidCredentials =
+          loginError &&
+          (
+            loginError.message?.toLowerCase().includes("invalid login credentials") ||
+            loginError.status === 400
+          );
+
+        if (isInvalidCredentials) {
+          const { data: signUpData, error: signUpError } = await db.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                nickname
+              }
+            }
+          });
+
+          if (!signUpError) {
+            if (signUpData?.session) {
+              toast("Акаунт створено. Ти вже увійшов.", "success");
+              return;
+            }
+
+            // Якщо Confirm Email випадково увімкнений, даємо зрозуміле повідомлення.
+            toast("Акаунт створено. У Supabase вимкни Confirm Email, щоб входити одразу.", "success");
+            return;
+          }
+
+          // Якщо акаунт уже існує, але пароль неправильний.
+          if (
+            signUpError.message?.toLowerCase().includes("already registered") ||
+            signUpError.message?.toLowerCase().includes("already been registered") ||
+            signUpError.message?.toLowerCase().includes("user already registered")
+          ) {
+            toast("Неправильний пароль для цього ніку.", "error");
+            return;
+          }
+
+          throw signUpError;
+        }
+
+        throw loginError;
       } catch (error) {
         console.error(error);
-        toast(`Помилка входу: ${error.message}`, "error");
+
+        const message = String(error?.message || "").toLowerCase();
+
+        if (message.includes("invalid login credentials")) {
+          toast("Неправильний нік або пароль.", "error");
+        } else if (message.includes("email not confirmed")) {
+          toast("У Supabase вимкни Confirm Email.", "error");
+        } else if (message.includes("failed to fetch") || message.includes("network")) {
+          toast("Не вдалося підключитися. Перевір інтернет.", "error");
+        } else {
+          toast("Не вдалося увійти. Спробуй ще раз.", "error");
+        }
       } finally {
         showLoading(false);
       }
@@ -1293,7 +1359,18 @@
         }
       } catch (error) {
         console.error(error);
-        toast(`Помилка реєстрації: ${error.message}`, "error");
+
+        const message = String(error?.message || "").toLowerCase();
+
+        if (
+          message.includes("already registered") ||
+          message.includes("already been registered") ||
+          message.includes("user already registered")
+        ) {
+          toast("Такий нік уже існує. Натисни «Увійти».", "error");
+        } else {
+          toast("Не вдалося створити акаунт. Спробуй інший нік.", "error");
+        }
       } finally {
         showLoading(false);
       }
