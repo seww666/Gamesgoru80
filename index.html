@@ -919,39 +919,18 @@
     <div class="auth-gate-card">
       <div class="auth-logo" style="margin-left:auto;margin-right:auto"><span>E</span></div>
       <h2>Твій Evently</h2>
-      <p>Увійди або створи акаунт, щоб події, профіль і повідомлення зберігалися між пристроями.</p>
-      <button id="openAuthFromGate" class="btn btn-primary">Увійти / Зареєструватися</button>
+      <p>Створи швидкий акаунт без пошти та листів підтвердження. Дані зберігатимуться у твоєму Supabase-акаунті на цьому браузері.</p>
+      <button id="openAuthFromGate" class="btn btn-primary">Створити акаунт</button>
     </div>
   </div>
 
   <div id="authModal" class="modal" aria-hidden="true">
     <div class="modal-card auth-card">
       <div class="auth-logo"><span>E</span></div>
-      <div class="modal-title">Ласкаво просимо</div>
-      <div class="panel-subtitle">Увійди по пошті та паролю або створи акаунт за хвилину.</div>
+      <div class="modal-title">Створи свій Evently</div>
+      <div class="panel-subtitle">Без пошти, без листів і без підтверджень. Просто ім’я та нік.</div>
 
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-auth-tab="login">Вхід</button>
-        <button class="auth-tab" data-auth-tab="register">Реєстрація</button>
-      </div>
-
-      <form id="loginForm">
-        <div class="form-grid">
-          <div class="field full">
-            <label for="loginEmail">Пошта</label>
-            <input id="loginEmail" type="email" required autocomplete="email" placeholder="name@example.com" />
-          </div>
-          <div class="field full">
-            <label for="loginPassword">Пароль</label>
-            <input id="loginPassword" type="password" required minlength="6" autocomplete="current-password" placeholder="Мінімум 6 символів" />
-          </div>
-        </div>
-        <div class="form-actions">
-          <button id="loginSubmit" class="btn btn-dark" type="submit">Увійти</button>
-        </div>
-      </form>
-
-      <form id="registerForm" class="hidden">
+      <form id="registerForm">
         <div class="form-grid">
           <div class="field full">
             <label for="registerName">Ім’я</label>
@@ -961,15 +940,6 @@
             <label for="registerUsername">Нік</label>
             <input id="registerUsername" type="text" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_.]+" placeholder="nickname" />
             <div class="hint">Латинські літери, цифри, _ та крапка.</div>
-          </div>
-          <div class="field full">
-            <label for="registerEmail">Пошта</label>
-            <input id="registerEmail" type="email" required autocomplete="email" placeholder="name@example.com" />
-            <div class="hint">Потрібна для входу та відновлення доступу.</div>
-          </div>
-          <div class="field full">
-            <label for="registerPassword">Пароль</label>
-            <input id="registerPassword" type="password" required minlength="6" autocomplete="new-password" placeholder="Мінімум 6 символів" />
           </div>
         </div>
         <div class="form-actions">
@@ -1030,7 +1000,7 @@
       <div class="modal-head">
         <div>
           <div class="modal-title">Мій акаунт</div>
-          <div class="panel-subtitle">Зміни ім’я, нік, пароль або аватар.</div>
+          <div class="panel-subtitle">Зміни ім’я, нік або аватар.</div>
         </div>
         <button class="close-btn" data-close-modal="profileModal">✕</button>
       </div>
@@ -1054,17 +1024,9 @@
             <label for="profileUsername">Нік</label>
             <input id="profileUsername" type="text" required minlength="3" maxlength="24" pattern="[A-Za-z0-9_.]+" />
           </div>
-          <div class="field full">
-            <label for="profileEmail">Пошта</label>
-            <input id="profileEmail" type="email" required autocomplete="email" />
-          </div>
-          <div class="field full">
-            <label for="profilePassword">Новий пароль</label>
-            <input id="profilePassword" type="password" minlength="6" placeholder="Залиш порожнім, якщо не змінюєш" />
-          </div>
         </div>
         <div class="form-actions" style="justify-content:space-between">
-          <button id="logoutBtn" type="button" class="btn btn-danger-soft">Вийти</button>
+          <button id="logoutBtn" type="button" class="btn btn-danger-soft">Скинути акаунт</button>
           <button id="saveProfileBtn" type="submit" class="btn btn-dark">Зберегти зміни</button>
         </div>
       </form>
@@ -1224,45 +1186,28 @@
 
       const name = els.registerName.value.trim();
       const username = els.registerUsername.value.trim().toLowerCase();
-      const email = els.registerEmail.value.trim().toLowerCase();
-      const password = els.registerPassword.value;
 
-      if (name.length < 2 || username.length < 3 || !email.includes('@') || password.length < 6) {
-        showToast('Заповніть всі поля правильно', 'Перевірте ім’я, нік, пошту та пароль.', 'error');
+      if (name.length < 2 || username.length < 3 || !/^[a-z0-9_.]+$/i.test(username)) {
+        showToast('Перевірте дані', 'Ім’я — від 2 символів, нік — від 3 символів латиницею.', 'error');
         return;
       }
 
       try {
         setButtonLoading(els.registerSubmit, true, 'Створення...');
 
-        const { data: existing } = await supabaseClient
-          .from('profiles')
-          .select('id')
-          .eq('username', username)
-          .maybeSingle();
-
-        if (existing) {
-          showToast('Цей нік вже зайнятий', 'Спробуйте інший нік.', 'error');
-          return;
-        }
-
-        const { data, error } = await supabaseClient.auth.signUp({
-          email,
-          password,
+        const { data, error } = await supabaseClient.auth.signInAnonymously({
           options: {
             data: { full_name: name, username }
           }
         });
 
         if (error) throw error;
+        if (!data?.user) throw new Error('Не вдалося створити акаунт.');
 
-        if (!data.session) {
-          showToast('Акаунт створено', 'Перевір пошту та підтвердь реєстрацію.', 'success');
-          switchAuthTab('login');
-        } else {
-          showToast('Акаунт створено', 'Вітаємо в Evently!', 'success');
-          closeModal('authModal');
-        }
+        // Тригер у Supabase створює profile. Якщо профіль ще не встиг створитися —
+        // initializeApp підхопить його після auth state change.
+        showToast('Акаунт створено', 'Без пошти та підтвердження. Можна користуватися!', 'success');
+        closeModal('authModal');
       } catch (error) {
         console.error(error);
         showToast('Помилка реєстрації', humanizeError(error), 'error');
@@ -1271,47 +1216,19 @@
       }
     }
 
-    async function handleLogin(event) {
-      event.preventDefault();
-      if (!supabaseClient) return configError();
-
-      const email = els.loginEmail.value.trim().toLowerCase();
-      const password = els.loginPassword.value;
-
-      try {
-        setButtonLoading(els.loginSubmit, true, 'Вхід...');
-        const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-
-        showToast('Вхід виконано', 'Раді бачити знову.', 'success');
-        closeModal('authModal');
-      } catch (error) {
-        console.error(error);
-        showToast('Не вдалося увійти', humanizeError(error), 'error');
-      } finally {
-        setButtonLoading(els.loginSubmit, false);
-      }
-    }
-
     async function logout() {
       if (!supabaseClient) return;
+      const ok = confirm('Це швидкий акаунт без пошти. Після виходу повернутися саме в цей акаунт не вийде. Скинути його?');
+      if (!ok) return;
+
       try {
         const { error } = await supabaseClient.auth.signOut();
         if (error) throw error;
         closeModal('profileModal');
-        showToast('Ви вийшли з акаунта', '', 'success');
+        showToast('Акаунт скинуто', 'Можеш одразу створити новий.', 'success');
       } catch (error) {
-        showToast('Помилка виходу', humanizeError(error), 'error');
+        showToast('Помилка', humanizeError(error), 'error');
       }
-    }
-
-    function switchAuthTab(tab) {
-      state.activeAuthTab = tab;
-      document.querySelectorAll('.auth-tab').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.authTab === tab);
-      });
-      els.loginForm.classList.toggle('hidden', tab !== 'login');
-      els.registerForm.classList.toggle('hidden', tab !== 'register');
     }
 
     // ============================================================
@@ -1347,8 +1264,6 @@
       els.profileAvatarPreview.src = avatar;
       els.profileName.value = name;
       els.profileUsername.value = username;
-      els.profileEmail.value = state.user?.email || '';
-      els.profilePassword.value = '';
     }
 
     async function uploadAvatar(file) {
@@ -1379,12 +1294,10 @@
 
       const fullName = els.profileName.value.trim();
       const username = els.profileUsername.value.trim().toLowerCase();
-      const email = els.profileEmail.value.trim().toLowerCase();
-      const newPassword = els.profilePassword.value;
       const avatarFile = els.avatarInput.files[0];
 
-      if (fullName.length < 2 || username.length < 3 || !email.includes('@')) {
-        showToast('Перевірте дані', 'Перевір ім’я, нік та пошту.', 'error');
+      if (fullName.length < 2 || username.length < 3 || !/^[a-z0-9_.]+$/i.test(username)) {
+        showToast('Перевірте дані', 'Ім’я — від 2 символів, нік — від 3 символів латиницею.', 'error');
         return;
       }
 
@@ -1404,13 +1317,9 @@
         let avatarUrl = state.profile?.avatar_url || null;
         if (avatarFile) avatarUrl = await uploadAvatar(avatarFile);
 
-        const oldUsername = state.profile?.username || state.user?.user_metadata?.username || '';
-        const oldEmail = state.user?.email || '';
-        const updates = { data: { full_name: fullName, username } };
-        if (email !== oldEmail) updates.email = email;
-        if (newPassword) updates.password = newPassword;
-
-        const { data: authData, error: authError } = await supabaseClient.auth.updateUser(updates);
+        const { data: authData, error: authError } = await supabaseClient.auth.updateUser({
+          data: { full_name: fullName, username }
+        });
         if (authError) throw authError;
         state.user = authData.user;
 
@@ -1425,8 +1334,7 @@
         state.profile = profileData;
         els.avatarInput.value = '';
         renderProfile();
-        const emailNote = email !== oldEmail ? ' Якщо в Supabase увімкнене підтвердження email, перевір нову пошту.' : '';
-        showToast('Профіль оновлено', 'Зміни збережено.' + emailNote, 'success');
+        showToast('Профіль оновлено', 'Зміни збережено.', 'success');
         closeModal('profileModal');
       } catch (error) {
         console.error(error);
@@ -1825,10 +1733,6 @@
     function humanizeError(error) {
       const message = String(error?.message || error || 'Перевірте підключення.');
       const map = [
-        ['Invalid login credentials', 'Неправильна пошта або пароль.'],
-        ['Email not confirmed', 'Підтвердь свою пошту або вимкни Confirm email у Supabase.'],
-        ['User already registered', 'Акаунт з такою поштою вже існує.'],
-        ['email rate limit exceeded', 'Забагато листів за короткий час. Спробуй трохи пізніше або вимкни Confirm email у Supabase.'],
         ['Password should be at least', 'Пароль занадто короткий.'],
         ['duplicate key value', 'Таке значення вже використовується.'],
         ['Failed to fetch', 'Перевірте підключення до інтернету та Supabase.']
@@ -1849,9 +1753,9 @@
         'loadingOverlay','toastContainer','notificationBtn','notificationBadge','profileBtn','topAvatar','topName','topUsername',
         'todayDate','todayWeekday','upcomingCount','todayCount','totalCount','pastCount','unreadCount','nextEventTitle','nextEventTime',
         'heroAddBtn','addEventBtn','enableNotificationsBtn','searchInput','filterSelect','eventsList','authGate','openAuthFromGate',
-        'authModal','loginForm','registerForm','loginEmail','loginPassword','loginSubmit','registerName','registerUsername','registerEmail','registerPassword','registerSubmit',
+        'authModal','registerForm','registerName','registerUsername','registerSubmit',
         'eventModal','eventForm','eventId','eventTitle','eventDate','eventTime','eventMessage','eventColor','eventModalTitle','saveEventBtn',
-        'profileModal','profileForm','profileAvatarPreview','avatarInput','chooseAvatarBtn','profileName','profileUsername','profileEmail','profilePassword','saveProfileBtn','logoutBtn',
+        'profileModal','profileForm','profileAvatarPreview','avatarInput','chooseAvatarBtn','profileName','profileUsername','saveProfileBtn','logoutBtn',
         'notificationDrawer','closeDrawerBtn','markAllReadBtn','notificationsList'
       ].forEach(id => els[id] = $(id));
     }
@@ -1867,11 +1771,6 @@
         });
       });
 
-      document.querySelectorAll('.auth-tab').forEach(button => {
-        button.addEventListener('click', () => switchAuthTab(button.dataset.authTab));
-      });
-
-      els.loginForm.addEventListener('submit', handleLogin);
       els.registerForm.addEventListener('submit', handleRegister);
       els.eventForm.addEventListener('submit', saveEvent);
       els.profileForm.addEventListener('submit', saveProfile);
