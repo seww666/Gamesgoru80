@@ -1213,7 +1213,7 @@
         .toLowerCase()
         .replace(/[^a-z0-9_.-]/g, "");
 
-      return `${clean}@spendly.local`;
+      return `${clean}@users.spendly.app`;
     }
 
     function validateNickname(nickname) {
@@ -1368,8 +1368,14 @@
           message.includes("user already registered")
         ) {
           toast("Такий нік уже існує. Натисни «Увійти».", "error");
+        } else if (message.includes("email") && message.includes("invalid")) {
+          toast("Помилка формату акаунта. Онови сторінку і спробуй ще раз.", "error");
+        } else if (message.includes("signup") && message.includes("disabled")) {
+          toast("Реєстрація вимкнена в Supabase Authentication.", "error");
+        } else if (message.includes("rate limit")) {
+          toast("Забагато спроб. Зачекай трохи і спробуй ще раз.", "error");
         } else {
-          toast("Не вдалося створити акаунт. Спробуй інший нік.", "error");
+          toast(`Не вдалося створити акаунт: ${error.message || "невідома помилка"}`, "error");
         }
       } finally {
         showLoading(false);
