@@ -1015,7 +1015,7 @@
           <div class="eyebrow">SMART RECEIPT TRACKER</div>
           <h1>Фото чека.<br />І все пораховано.</h1>
           <p class="hero-sub">
-            Скануй чек камерою, перевір розпізнану суму та товари — Spendly додасть покупку до загальних витрат.
+            Скануй чек камерою — Spendly визначить магазин і підсумкову суму та додасть покупку до витрат.
           </p>
         </div>
 
@@ -1065,7 +1065,7 @@
         <div class="panel-head">
           <div>
             <h2>На що йдуть гроші</h2>
-            <p>Товари з усіх збережених чеків</p>
+            <p>Скільки витрачено в різних магазинах</p>
           </div>
         </div>
 
@@ -1076,7 +1076,7 @@
           </div>
 
           <div class="insight-card">
-            <div class="label">Топ товарів за витратами</div>
+            <div class="label">Витрати по магазинах</div>
             <div id="topProducts" class="product-list"></div>
           </div>
         </div>
@@ -1140,7 +1140,7 @@
   <div id="reviewModal" class="modal-backdrop hidden">
     <div class="modal">
       <div class="modal-header">
-        <h3 id="reviewTitle">Перевір чек</h3>
+        <h3 id="reviewTitle">Перевір магазин і суму</h3>
         <button class="icon-button" data-close="reviewModal" type="button">×</button>
       </div>
 
@@ -1162,25 +1162,13 @@
           </div>
         </div>
 
-        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:20px;">
-          <div>
-            <strong>Товари</strong>
-            <div style="color:var(--muted); font-size:.78rem; margin-top:3px;">Виправ назву або ціну, якщо OCR помилився</div>
-          </div>
-          <button id="addItemBtn" class="button button-light" type="button">+ Товар</button>
-        </div>
 
-        <div id="itemsEditor" class="items-editor"></div>
-
-        <div class="field">
-          <label for="rawText">Розпізнаний текст</label>
-          <textarea id="rawText" class="textarea" placeholder="Текст чека"></textarea>
-        </div>
+        <textarea id="rawText" class="hidden"></textarea>
       </div>
 
       <div class="modal-footer">
         <button id="cancelReviewBtn" class="button button-light" type="button">Скасувати</button>
-        <button id="saveReceiptBtn" class="button button-purple" type="button">Зберегти чек</button>
+        <button id="saveReceiptBtn" class="button button-purple" type="button">Додати витрату</button>
       </div>
     </div>
   </div>
@@ -1205,9 +1193,9 @@
           </div>
         </div>
 
-        <div style="margin-top:18px;">
-          <strong>Товари</strong>
-          <div id="detailItems" class="receipt-detail-items"></div>
+        <div class="insight-card" style="margin-top:12px;">
+          <div class="label">Дата покупки</div>
+          <div id="detailDate" style="font-weight:800;">—</div>
         </div>
       </div>
 
@@ -1622,20 +1610,23 @@
       const totals = new Map();
 
       receipts.forEach((receipt) => {
-        (receipt.receipt_items || []).forEach((item) => {
-          const name = safeText(item.name || "Без назви").trim();
-          if (!name) return;
+        const name = safeText(receipt.store_name || "Магазин").trim() || "Магазин";
+        const key = name.toLocaleLowerCase("uk-UA");
 
-          const key = name.toLocaleLowerCase("uk-UA");
-          const current = totals.get(key) || { name, total: 0 };
-          current.total += Number(item.total ?? item.price ?? 0);
-          totals.set(key, current);
-        });
+        const current = totals.get(key) || {
+          name,
+          total: 0,
+          count: 0
+        };
+
+        current.total += Number(receipt.total || 0);
+        current.count += 1;
+        totals.set(key, current);
       });
 
       const list = [...totals.values()]
         .sort((a, b) => b.total - a.total)
-        .slice(0, 7);
+        .slice(0, 8);
 
       const container = $("#topProducts");
       container.innerHTML = "";
@@ -1644,7 +1635,7 @@
         const empty = document.createElement("div");
         empty.className = "empty";
         empty.style.padding = "22px 12px";
-        empty.textContent = "Товари з'являться після додавання чеків.";
+        empty.textContent = "Після першого чека тут з’являться витрати по магазинах.";
         container.appendChild(empty);
         return;
       }
@@ -1653,15 +1644,26 @@
         const row = document.createElement("div");
         row.className = "product-row";
 
+        const left = document.createElement("div");
+        left.style.minWidth = "0";
+
         const name = document.createElement("div");
         name.className = "name";
         name.textContent = item.name;
+
+        const count = document.createElement("div");
+        count.style.color = "var(--muted)";
+        count.style.fontSize = ".72rem";
+        count.style.marginTop = "3px";
+        count.textContent = `${item.count} ${item.count === 1 ? "чек" : "чеків"}`;
+
+        left.append(name, count);
 
         const value = document.createElement("div");
         value.className = "money";
         value.textContent = money(item.total);
 
-        row.append(name, value);
+        row.append(left, value);
         container.appendChild(row);
       });
     }
@@ -2067,7 +2069,7 @@
       const progressBar = $("#ocrProgressBar");
 
       status.classList.remove("hidden");
-      statusText.textContent = "Покращую фото чека…";
+      statusText.textContent = "Шукаю магазин і суму…";
       progressBar.style.width = "3%";
 
       let worker;
@@ -2092,7 +2094,7 @@
               "initializing tesseract": "Запускаю розпізнавання…",
               "loading language traineddata": "Завантажую мови…",
               "initializing api": "Готую OCR…",
-              "recognizing text": statusText.dataset.pass === "2" ? "Уточнюю дрібний текст…" : "Читаю чек…"
+              "recognizing text": statusText.dataset.pass === "2" ? "Уточнюю суму…" : "Шукаю магазин і суму…"
             };
 
             statusText.textContent = labels[m.status] || "Розпізнаю чек…";
@@ -2153,111 +2155,198 @@
       );
     }
 
-    function parseReceiptText(rawText) {
-      const lines = rawText
+    function normalizeReceiptText(text) {
+      return String(text || "")
+        .toLocaleUpperCase("uk-UA")
+        .replace(/[ІЇ]/g, "I")
+        .replace(/[Ё]/g, "Е")
+        .replace(/[’'`]/g, "")
+        .replace(/[|]/g, "I")
+        .replace(/\s+/g, " ")
+        .trim();
+    }
+
+    function detectStore(rawText) {
+      const text = normalizeReceiptText(rawText);
+
+      // Популярні українські мережі + типові варіанти OCR.
+      const stores = [
+        {
+          name: "АТБ-Маркет",
+          patterns: [
+            /\bАТБ[\s\-]*МАРКЕТ\b/i,
+            /\bАТБ\b/i,
+            /\bATB[\s\-]*MARKET\b/i,
+            /\bATB\b/i,
+            /\bAТБ\b/i
+          ]
+        },
+        {
+          name: "Сільпо",
+          patterns: [
+            /\bСIЛЬПО\b/i,
+            /\bСИЛЬПО\b/i,
+            /\bSILPO\b/i
+          ]
+        },
+        {
+          name: "NOVUS",
+          patterns: [/\bNOVUS\b/i, /\bНОВУС\b/i]
+        },
+        {
+          name: "VARUS",
+          patterns: [/\bVARUS\b/i, /\bВАРУС\b/i]
+        },
+        {
+          name: "Фора",
+          patterns: [/\bФОРА\b/i, /\bFORA\b/i]
+        },
+        {
+          name: "Auchan",
+          patterns: [/\bAUCHAN\b/i, /\bАШАН\b/i]
+        },
+        {
+          name: "METRO",
+          patterns: [/\bMETRO\b/i, /\bМЕТРО\b/i]
+        },
+        {
+          name: "Велмарт",
+          patterns: [/\bВЕЛМАРТ\b/i, /\bVELMART\b/i]
+        },
+        {
+          name: "ЕКО Маркет",
+          patterns: [/\bЕКО[\s\-]*МАРКЕТ\b/i, /\bEKO[\s\-]*MARKET\b/i]
+        },
+        {
+          name: "Рукавичка",
+          patterns: [/\bРУКАВИЧКА\b/i]
+        },
+        {
+          name: "Близенько",
+          patterns: [/\bБЛИЗЕНЬКО\b/i]
+        },
+        {
+          name: "Таврія В",
+          patterns: [/\bТАВРIЯ[\s\-]*В\b/i, /\bTAVRIA[\s\-]*V\b/i]
+        },
+        {
+          name: "SPAR",
+          patterns: [/\bSPAR\b/i, /\bСПАР\b/i]
+        },
+        {
+          name: "Fozzy",
+          patterns: [/\bFOZZY\b/i, /\bФОЗЗI\b/i]
+        }
+      ];
+
+      for (const store of stores) {
+        if (store.patterns.some((pattern) => pattern.test(text))) {
+          return store.name;
+        }
+      }
+
+      // Якщо мережа невідома — пробуємо взяти короткий змістовний рядок
+      // з верхньої частини чека, але не службові реквізити.
+      const lines = String(rawText || "")
         .split(/\r?\n/)
-        .map((line) => line.replace(/[|]/g, "I").replace(/\s+/g, " ").trim())
-        .filter(Boolean);
+        .map((line) => line.replace(/\s+/g, " ").trim())
+        .filter(Boolean)
+        .slice(0, 10);
 
-      const totalKeywords = [
-        "до сплати", "сума до сплати", "сума", "разом", "всього", "всього до сплати",
-        "оплата", "total", "grand total", "amount", "itogo", "итого", "к оплате"
+      const bad = [
+        "чек", "фіск", "фиск", "каса", "касир", "іпн", "едрпоу", "єдрпоу",
+        "дата", "час", "тел", "www", "http", "термінал", "пдв"
       ];
 
-      const stopItemKeywords = [
-        "пдв", "подат", "готів", "решт", "карт", "visa", "mastercard", "каса",
-        "чек", "фіск", "фиск", "дата", "час", "термінал", "зниж", "решта",
-        "total", "сума", "всього", "разом", "до сплати"
-      ];
-
-      const priceAtEnd = /(?:^|\s)(\d{1,6}(?:[.,]\d{1,2}))\s*(?:грн|uah|₴)?\s*$/i;
-      const allPrices = [];
-
-      lines.forEach((line, index) => {
-        const match = line.match(priceAtEnd);
-        if (match) {
-          const value = normalizePriceString(match[1]);
-          if (Number.isFinite(value)) allPrices.push({ value, index, line });
-        }
-      });
-
-      // Загальна сума: спочатку шукаємо рядок з ключовим словом.
-      let total = 0;
-      for (const line of [...lines].reverse()) {
-        const lower = line.toLocaleLowerCase("uk-UA");
-        if (totalKeywords.some((keyword) => lower.includes(keyword))) {
-          const prices = [...line.matchAll(/(\d{1,6}[.,]\d{2})/g)];
-          if (prices.length) {
-            total = normalizePriceString(prices[prices.length - 1][1]);
-            break;
-          }
-        }
-      }
-
-      // Якщо TOTAL не знайшовся, як fallback беремо найбільшу схожу суму.
-      if (!total && allPrices.length) {
-        total = Math.max(...allPrices.map((x) => x.value));
-      }
-
-      const items = [];
-
-      for (const entry of allPrices) {
-        const lower = entry.line.toLocaleLowerCase("uk-UA");
-
-        if (stopItemKeywords.some((keyword) => lower.includes(keyword))) continue;
-        if (Math.abs(entry.value - total) < 0.001 && entry.index > lines.length * 0.55) continue;
-
-        let name = entry.line.replace(priceAtEnd, "").trim();
-
-        // Прибираємо кількість/вагу, якщо вона стоїть перед назвою дивним OCR-форматом.
-        name = name
-          .replace(/^\d+\s*[xх*]\s*/i, "")
-          .replace(/\s{2,}/g, " ")
-          .trim();
-
-        if (name.length < 2) {
-          const previous = lines[entry.index - 1] || "";
-          const prevLower = previous.toLocaleLowerCase("uk-UA");
-
-          if (
-            previous.length >= 2 &&
-            !stopItemKeywords.some((keyword) => prevLower.includes(keyword)) &&
-            !priceAtEnd.test(previous)
-          ) {
-            name = previous;
-          }
-        }
-
-        if (name.length >= 2 && name.length <= 110) {
-          items.push({
-            name,
-            qty: 1,
-            price: entry.value,
-            total: entry.value
-          });
-        }
-      }
-
-      // Спроба визначити магазин: перші змістовні рядки без цін.
-      let storeName = "Магазин";
-      const storeCandidate = lines.find((line, index) => {
-        if (index > 7) return false;
+      const candidate = lines.find((line) => {
         const lower = line.toLocaleLowerCase("uk-UA");
         return (
           line.length >= 3 &&
-          line.length <= 55 &&
-          !/\d{3,}/.test(line) &&
-          !priceAtEnd.test(line) &&
-          !["фіск", "чек", "дата", "час", "каса", "іпн", "єдрпоу"].some((k) => lower.includes(k))
+          line.length <= 50 &&
+          !/\d{5,}/.test(line) &&
+          !/\d+[.,]\d{2}/.test(line) &&
+          !bad.some((word) => lower.includes(word))
         );
       });
 
-      if (storeCandidate) storeName = storeCandidate;
+      return candidate || "Магазин";
+    }
 
+    function detectReceiptTotal(rawText) {
+      const lines = String(rawText || "")
+        .split(/\r?\n/)
+        .map((line) => line.replace(/\s+/g, " ").trim())
+        .filter(Boolean);
+
+      const strongKeywords = [
+        "до сплати",
+        "сума до сплати",
+        "всього до сплати",
+        "всього",
+        "разом",
+        "total",
+        "grand total",
+        "amount",
+        "к оплате",
+        "итого"
+      ];
+
+      const weakKeywords = [
+        "сума",
+        "оплата",
+        "готівка",
+        "картка",
+        "card"
+      ];
+
+      function pricesInLine(line) {
+        return [...line.matchAll(/(\d{1,6}(?:[.,]\d{1,2}))/g)]
+          .map((m) => normalizePriceString(m[1]))
+          .filter((v) => Number.isFinite(v) && v >= 0.01 && v <= 999999);
+      }
+
+      // 1. Найнадійніше: TOTAL/РАЗОМ/ДО СПЛАТИ.
+      for (let i = lines.length - 1; i >= 0; i--) {
+        const lower = lines[i].toLocaleLowerCase("uk-UA");
+        if (strongKeywords.some((word) => lower.includes(word))) {
+          const prices = pricesInLine(lines[i]);
+          if (prices.length) return prices[prices.length - 1];
+
+          // Часто значення надруковане на наступному рядку.
+          if (i + 1 < lines.length) {
+            const next = pricesInLine(lines[i + 1]);
+            if (next.length) return next[next.length - 1];
+          }
+        }
+      }
+
+      // 2. Слабші ключові слова.
+      for (let i = lines.length - 1; i >= 0; i--) {
+        const lower = lines[i].toLocaleLowerCase("uk-UA");
+        if (weakKeywords.some((word) => lower.includes(word))) {
+          const prices = pricesInLine(lines[i]);
+          if (prices.length) return prices[prices.length - 1];
+        }
+      }
+
+      // 3. Fallback: беремо найбільшу правдоподібну суму в нижніх 60% чека.
+      const start = Math.floor(lines.length * 0.4);
+      const candidates = [];
+
+      for (let i = start; i < lines.length; i++) {
+        for (const value of pricesInLine(lines[i])) {
+          candidates.push(value);
+        }
+      }
+
+      return candidates.length ? Math.max(...candidates) : 0;
+    }
+
+    function parseReceiptText(rawText) {
       return {
-        storeName,
-        total,
-        items: dedupeItems(items).slice(0, 60)
+        storeName: detectStore(rawText),
+        total: detectReceiptTotal(rawText),
+        items: []
       };
     }
 
@@ -2281,7 +2370,7 @@
     function openReview(parsed = {}, rawText = "", receipt = null) {
       state.editingReceiptId = receipt?.id || null;
 
-      $("#reviewTitle").textContent = receipt ? "Редагувати чек" : "Перевір чек";
+      $("#reviewTitle").textContent = receipt ? "Редагувати чек" : "Перевір магазин і суму";
       $("#storeName").value = receipt?.store_name || parsed.storeName || "";
       $("#receiptTotal").value = Number(receipt?.total ?? parsed.total ?? 0) || "";
       $("#receiptDate").value = localDateTimeInput(
@@ -2297,7 +2386,6 @@
         total: Number(item.total || item.price || 0)
       }));
 
-      renderItemsEditor();
       openModal("reviewModal");
     }
 
@@ -2380,10 +2468,11 @@
       const storeName = $("#storeName").value.trim() || "Магазин";
       const total = Number($("#receiptTotal").value);
       const purchasedAtValue = $("#receiptDate").value;
-      const rawText = $("#rawText").value;
+      const rawText = $("#rawText").value || "";
 
-      if (!Number.isFinite(total) || total < 0) {
-        toast("Вкажи правильну загальну суму.", "error");
+      if (!Number.isFinite(total) || total <= 0) {
+        toast("Не вдалося визначити суму. Вкажи її вручну.", "error");
+        $("#receiptTotal").focus();
         return;
       }
 
@@ -2392,81 +2481,30 @@
         return;
       }
 
-      const items = state.parsedItems
-        .map((item) => ({
-          name: safeText(item.name).trim(),
-          qty: Number(item.qty || 1),
-          price: Number(item.price || item.total || 0),
-          total: Number(item.total || item.price || 0)
-        }))
-        .filter((item) => item.name && Number.isFinite(item.total) && item.total >= 0);
-
       try {
         $("#saveReceiptBtn").disabled = true;
 
+        const payload = {
+          store_name: storeName,
+          total,
+          purchased_at: new Date(purchasedAtValue).toISOString(),
+          raw_text: rawText
+        };
+
         if (state.editingReceiptId) {
-          const receiptId = state.editingReceiptId;
-
-          const { error: receiptError } = await db
+          const { error } = await db
             .from("receipts")
-            .update({
-              store_name: storeName,
-              total,
-              purchased_at: new Date(purchasedAtValue).toISOString(),
-              raw_text: rawText
-            })
-            .eq("id", receiptId);
+            .update(payload)
+            .eq("id", state.editingReceiptId);
 
-          if (receiptError) throw receiptError;
-
-          const { error: deleteItemsError } = await db
-            .from("receipt_items")
-            .delete()
-            .eq("receipt_id", receiptId);
-
-          if (deleteItemsError) throw deleteItemsError;
-
-          if (items.length) {
-            const { error: itemError } = await db
-              .from("receipt_items")
-              .insert(items.map((item) => ({
-                receipt_id: receiptId,
-                ...item
-              })));
-
-            if (itemError) throw itemError;
-          }
-
+          if (error) throw error;
           toast("Чек оновлено.", "success");
         } else {
-          const { data: receipt, error: receiptError } = await db
+          const { error } = await db
             .from("receipts")
-            .insert({
-              store_name: storeName,
-              total,
-              purchased_at: new Date(purchasedAtValue).toISOString(),
-              raw_text: rawText
-            })
-            .select("id")
-            .single();
+            .insert(payload);
 
-          if (receiptError) throw receiptError;
-
-          if (items.length) {
-            const { error: itemError } = await db
-              .from("receipt_items")
-              .insert(items.map((item) => ({
-                receipt_id: receipt.id,
-                ...item
-              })));
-
-            if (itemError) {
-              // Якщо товари не збереглись — видаляємо сам чек, щоб не лишати напівготові дані.
-              await db.from("receipts").delete().eq("id", receipt.id);
-              throw itemError;
-            }
-          }
-
+          if (error) throw error;
           toast("Чек додано.", "success");
         }
 
@@ -2491,31 +2529,7 @@
       $("#detailStore").textContent = safeText(receipt.store_name || "Магазин");
       $("#detailTotal").textContent = money(receipt.total);
 
-      const itemsContainer = $("#detailItems");
-      itemsContainer.innerHTML = "";
-
-      const items = receipt.receipt_items || [];
-      if (!items.length) {
-        const empty = document.createElement("div");
-        empty.className = "empty";
-        empty.style.padding = "18px 12px";
-        empty.textContent = "У цьому чеку немає списку товарів.";
-        itemsContainer.appendChild(empty);
-      } else {
-        items.forEach((item) => {
-          const row = document.createElement("div");
-          row.className = "detail-item";
-
-          const name = document.createElement("span");
-          name.textContent = safeText(item.name);
-
-          const value = document.createElement("strong");
-          value.textContent = money(item.total ?? item.price);
-
-          row.append(name, value);
-          itemsContainer.appendChild(row);
-        });
-      }
+      $("#detailDate").textContent = humanDate(receipt.purchased_at);
 
       openModal("detailModal");
     }
