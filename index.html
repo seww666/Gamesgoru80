@@ -2,7 +2,10 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
 <meta name="theme-color" content="#f2c314">
 
 <title>LiptonGram</title>
@@ -11,24 +14,33 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
 
 :root{
   --bg:#080808;
   --panel:#111;
   --panel2:#171717;
   --panel3:#202020;
+
   --text:#fff;
   --muted:#858585;
+
   --yellow:#f2c314;
   --yellow2:#ffdd4c;
+
   --danger:#ff5858;
   --success:#45d685;
+
   --border:rgba(255,255,255,.08);
-  --shadow:0 25px 70px rgba(0,0,0,.36);
+
+  --shadow:
+    0 25px 70px rgba(0,0,0,.36);
 }
 
-html,body{
+html,
+body{
   margin:0;
   min-height:100%;
   background:var(--bg);
@@ -36,39 +48,111 @@ html,body{
 
 body{
   color:var(--text);
-  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
   background:
-    radial-gradient(900px 450px at 50% -180px,rgba(242,195,20,.14),transparent 70%),
+    radial-gradient(
+      900px 450px
+      at 50% -180px,
+      rgba(242,195,20,.14),
+      transparent 70%
+    ),
     var(--bg);
+
   -webkit-font-smoothing:antialiased;
 }
 
-button,input,textarea,select{font:inherit}
-button{color:inherit}
-button,a{-webkit-tap-highlight-color:transparent}
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  color:inherit;
+}
+
+button,
+a{
+  -webkit-tap-highlight-color:transparent;
+}
 
 input::placeholder,
-textarea::placeholder{color:#666}
+textarea::placeholder{
+  color:#666;
+}
 
-.hidden{display:none!important}
+.hidden{
+  display:none!important;
+}
 
-.icon{width:20px;height:20px}
-.icon-sm{width:17px;height:17px}
+.icon{
+  width:20px;
+  height:20px;
+}
 
-.spin{animation:spin .8s linear infinite}
+.icon-sm{
+  width:17px;
+  height:17px;
+}
+
+.spin{
+  animation:spin .8s linear infinite;
+}
 
 @keyframes spin{
-  to{transform:rotate(360deg)}
+  to{
+    transform:rotate(360deg);
+  }
 }
 
 @keyframes enter{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:none}
+  from{
+    opacity:0;
+    transform:translateY(6px);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
 @keyframes modalIn{
-  from{opacity:0;transform:translateY(16px) scale(.98)}
-  to{opacity:1;transform:none}
+  from{
+    opacity:0;
+
+    transform:
+      translateY(16px)
+      scale(.98);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+@keyframes messageAppear{
+  from{
+    opacity:0;
+
+    transform:
+      translateY(4px)
+      scale(.99);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
 .page-animation{
@@ -85,69 +169,117 @@ textarea::placeholder{color:#666}
   border-radius:10px;
 }
 
-/* BUTTONS */
+
+/* =====================================================
+   BUTTONS
+===================================================== */
 
 .btn{
   min-height:43px;
+
   padding:0 16px;
+
   border:0;
   border-radius:13px;
+
   display:inline-flex;
   align-items:center;
   justify-content:center;
+
   gap:8px;
+
   font-weight:750;
+
   cursor:pointer;
+
   transition:.15s ease;
 }
 
-.btn:active{transform:scale(.97)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:active{
+  transform:scale(.97);
+}
+
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
 
 .btn-primary{
   color:#111;
-  background:linear-gradient(135deg,var(--yellow2),var(--yellow));
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--yellow2),
+      var(--yellow)
+    );
 }
 
 .btn-secondary{
   background:#1a1a1a;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
 }
 
 .btn-danger{
-  background:rgba(255,88,88,.1);
+  background:
+    rgba(255,88,88,.1);
+
   color:#ff7979;
-  border:1px solid rgba(255,88,88,.17);
+
+  border:
+    1px solid
+    rgba(255,88,88,.17);
 }
 
 .icon-btn{
   width:42px;
   height:42px;
+
   flex:0 0 42px;
+
   padding:0;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   border-radius:13px;
+
   background:#181818;
+
   display:inline-flex;
   align-items:center;
   justify-content:center;
+
   cursor:pointer;
+
   transition:.15s ease;
 }
 
-.icon-btn:hover{background:#222}
-.icon-btn:active{transform:scale(.95)}
+.icon-btn:hover{
+  background:#222;
+}
 
-/* INPUT */
+.icon-btn:active{
+  transform:scale(.95);
+}
+
+
+/* =====================================================
+   INPUTS
+===================================================== */
 
 .field{
   display:flex;
   flex-direction:column;
+
   gap:7px;
 }
 
 .field label{
   color:#b4b4b4;
+
   font-size:12px;
   font-weight:700;
 }
@@ -155,26 +287,43 @@ textarea::placeholder{color:#666}
 .input{
   width:100%;
   height:46px;
+
   padding:0 14px;
+
   color:white;
+
   background:#101010;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   outline:0;
+
   border-radius:13px;
+
   transition:.16s ease;
 }
 
 .input:focus{
-  border-color:rgba(242,195,20,.55);
-  box-shadow:0 0 0 4px rgba(242,195,20,.07);
+  border-color:
+    rgba(242,195,20,.55);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(242,195,20,.07);
 }
 
-/* AUTH */
+
+/* =====================================================
+   AUTH
+===================================================== */
 
 .auth-page{
   min-height:100vh;
   min-height:100dvh;
+
   padding:20px;
+
   display:flex;
   align-items:center;
   justify-content:center;
@@ -182,25 +331,46 @@ textarea::placeholder{color:#666}
 
 .auth-card{
   width:min(430px,100%);
+
   padding:28px;
+
   border-radius:27px;
-  background:rgba(15,15,15,.9);
-  border:1px solid var(--border);
+
+  background:
+    rgba(15,15,15,.9);
+
+  border:
+    1px solid var(--border);
+
   box-shadow:var(--shadow);
+
   backdrop-filter:blur(20px);
 }
 
 .auth-logo{
   width:70px;
   height:70px;
-  margin:0 auto 18px;
+
+  margin:
+    0 auto 18px;
+
   border-radius:21px;
+
   overflow:hidden;
+
   color:#111;
-  background:linear-gradient(135deg,var(--yellow2),var(--yellow));
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--yellow2),
+      var(--yellow)
+    );
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   font-size:28px;
   font-weight:900;
 }
@@ -213,94 +383,148 @@ textarea::placeholder{color:#666}
 
 .auth-title{
   margin:0;
+
   text-align:center;
+
   font-size:30px;
   font-weight:850;
 }
 
 .auth-sub{
-  margin:7px 0 23px;
+  margin:
+    7px 0 23px;
+
   color:var(--muted);
+
   text-align:center;
+
   font-size:13px;
 }
 
 .auth-tabs{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   padding:4px;
+
   margin-bottom:18px;
+
   background:#0c0c0c;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   border-radius:14px;
 }
 
 .auth-tab{
   height:39px;
+
   border:0;
+
   border-radius:10px;
+
   background:transparent;
+
   color:#777;
+
   font-weight:750;
+
   cursor:pointer;
 }
 
 .auth-tab.active{
   background:#202020;
+
   color:white;
 }
 
 .auth-form{
   display:flex;
   flex-direction:column;
+
   gap:14px;
 }
 
-/* APP */
+
+/* =====================================================
+   APP
+===================================================== */
 
 .app{
   min-height:100vh;
   min-height:100dvh;
+
   display:grid;
-  grid-template-columns:260px minmax(0,1fr);
+
+  grid-template-columns:
+    260px minmax(0,1fr);
 }
 
 .sidebar{
   position:sticky;
   top:0;
+
   height:100vh;
   height:100dvh;
+
   padding:18px 13px;
-  border-right:1px solid var(--border);
-  background:rgba(9,9,9,.88);
-  backdrop-filter:blur(20px);
+
+  border-right:
+    1px solid var(--border);
+
+  background:
+    rgba(9,9,9,.88);
+
+  backdrop-filter:
+    blur(20px);
+
   display:flex;
   flex-direction:column;
+
   z-index:30;
 }
 
 .brand{
   height:55px;
+
   padding:0 8px;
+
   margin-bottom:14px;
+
   display:flex;
   align-items:center;
+
   gap:11px;
 }
 
 .brand-logo{
   width:40px;
   height:40px;
+
   flex:0 0 40px;
+
   border-radius:12px;
+
   overflow:hidden;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   color:#111;
+
   font-size:18px;
   font-weight:900;
-  background:linear-gradient(135deg,var(--yellow2),var(--yellow));
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--yellow2),
+      var(--yellow)
+    );
 }
 
 .brand-logo img{
@@ -317,22 +541,32 @@ textarea::placeholder{color:#666}
 .side-nav{
   display:flex;
   flex-direction:column;
+
   gap:5px;
 }
 
 .nav-btn{
   width:100%;
   height:48px;
+
   padding:0 13px;
+
   border:0;
   border-radius:13px;
+
   color:#858585;
+
   background:transparent;
+
   display:flex;
   align-items:center;
+
   gap:12px;
+
   font-weight:750;
+
   cursor:pointer;
+
   transition:.15s ease;
 }
 
@@ -343,18 +577,32 @@ textarea::placeholder{color:#666}
 
 .nav-btn.active{
   color:#111;
-  background:linear-gradient(135deg,var(--yellow2),var(--yellow));
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--yellow2),
+      var(--yellow)
+    );
 }
 
-.sidebar-space{flex:1}
+.sidebar-space{
+  flex:1;
+}
 
 .side-user{
   padding:9px;
+
   border-radius:16px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   background:#111;
+
   display:flex;
   align-items:center;
+
   gap:9px;
 }
 
@@ -366,74 +614,114 @@ textarea::placeholder{color:#666}
 .side-user-name{
   font-size:12px;
   font-weight:800;
+
   overflow:hidden;
   text-overflow:ellipsis;
 }
 
 .side-user-id{
   margin-top:2px;
+
   color:#777;
+
   font-size:10px;
 }
 
-.main{min-width:0}
+.main{
+  min-width:0;
+}
 
 .page{
   width:min(1180px,100%);
+
   margin:auto;
+
   padding:25px;
 }
 
 .page-head{
   min-height:54px;
+
   margin-bottom:18px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   gap:14px;
 }
 
 .page-title{
   margin:0;
+
   font-size:27px;
   font-weight:850;
 }
 
 .page-desc{
   margin-top:4px;
+
   color:var(--muted);
+
   font-size:12px;
 }
 
 .card{
-  border:1px solid var(--border);
+  border:
+    1px solid var(--border);
+
   border-radius:18px;
-  background:linear-gradient(180deg,rgba(255,255,255,.025),rgba(255,255,255,.008));
-  box-shadow:0 15px 50px rgba(0,0,0,.19);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.025),
+      rgba(255,255,255,.008)
+    );
+
+  box-shadow:
+    0 15px 50px
+    rgba(0,0,0,.19);
 }
 
-/* AVATAR */
+
+/* =====================================================
+   AVATAR
+===================================================== */
 
 .avatar{
   width:43px;
   height:43px;
+
   flex:0 0 43px;
+
   overflow:hidden;
+
   border-radius:50%;
-  border:1px solid rgba(255,255,255,.09);
+
+  border:
+    1px solid
+    rgba(255,255,255,.09);
+
   background:#222;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   font-weight:800;
 }
 
 .avatar.large{
   width:106px;
   height:106px;
+
   flex:0 0 106px;
+
   font-size:29px;
-  border:4px solid #101010;
+
+  border:
+    4px solid #101010;
 }
 
 .avatar img{
@@ -442,26 +730,39 @@ textarea::placeholder{color:#666}
   object-fit:cover;
 }
 
-/* EMPTY */
+
+/* =====================================================
+   EMPTY
+===================================================== */
 
 .empty{
   min-height:240px;
+
   padding:30px;
+
   color:#777;
+
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
+
   text-align:center;
 }
 
 .empty-icon{
   width:52px;
   height:52px;
+
   margin-bottom:13px;
+
   border-radius:16px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   background:#181818;
+
   display:flex;
   align-items:center;
   justify-content:center;
@@ -469,26 +770,43 @@ textarea::placeholder{color:#666}
 
 .empty strong{
   color:white;
+
   font-size:15px;
 }
 
 .empty p{
   max-width:400px;
-  margin:7px 0 0;
+
+  margin:
+    7px 0 0;
+
   line-height:1.5;
+
   font-size:12px;
 }
 
-/* BALANCE */
+
+/* =====================================================
+   BALANCE
+===================================================== */
 
 .balance{
   height:42px;
-  padding:4px 5px 4px 13px;
+
+  padding:
+    4px 5px
+    4px 13px;
+
   border-radius:13px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   background:#151515;
+
   display:inline-flex;
   align-items:center;
+
   gap:9px;
 }
 
@@ -500,33 +818,55 @@ textarea::placeholder{color:#666}
 .balance-plus{
   width:31px;
   height:31px;
+
   padding:0;
+
   border:0;
+
   border-radius:9px;
+
   color:#111;
+
   background:var(--yellow);
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   cursor:pointer;
 }
 
-/* PROFILE */
 
-.profile-card{overflow:hidden}
+/* =====================================================
+   PROFILE
+===================================================== */
+
+.profile-card{
+  overflow:hidden;
+}
 
 .profile-banner{
   height:235px;
+
   background:
-    linear-gradient(120deg,#2b250d,#534000,#181818);
+    linear-gradient(
+      120deg,
+      #2b250d,
+      #534000,
+      #181818
+    );
+
   background-size:cover;
   background-position:center;
 }
 
 .profile-info{
-  padding:0 23px 23px;
+  padding:
+    0 23px 23px;
+
   display:flex;
   align-items:flex-end;
+
   gap:18px;
 }
 
@@ -536,40 +876,57 @@ textarea::placeholder{color:#666}
 
 .profile-main{
   min-width:0;
+
   flex:1;
+
   padding-top:16px;
 }
 
 .profile-name{
   margin:0;
+
   font-size:24px;
   font-weight:850;
+
   word-break:break-word;
 }
 
 .profile-login{
   margin-top:4px;
+
   color:var(--muted);
+
   font-size:12px;
 }
 
 .profile-tags{
   margin-top:10px;
+
   display:flex;
   flex-wrap:wrap;
+
   gap:6px;
 }
 
 .tag{
   min-height:27px;
+
   padding:0 8px;
+
   border-radius:8px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   background:#171717;
+
   color:#aaa;
+
   display:inline-flex;
   align-items:center;
+
   gap:5px;
+
   font-size:10px;
 }
 
@@ -579,8 +936,12 @@ textarea::placeholder{color:#666}
 
 .profile-stats{
   margin-top:14px;
+
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+
+  grid-template-columns:
+    repeat(3,1fr);
+
   gap:13px;
 }
 
@@ -590,175 +951,496 @@ textarea::placeholder{color:#666}
 
 .stat-label{
   color:var(--muted);
+
   font-size:11px;
 }
 
 .stat-value{
   margin-top:7px;
+
   font-size:21px;
   font-weight:850;
+
   word-break:break-word;
 }
 
-/* CHATS */
+
+/* =====================================================
+   CHATS — IMPROVED DESIGN
+===================================================== */
 
 .chat-layout{
-  height:calc(100dvh - 50px);
-  padding:25px;
+  height:
+    calc(100dvh - 46px);
+
+  padding:22px;
+
   display:grid;
-  grid-template-columns:335px minmax(0,1fr);
+
+  grid-template-columns:
+    350px minmax(0,1fr);
+
   gap:14px;
 }
 
-.chat-list-panel,
-.chat-panel{
-  min-height:0;
-  overflow:hidden;
-}
+
+/* LEFT PANEL */
 
 .chat-list-panel{
+  min-height:0;
+  overflow:hidden;
+
   display:flex;
   flex-direction:column;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.025),
+      rgba(255,255,255,.008)
+    );
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+  border-radius:22px;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.22);
 }
 
 .chat-list-head{
-  padding:17px;
-  border-bottom:1px solid var(--border);
+  padding:
+    18px 17px 15px;
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.065);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,.025),
+      transparent
+    );
 }
 
 .chat-title-row{
-  margin-bottom:13px;
   display:flex;
   align-items:center;
   justify-content:space-between;
+
+  gap:12px;
+
+  margin-bottom:15px;
+}
+
+.chat-title-content{
+  min-width:0;
 }
 
 .chat-title-row h2{
   margin:0;
-  font-size:21px;
+
+  font-size:22px;
+  font-weight:850;
+
+  letter-spacing:-.45px;
 }
 
-.search{
+.chat-title-subtitle{
+  margin-top:4px;
+
+  color:#707070;
+
+  font-size:10px;
+}
+
+.new-chat-btn{
+  width:42px;
+  height:42px;
+
+  flex:0 0 42px;
+
+  border:
+    1px solid
+    rgba(242,195,20,.18);
+
+  border-radius:13px;
+
+  color:#111;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--yellow2),
+      var(--yellow)
+    );
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  box-shadow:
+    0 8px 24px
+    rgba(242,195,20,.11);
+
+  transition:.15s ease;
+}
+
+.new-chat-btn:hover{
+  filter:brightness(1.05);
+}
+
+.new-chat-btn:active{
+  transform:scale(.94);
+}
+
+
+/* SEARCH */
+
+.chat-search{
   position:relative;
 }
 
-.search i{
+.chat-search-icon{
   position:absolute;
-  left:12px;
+
+  left:13px;
   top:50%;
-  transform:translateY(-50%);
+
+  transform:
+    translateY(-50%);
+
+  width:17px;
+  height:17px;
+
   color:#666;
+
   pointer-events:none;
+
+  transition:.16s ease;
 }
 
-.search .input{
-  height:42px;
-  padding-left:39px;
+.chat-search-input{
+  width:100%;
+  height:44px;
+
+  padding:
+    0 13px
+    0 41px;
+
+  border-radius:14px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.075);
+
+  outline:none;
+
+  color:#fff;
+
+  background:
+    rgba(255,255,255,.035);
+
+  font-size:12px;
+
+  transition:.16s ease;
 }
+
+.chat-search-input::placeholder{
+  color:#646464;
+}
+
+.chat-search-input:hover{
+  background:
+    rgba(255,255,255,.045);
+}
+
+.chat-search-input:focus{
+  background:#151515;
+
+  border-color:
+    rgba(242,195,20,.42);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(242,195,20,.055);
+}
+
+.chat-search:focus-within
+.chat-search-icon{
+  color:var(--yellow);
+}
+
+
+/* LIST */
 
 .chat-list{
   min-height:0;
+
   flex:1;
-  overflow:auto;
-  padding:6px;
+
+  overflow-y:auto;
+
+  padding:8px;
 }
 
 .chat-item{
+  position:relative;
+
   width:100%;
-  padding:9px;
+
+  min-height:66px;
+
+  padding:10px;
+
   border:0;
-  border-radius:14px;
-  color:white;
+
+  border-radius:16px;
+
+  color:#fff;
+
   background:transparent;
+
   display:flex;
   align-items:center;
-  gap:10px;
+
+  gap:11px;
+
   text-align:left;
+
   cursor:pointer;
+
+  transition:
+    background .16s ease,
+    transform .16s ease;
 }
 
-.chat-item:hover,
+.chat-item:hover{
+  background:
+    rgba(255,255,255,.04);
+}
+
+.chat-item:active{
+  transform:scale(.992);
+}
+
 .chat-item.active{
-  background:#1a1a1a;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(242,195,20,.12),
+      rgba(242,195,20,.035)
+    );
+
+  box-shadow:
+    inset 0 0 0 1px
+    rgba(242,195,20,.10);
+}
+
+.chat-item.active::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:17px;
+  bottom:17px;
+
+  width:3px;
+
+  border-radius:
+    0 4px 4px 0;
+
+  background:var(--yellow);
+}
+
+.chat-item .avatar{
+  width:46px;
+  height:46px;
+
+  flex:0 0 46px;
+
+  box-shadow:
+    0 4px 16px
+    rgba(0,0,0,.22);
 }
 
 .chat-item-content{
   min-width:0;
+
   flex:1;
 }
 
 .chat-item-row{
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  gap:7px;
+
+  gap:8px;
 }
 
 .chat-name{
-  font-size:12px;
-  font-weight:800;
-  white-space:nowrap;
+  min-width:0;
+
+  font-size:13px;
+  font-weight:780;
+
   overflow:hidden;
   text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .chat-time{
-  color:#666;
+  flex:0 0 auto;
+
+  color:#626262;
+
   font-size:9px;
+  font-weight:600;
 }
 
 .chat-preview{
-  margin-top:3px;
-  color:#777;
+  margin-top:4px;
+
+  color:#757575;
+
   font-size:11px;
-  white-space:nowrap;
+
   overflow:hidden;
   text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
+.chat-item.active
+.chat-preview{
+  color:#9a8a47;
+}
+
+
+/* RIGHT PANEL */
+
 .chat-panel{
+  min-height:0;
+  overflow:hidden;
+
   display:flex;
   flex-direction:column;
+
+  border-radius:22px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
+  background:
+    radial-gradient(
+      700px 330px
+      at 50% -130px,
+      rgba(242,195,20,.055),
+      transparent 70%
+    ),
+    #0e0e0e;
+
+  box-shadow:
+    0 20px 60px
+    rgba(0,0,0,.22);
 }
 
 .active-chat-head{
-  height:67px;
-  flex:0 0 67px;
+  height:70px;
+
+  flex:0 0 70px;
+
   padding:0 17px;
-  border-bottom:1px solid var(--border);
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.07);
+
+  background:
+    rgba(15,15,15,.82);
+
+  backdrop-filter:blur(16px);
+
   display:flex;
   align-items:center;
-  gap:10px;
+
+  gap:11px;
+}
+
+.active-chat-head .avatar{
+  width:44px;
+  height:44px;
+
+  flex:0 0 44px;
 }
 
 .active-chat-user{
   min-width:0;
+
+  flex:1;
+
   cursor:pointer;
 }
 
 .active-chat-name{
   font-size:13px;
-  font-weight:800;
+  font-weight:820;
+
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .active-chat-id{
-  margin-top:2px;
-  color:#777;
+  margin-top:3px;
+
+  color:#707070;
+
   font-size:10px;
 }
 
+
+/* MESSAGES */
+
 .messages{
   min-height:0;
+
   flex:1;
-  padding:20px;
+
   overflow-y:auto;
+
+  padding:
+    22px 20px;
+
   display:flex;
   flex-direction:column;
+
   gap:7px;
+
   scroll-behavior:smooth;
+
+  background:
+    radial-gradient(
+      520px 260px
+      at 50% 0,
+      rgba(255,255,255,.018),
+      transparent 75%
+    );
 }
 
 .message-row{
   display:flex;
+
+  animation:
+    messageAppear
+    .16s ease both;
 }
 
 .message-row.mine{
@@ -766,114 +1448,262 @@ textarea::placeholder{color:#666}
 }
 
 .message{
-  max-width:78%;
-  padding:9px 12px 7px;
-  border-radius:16px;
-  background:#202020;
+  max-width:
+    min(570px,78%);
+
+  padding:
+    10px 13px 8px;
+
+  border-radius:17px;
+
+  color:#eeeeee;
+
+  background:#1d1d1d;
+
+  border:
+    1px solid
+    rgba(255,255,255,.035);
+
   font-size:13px;
   line-height:1.45;
+
   word-break:break-word;
+
+  box-shadow:
+    0 5px 16px
+    rgba(0,0,0,.12);
 }
 
-.message-row.mine .message{
+.message-row.mine
+.message{
   color:#111;
-  background:linear-gradient(135deg,#f5c518,#e4ae00);
+
+  background:
+    linear-gradient(
+      135deg,
+      #f6cc29,
+      #e6b400
+    );
+
+  border-color:
+    rgba(255,220,70,.1);
+
   border-bottom-right-radius:5px;
+
+  box-shadow:
+    0 6px 18px
+    rgba(190,145,0,.09);
 }
 
-.message-row:not(.mine) .message{
+.message-row:not(.mine)
+.message{
   border-bottom-left-radius:5px;
 }
 
 .message-time{
-  margin-top:3px;
-  opacity:.55;
+  margin-top:4px;
+
   text-align:right;
+
   font-size:8px;
+  font-weight:650;
+
+  opacity:.5;
 }
 
+
+/* COMPOSER */
+
 .composer{
-  padding:11px 13px;
-  border-top:1px solid var(--border);
-  background:rgba(13,13,13,.95);
+  padding:
+    11px 13px
+    max(
+      11px,
+      env(safe-area-inset-bottom)
+    );
+
+  border-top:
+    1px solid
+    rgba(255,255,255,.07);
+
+  background:
+    rgba(13,13,13,.92);
+
+  backdrop-filter:blur(16px);
+
   display:flex;
   align-items:flex-end;
+
   gap:8px;
 }
 
 .composer textarea{
-  min-height:43px;
-  max-height:125px;
+  min-height:45px;
+  max-height:130px;
+
   flex:1;
-  padding:10px 13px;
+
+  padding:
+    11px 14px;
+
   resize:none;
-  outline:0;
-  color:white;
+
+  outline:none;
+
+  color:#fff;
+
   background:#171717;
-  border:1px solid var(--border);
-  border-radius:14px;
+
+  border:
+    1px solid
+    rgba(255,255,255,.075);
+
+  border-radius:15px;
+
+  line-height:1.4;
+
+  transition:.15s ease;
+}
+
+.composer textarea:focus{
+  background:#191919;
+
+  border-color:
+    rgba(242,195,20,.32);
+
+  box-shadow:
+    0 0 0 4px
+    rgba(242,195,20,.045);
 }
 
 .send{
-  width:43px;
-  height:43px;
-  flex:0 0 43px;
+  width:45px;
+  height:45px;
+
+  flex:0 0 45px;
+
   padding:0;
+
   border:0;
-  border-radius:13px;
+  border-radius:14px;
+
   color:#111;
-  background:var(--yellow);
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--yellow2),
+      var(--yellow)
+    );
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   cursor:pointer;
+
+  box-shadow:
+    0 7px 24px
+    rgba(242,195,20,.09);
+
+  transition:.14s ease;
 }
 
-/* SHOP */
+.send:hover{
+  filter:brightness(1.04);
+}
+
+.send:active{
+  transform:scale(.93);
+}
+
+
+/* USER SEARCH */
+
+.user-search-help{
+  margin-bottom:11px;
+
+  color:#707070;
+
+  font-size:11px;
+  line-height:1.45;
+}
+
+#userResults{
+  max-height:390px;
+
+  overflow-y:auto;
+
+  margin-top:10px;
+}
+
+
+/* =====================================================
+   SHOP
+===================================================== */
 
 .shop-grid{
   display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
   gap:13px;
 }
 
 .listing{
   min-height:200px;
+
   padding:17px;
+
   display:flex;
   flex-direction:column;
 }
 
 .listing-type{
   width:fit-content;
+
   padding:5px 7px;
+
   border-radius:7px;
+
   color:var(--yellow);
-  background:rgba(242,195,20,.08);
+
+  background:
+    rgba(242,195,20,.08);
+
   font-size:9px;
   font-weight:850;
+
   text-transform:uppercase;
 }
 
 .listing-value{
   margin-top:16px;
+
   font-size:20px;
   font-weight:850;
+
   word-break:break-word;
 }
 
 .listing-seller{
   margin-top:4px;
+
   color:#777;
+
   font-size:11px;
 }
 
-.listing-space{flex:1}
+.listing-space{
+  flex:1;
+}
 
 .listing-bottom{
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   gap:9px;
 }
 
@@ -882,44 +1712,66 @@ textarea::placeholder{color:#666}
   font-weight:850;
 }
 
-/* ADMIN */
+
+/* =====================================================
+   ADMIN
+===================================================== */
 
 .admin-tabs{
   margin-bottom:14px;
+
   display:flex;
   flex-wrap:wrap;
+
   gap:6px;
 }
 
 .admin-tab{
   height:38px;
+
   padding:0 12px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   border-radius:10px;
+
   color:#777;
+
   background:#151515;
+
   font-size:11px;
   font-weight:750;
+
   cursor:pointer;
 }
 
 .admin-tab.active{
   color:#111;
+
   background:var(--yellow);
+
   border-color:var(--yellow);
 }
 
 .admin-stats{
   margin-bottom:14px;
+
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+
+  grid-template-columns:
+    repeat(4,1fr);
+
   gap:12px;
 }
 
-.admin-stat{padding:17px}
+.admin-stat{
+  padding:17px;
+}
 
 .admin-number{
   margin-top:7px;
+
   font-size:23px;
   font-weight:850;
 }
@@ -930,40 +1782,64 @@ textarea::placeholder{color:#666}
 
 table{
   width:100%;
+
   border-collapse:collapse;
+
   font-size:11px;
 }
 
-th,td{
+th,
+td{
   padding:12px 14px;
+
   text-align:left;
+
   white-space:nowrap;
-  border-bottom:1px solid rgba(255,255,255,.05);
+
+  border-bottom:
+    1px solid
+    rgba(255,255,255,.05);
 }
 
-th{color:#777}
+th{
+  color:#777;
+}
 
 .role{
   padding:4px 7px;
+
   border-radius:7px;
+
   background:#222;
+
   font-size:9px;
 }
 
 .role.admin{
   color:var(--yellow);
-  background:rgba(242,195,20,.1);
+
+  background:
+    rgba(242,195,20,.1);
 }
 
-/* MODAL */
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 .modal-bg{
   position:fixed;
   inset:0;
+
   z-index:500;
+
   padding:17px;
-  background:rgba(0,0,0,.74);
+
+  background:
+    rgba(0,0,0,.74);
+
   backdrop-filter:blur(8px);
+
   display:flex;
   align-items:center;
   justify-content:center;
@@ -971,56 +1847,95 @@ th{color:#777}
 
 .modal{
   width:min(480px,100%);
-  max-height:calc(100dvh - 34px);
+
+  max-height:
+    calc(100dvh - 34px);
+
   overflow:auto;
+
   border-radius:23px;
-  border:1px solid rgba(255,255,255,.1);
+
+  border:
+    1px solid
+    rgba(255,255,255,.1);
+
   background:#111;
+
   box-shadow:var(--shadow);
-  animation:modalIn .18s ease both;
+
+  animation:
+    modalIn
+    .18s ease both;
 }
 
 .modal-head{
-  padding:18px 18px 8px;
+  padding:
+    18px 18px 8px;
+
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   gap:10px;
 }
 
 .modal-title{
   margin:0;
+
   font-size:18px;
   font-weight:850;
 }
 
 .modal-body{
-  padding:12px 18px 19px;
+  padding:
+    12px 18px 19px;
 }
 
 .modal-form{
   display:flex;
   flex-direction:column;
+
   gap:13px;
 }
 
 .modal-actions{
   display:flex;
   justify-content:flex-end;
+
   gap:8px;
 }
 
-/* PAYMENT */
+
+/* =====================================================
+   PAYMENT
+===================================================== */
 
 .payment-card{
   height:185px;
+
   margin-bottom:17px;
+
   padding:20px;
+
   border-radius:21px;
-  border:1px solid rgba(242,195,20,.16);
+
+  border:
+    1px solid
+    rgba(242,195,20,.16);
+
   background:
-    radial-gradient(250px 120px at 90% 0,rgba(255,220,60,.27),transparent 65%),
-    linear-gradient(135deg,#2b260e,#111);
+    radial-gradient(
+      250px 120px
+      at 90% 0,
+      rgba(255,220,60,.27),
+      transparent 65%
+    ),
+    linear-gradient(
+      135deg,
+      #2b260e,
+      #111
+    );
+
   display:flex;
   flex-direction:column;
 }
@@ -1028,68 +1943,120 @@ th{color:#777}
 .payment-chip{
   width:38px;
   height:28px;
+
   margin-bottom:28px;
+
   border-radius:7px;
-  background:linear-gradient(135deg,#dabe6e,#8c7024);
+
+  background:
+    linear-gradient(
+      135deg,
+      #dabe6e,
+      #8c7024
+    );
 }
 
 .payment-number{
   font-size:16px;
+
   letter-spacing:2px;
 }
 
 .payment-bottom{
   margin-top:auto;
+
   color:#aaa;
+
   font-size:10px;
+
   display:flex;
   justify-content:space-between;
 }
 
 .payment-error{
   margin-bottom:12px;
+
   padding:11px;
+
   border-radius:11px;
+
   color:#ff7777;
-  background:rgba(255,80,80,.08);
-  border:1px solid rgba(255,80,80,.15);
+
+  background:
+    rgba(255,80,80,.08);
+
+  border:
+    1px solid
+    rgba(255,80,80,.15);
+
   font-size:11px;
 }
 
-/* TOAST */
+
+/* =====================================================
+   TOAST
+===================================================== */
 
 #toasts{
   position:fixed;
+
   right:16px;
   bottom:16px;
+
   z-index:1000;
+
   display:flex;
   flex-direction:column;
+
   gap:7px;
+
   pointer-events:none;
 }
 
 .toast{
-  width:min(340px,calc(100vw - 32px));
+  width:
+    min(
+      340px,
+      calc(100vw - 32px)
+    );
+
   padding:11px 13px;
+
   border-radius:13px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid var(--border);
+
   background:#191919;
+
   box-shadow:var(--shadow);
+
   display:flex;
   align-items:center;
+
   gap:9px;
+
   font-size:11px;
-  animation:enter .18s ease both;
+
+  animation:
+    enter
+    .18s ease both;
 }
 
-.bottom-nav{display:none}
+.bottom-nav{
+  display:none;
+}
 
-/* MOBILE */
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
 @media(max-width:1000px){
+
   .app{
-    grid-template-columns:80px minmax(0,1fr);
+    grid-template-columns:
+      80px minmax(0,1fr);
   }
 
   .brand-name,
@@ -1098,71 +2065,120 @@ th{color:#777}
     display:none;
   }
 
-  .brand{justify-content:center}
-  .nav-btn{padding:0;justify-content:center}
+  .brand{
+    justify-content:center;
+  }
+
+  .nav-btn{
+    padding:0;
+
+    justify-content:center;
+  }
 
   .shop-grid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
   .admin-stats{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:
+      repeat(2,1fr);
   }
+
 }
 
+
 @media(max-width:760px){
-  .app{display:block}
-  .sidebar{display:none}
+
+  .app{
+    display:block;
+  }
+
+  .sidebar{
+    display:none;
+  }
 
   .main{
     min-height:100dvh;
+
     padding-bottom:78px;
   }
 
   .bottom-nav{
     position:fixed;
+
     left:10px;
     right:10px;
-    bottom:max(10px,env(safe-area-inset-bottom));
+
+    bottom:
+      max(
+        10px,
+        env(safe-area-inset-bottom)
+      );
+
     z-index:100;
+
     min-height:61px;
+
     padding:5px;
+
     border-radius:19px;
-    border:1px solid rgba(255,255,255,.09);
-    background:rgba(15,15,15,.92);
-    backdrop-filter:blur(20px);
+
+    border:
+      1px solid
+      rgba(255,255,255,.09);
+
+    background:
+      rgba(15,15,15,.92);
+
+    backdrop-filter:
+      blur(20px);
+
     display:grid;
-    box-shadow:0 18px 60px rgba(0,0,0,.45);
+
+    box-shadow:
+      0 18px 60px
+      rgba(0,0,0,.45);
   }
 
   .bottom-nav.three{
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:
+      repeat(3,1fr);
   }
 
   .bottom-nav.four{
-    grid-template-columns:repeat(4,1fr);
+    grid-template-columns:
+      repeat(4,1fr);
   }
 
   .bottom-btn{
     border:0;
+
     border-radius:14px;
+
     color:#777;
+
     background:transparent;
+
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
+
     gap:2px;
+
     font-size:9px;
   }
 
   .bottom-btn.active{
     color:#111;
+
     background:var(--yellow);
   }
 
   .page{
-    padding:17px 13px 100px;
+    padding:
+      17px 13px 100px;
   }
 
   .page-head{
@@ -1178,17 +2194,22 @@ th{color:#777}
   }
 
   .profile-info{
-    padding:0 16px 18px;
+    padding:
+      0 16px 18px;
+
     align-items:flex-start;
+
     flex-wrap:wrap;
   }
 
   .profile-main{
-    flex-basis:calc(100% - 125px);
+    flex-basis:
+      calc(100% - 125px);
   }
 
   .profile-actions{
     width:100%;
+
     padding-top:0;
   }
 
@@ -1198,6 +2219,7 @@ th{color:#777}
 
   .profile-stats{
     grid-template-columns:1fr;
+
     gap:9px;
   }
 
@@ -1205,45 +2227,109 @@ th{color:#777}
     grid-template-columns:1fr;
   }
 
+
+  /* MOBILE CHATS */
+
   .chat-layout{
-    height:calc(100dvh - 78px);
+    height:
+      calc(100dvh - 78px);
+
     padding:0;
+
     display:block;
   }
 
   .chat-list-panel,
   .chat-panel{
     height:100%;
+
     border:0;
+
     border-radius:0;
+
+    box-shadow:none;
   }
 
   .mobile-hidden{
     display:none!important;
   }
 
+  .chat-list-head{
+    padding:
+      16px 13px 13px;
+  }
+
+  .chat-title-row h2{
+    font-size:22px;
+  }
+
+  .chat-search-input{
+    height:45px;
+  }
+
+  .chat-list{
+    padding:7px;
+  }
+
+  .chat-item{
+    min-height:67px;
+
+    border-radius:15px;
+  }
+
+  .active-chat-head{
+    height:67px;
+
+    flex:0 0 67px;
+
+    padding:0 11px;
+  }
+
   .messages{
-    padding:13px 10px;
+    padding:
+      15px 10px;
   }
 
   .message{
     max-width:85%;
+
+    font-size:13px;
+  }
+
+  .composer{
+    padding:
+      9px 10px
+      max(
+        10px,
+        env(safe-area-inset-bottom)
+      );
   }
 
   .admin-stats{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+      1fr 1fr;
   }
+
 }
 </style>
 </head>
 
+
 <body>
 
 <div id="app"></div>
+
 <div id="modalRoot"></div>
+
 <div id="toasts"></div>
 
+
 <script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
 const SUPABASE_URL =
   "https://latgnxbzymbyngslzfko.supabase.co";
 
@@ -1251,12 +2337,19 @@ const SUPABASE_KEY =
   "sb_publishable_9KKwvgywcvchh-s_FMSvbw_hx2LMgX-";
 
 const sb =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  window.supabase
+    .createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-const state = {
+
+/* =====================================================
+   STATE
+===================================================== */
+
+const state={
+
   user:null,
   session:null,
 
@@ -1269,11 +2362,15 @@ const state = {
   logoUrl:null,
 
   page:"chats",
+
   authMode:"login",
 
   conversations:[],
+
   activeConversation:null,
+
   activeChatUser:null,
+
   messages:[],
 
   messageChannel:null,
@@ -1283,138 +2380,262 @@ const state = {
   mobileChatOpen:false,
 
   adminTab:"dashboard",
+
   adminUsers:[]
+
 };
 
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
 function qs(value){
-  return document.querySelector(value);
+
+  return document
+    .querySelector(value);
+
 }
+
 
 function qsa(value){
-  return [...document.querySelectorAll(value)];
+
+  return [
+    ...document
+      .querySelectorAll(value)
+  ];
+
 }
+
 
 function esc(value=""){
+
   return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
+
 
 function refreshIcons(){
-  requestAnimationFrame(()=>{
-    if(window.lucide){
-      lucide.createIcons();
+
+  requestAnimationFrame(
+    ()=>{
+
+      if(window.lucide){
+
+        lucide.createIcons();
+
+      }
+
     }
-  });
+  );
+
 }
 
+
 function money(value){
+
   return new Intl.NumberFormat(
+
     "en-US",
+
     {
       style:"currency",
       currency:"USD"
     }
+
   ).format(
     Number(value||0)
   );
+
 }
 
+
 function formatDate(value){
-  if(!value)return "—";
+
+  if(!value){
+    return "—";
+  }
 
   try{
+
     return new Intl.DateTimeFormat(
+
       "uk-UA",
+
       {
         day:"2-digit",
         month:"2-digit",
         year:"numeric"
       }
-    ).format(new Date(value));
+
+    ).format(
+      new Date(value)
+    );
+
   }catch{
+
     return "—";
+
   }
+
 }
 
+
 function formatTime(value){
-  if(!value)return "";
+
+  if(!value){
+    return "";
+  }
 
   try{
+
     return new Intl.DateTimeFormat(
+
       "uk-UA",
+
       {
         hour:"2-digit",
         minute:"2-digit"
       }
-    ).format(new Date(value));
+
+    ).format(
+      new Date(value)
+    );
+
   }catch{
+
     return "";
+
   }
+
 }
 
+
 function loginEmail(login){
+
   return (
     login
       .trim()
       .toLowerCase()
+
     +
+
     "@liptongram.app"
   );
+
 }
+
 
 function validLogin(value){
+
   return /^[A-Za-z0-9_]{3,24}$/
     .test(value);
+
 }
 
+
 function initials(profile){
+
   return (
-    profile?.username ||
-    profile?.login ||
+    profile?.username
+    ||
+    profile?.login
+    ||
     "LG"
   )
     .slice(0,2)
     .toUpperCase();
+
 }
+
 
 function avatar(
   profile,
   large=false
 ){
-  if(profile?.avatar_url){
+
+  if(
+    profile?.avatar_url
+  ){
+
     return `
-      <div class="avatar ${large?"large":""}">
+      <div
+        class="
+          avatar
+          ${large?"large":""}
+        "
+      >
         <img
-          src="${esc(profile.avatar_url)}"
+          src="${esc(
+            profile.avatar_url
+          )}"
           alt=""
         >
       </div>
     `;
+
   }
 
   return `
-    <div class="avatar ${large?"large":""}">
-      ${esc(initials(profile))}
+    <div
+      class="
+        avatar
+        ${large?"large":""}
+      "
+    >
+      ${esc(
+        initials(profile)
+      )}
     </div>
   `;
+
 }
+
 
 function logoMarkup(
   className="brand-logo"
 ){
+
   if(state.logoUrl){
+
     return `
       <div class="${className}">
+
         <img
-          src="${esc(state.logoUrl)}"
+          src="${esc(
+            state.logoUrl
+          )}"
           alt=""
         >
+
       </div>
     `;
+
   }
 
   return `
@@ -1422,28 +2643,42 @@ function logoMarkup(
       L
     </div>
   `;
+
 }
+
 
 function toast(
   text,
   type=""
 ){
-  const root=qs("#toasts");
+
+  const root=
+    qs("#toasts");
 
   const div=
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
-  div.className="toast";
+  div.className=
+    "toast";
+
+  let icon=
+    "info";
+
+  if(type==="error"){
+    icon=
+      "circle-alert";
+  }
+
+  if(type==="success"){
+    icon=
+      "circle-check";
+  }
 
   div.innerHTML=`
     <i
-      data-lucide="${
-        type==="error"
-          ?"circle-alert"
-          :type==="success"
-            ?"circle-check"
-            :"info"
-      }"
+      data-lucide="${icon}"
       class="icon-sm"
     ></i>
 
@@ -1456,29 +2691,43 @@ function toast(
 
   refreshIcons();
 
-  setTimeout(()=>{
-    div.style.opacity="0";
+  setTimeout(
+    ()=>{
 
-    setTimeout(
-      ()=>div.remove(),
-      200
-    );
-  },3000);
+      div.style.opacity="0";
+
+      setTimeout(
+        ()=>div.remove(),
+        200
+      );
+
+    },
+    3000
+  );
+
 }
+
 
 function modal(
   title,
   content
 ){
+
   qs("#modalRoot")
     .innerHTML=`
+
       <div
         class="modal-bg"
+
         onclick="
-          if(event.target===this)
-          closeModal()
+          if(
+            event.target===this
+          ){
+            closeModal()
+          }
         "
       >
+
         <div class="modal">
 
           <div class="modal-head">
@@ -1489,12 +2738,17 @@ function modal(
 
             <button
               class="icon-btn"
-              onclick="closeModal()"
+
+              onclick="
+                closeModal()
+              "
             >
+
               <i
                 data-lucide="x"
                 class="icon-sm"
               ></i>
+
             </button>
 
           </div>
@@ -1504,25 +2758,37 @@ function modal(
           </div>
 
         </div>
+
       </div>
     `;
 
   refreshIcons();
+
 }
 
+
 function closeModal(){
-  qs("#modalRoot").innerHTML="";
+
+  qs("#modalRoot")
+    .innerHTML="";
+
 }
+
 
 function setLoading(
   button,
   loading
 ){
-  if(!button)return;
 
-  button.disabled=loading;
+  if(!button){
+    return;
+  }
+
+  button.disabled=
+    loading;
 
   if(loading){
+
     button.dataset.oldHtml=
       button.innerHTML;
 
@@ -1532,37 +2798,63 @@ function setLoading(
         class="icon-sm spin"
       ></i>
     `;
+
   }else{
-    if(button.dataset.oldHtml){
+
+    if(
+      button.dataset.oldHtml
+    ){
+
       button.innerHTML=
         button.dataset.oldHtml;
+
     }
+
   }
 
   refreshIcons();
+
 }
 
+
 /* =====================================================
-   INITIALIZE
+   INIT
 ===================================================== */
 
 async function loadBranding(){
+
   try{
+
     const {data}=
       await sb
-        .from("app_settings")
-        .select("logo_url")
-        .eq("id",1)
+        .from(
+          "app_settings"
+        )
+        .select(
+          "logo_url"
+        )
+        .eq(
+          "id",
+          1
+        )
         .maybeSingle();
 
     state.logoUrl=
-      data?.logo_url||null;
+      data?.logo_url
+      ||
+      null;
+
   }catch{
+
     state.logoUrl=null;
+
   }
+
 }
 
+
 async function init(){
+
   await loadBranding();
 
   const {
@@ -1570,61 +2862,98 @@ async function init(){
       session
     }
   }=
-    await sb.auth.getSession();
+    await sb.auth
+      .getSession();
 
-  state.session=session;
-  state.user=session?.user||null;
+  state.session=
+    session;
+
+  state.user=
+    session?.user
+    ||
+    null;
 
   if(state.user){
+
     await loadMe();
+
   }
 
   render();
 
-  sb.auth.onAuthStateChange(
-    async(
-      event,
-      session
-    )=>{
-      state.session=session;
-      state.user=session?.user||null;
 
-      if(state.user){
-        await loadMe();
-      }else{
-        state.profile=null;
-        state.wallet={balance:0};
-        state.page="chats";
+  sb.auth
+    .onAuthStateChange(
+
+      async(
+        event,
+        session
+      )=>{
+
+        state.session=
+          session;
+
+        state.user=
+          session?.user
+          ||
+          null;
+
+
+        if(state.user){
+
+          await loadMe();
+
+        }else{
+
+          state.profile=
+            null;
+
+          state.wallet={
+            balance:0
+          };
+
+          state.page=
+            "chats";
+
+        }
+
+
+        render();
+
       }
 
-      render();
-    }
-  );
+    );
+
 }
 
+
 /* =====================================================
-   CURRENT PROFILE
+   LOAD PROFILE
 ===================================================== */
 
 async function loadMe(){
-  if(!state.user)return;
+
+  if(!state.user){
+    return;
+  }
 
   try{
-    /*
-      Ця функція створить profile/wallet,
-      якщо акаунт був створений раніше,
-      ніж таблиці.
-    */
+
     try{
+
       await sb.rpc(
         "ensure_my_profile"
       );
+
     }catch(error){
+
       console.warn(
         "ensure_my_profile",
         error
       );
+
     }
+
 
     const {
       data:profile,
@@ -1639,38 +2968,68 @@ async function loadMe(){
         )
         .maybeSingle();
 
+
     if(profileError){
+
       console.error(
         profileError
       );
+
     }
 
+
     if(profile){
-      state.profile=profile;
+
+      state.profile=
+        profile;
+
     }else{
+
       const login=
         state.user
           .user_metadata
           ?.login
+
         ||
+
         state.user
           .email
           ?.split("@")[0]
+
         ||
+
         "user";
 
+
       state.profile={
-        id:state.user.id,
+
+        id:
+          state.user.id,
+
         login,
-        username:login,
-        public_id:"------",
-        avatar_url:null,
-        banner_url:null,
-        role:"user",
+
+        username:
+          login,
+
+        public_id:
+          "------",
+
+        avatar_url:
+          null,
+
+        banner_url:
+          null,
+
+        role:
+          "user",
+
         created_at:
           state.user.created_at
+
       };
+
     }
+
 
     const {
       data:wallet
@@ -1684,24 +3043,33 @@ async function loadMe(){
         )
         .maybeSingle();
 
+
     state.wallet=
-      wallet||{
+      wallet
+      ||
+      {
         balance:0
       };
 
+
   }catch(error){
+
     console.error(
       "LOAD PROFILE ERROR",
       error
     );
+
   }
+
 }
+
 
 /* =====================================================
    AUTH
 ===================================================== */
 
 async function signIn(){
+
   const login=
     qs("#authLogin")
       .value
@@ -1711,14 +3079,20 @@ async function signIn(){
     qs("#authPassword")
       .value;
 
-  if(!validLogin(login)){
+
+  if(
+    !validLogin(login)
+  ){
+
     toast(
       "Неправильний логін",
       "error"
     );
 
     return;
+
   }
+
 
   const button=
     qs("#authButton");
@@ -1728,28 +3102,39 @@ async function signIn(){
     true
   );
 
+
   const {error}=
     await sb.auth
       .signInWithPassword({
+
         email:
           loginEmail(login),
+
         password
+
       });
+
 
   setLoading(
     button,
     false
   );
 
+
   if(error){
+
     toast(
       "Невірний логін або пароль",
       "error"
     );
+
   }
+
 }
 
+
 async function signUp(){
+
   const login=
     qs("#authLogin")
       .value
@@ -1759,26 +3144,36 @@ async function signUp(){
     qs("#authPassword")
       .value;
 
-  if(!validLogin(login)){
+
+  if(
+    !validLogin(login)
+  ){
+
     toast(
       "Логін: 3–24 символи, букви, цифри або _",
       "error"
     );
 
     return;
+
   }
 
+
   if(
-    !password ||
+    !password
+    ||
     password.length<8
   ){
+
     toast(
       "Пароль мінімум 8 символів",
       "error"
     );
 
     return;
+
   }
+
 
   const button=
     qs("#authButton");
@@ -1788,186 +3183,256 @@ async function signUp(){
     true
   );
 
+
   const {
     data,
     error
   }=
-    await sb.auth.signUp({
-      email:
-        loginEmail(login),
+    await sb.auth
+      .signUp({
 
-      password,
+        email:
+          loginEmail(login),
 
-      options:{
-        data:{
-          login
+        password,
+
+        options:{
+          data:{
+            login
+          }
         }
-      }
-    });
+
+      });
+
 
   setLoading(
     button,
     false
   );
 
+
   if(error){
+
     toast(
       error.message,
       "error"
     );
 
     return;
+
   }
 
+
   if(!data.session){
+
     toast(
       "У Supabase потрібно вимкнути Confirm Email",
       "error"
     );
 
     return;
+
   }
+
 
   toast(
     "Акаунт створено",
     "success"
   );
+
 }
 
+
 async function logout(){
-  if(state.messageChannel){
+
+  if(
+    state.messageChannel
+  ){
+
     await sb.removeChannel(
       state.messageChannel
     );
 
-    state.messageChannel=null;
+    state.messageChannel=
+      null;
+
   }
 
-  await sb.auth.signOut();
+  await sb.auth
+    .signOut();
+
 }
+
 
 /* =====================================================
    AUTH UI
 ===================================================== */
 
 function renderAuth(){
+
   const loginMode=
-    state.authMode==="login";
+    state.authMode===
+    "login";
 
-  qs("#app").innerHTML=`
-    <main class="auth-page">
 
-      <section
-        class="auth-card page-animation"
-      >
+  qs("#app")
+    .innerHTML=`
 
-        ${logoMarkup("auth-logo")}
+      <main class="auth-page">
 
-        <h1 class="auth-title">
-          LiptonGram
-        </h1>
-
-        <div class="auth-sub">
-          Спілкування, профіль та маркетплейс
-        </div>
-
-        <div class="auth-tabs">
-
-          <button
-            class="
-              auth-tab
-              ${loginMode?"active":""}
-            "
-            onclick="
-              state.authMode='login';
-              render()
-            "
-          >
-            Вхід
-          </button>
-
-          <button
-            class="
-              auth-tab
-              ${!loginMode?"active":""}
-            "
-            onclick="
-              state.authMode='register';
-              render()
-            "
-          >
-            Реєстрація
-          </button>
-
-        </div>
-
-        <form
-          class="auth-form"
-          onsubmit="
-            event.preventDefault();
-            ${
-              loginMode
-                ?"signIn()"
-                :"signUp()"
-            }
+        <section
+          class="
+            auth-card
+            page-animation
           "
         >
 
-          <div class="field">
-            <label>
-              Логін
-            </label>
+          ${logoMarkup(
+            "auth-logo"
+          )}
 
-            <input
-              id="authLogin"
-              class="input"
-              maxlength="24"
-              autocomplete="username"
-              placeholder="Ваш логін"
-            >
+          <h1 class="auth-title">
+            LiptonGram
+          </h1>
+
+          <div class="auth-sub">
+            Спілкування, профіль та маркетплейс
           </div>
 
-          <div class="field">
-            <label>
-              Пароль
-            </label>
 
-            <input
-              id="authPassword"
-              class="input"
-              type="password"
-              autocomplete="${
+          <div class="auth-tabs">
+
+            <button
+              class="
+                auth-tab
+                ${
+                  loginMode
+                    ?"active"
+                    :""
+                }
+              "
+
+              onclick="
+                state.authMode='login';
+                render()
+              "
+            >
+              Вхід
+            </button>
+
+
+            <button
+              class="
+                auth-tab
+                ${
+                  !loginMode
+                    ?"active"
+                    :""
+                }
+              "
+
+              onclick="
+                state.authMode='register';
+                render()
+              "
+            >
+              Реєстрація
+            </button>
+
+          </div>
+
+
+          <form
+            class="auth-form"
+
+            onsubmit="
+              event.preventDefault();
+
+              ${
                 loginMode
-                  ?"current-password"
-                  :"new-password"
-              }"
-              placeholder="Ваш пароль"
-            >
-          </div>
-
-          <button
-            id="authButton"
-            class="btn btn-primary"
+                  ?"signIn()"
+                  :"signUp()"
+              }
+            "
           >
-            ${
-              loginMode
-                ?"Увійти"
-                :"Створити акаунт"
-            }
-          </button>
 
-        </form>
+            <div class="field">
 
-      </section>
+              <label>
+                Логін
+              </label>
 
-    </main>
-  `;
+              <input
+                id="authLogin"
+
+                class="input"
+
+                maxlength="24"
+
+                autocomplete="username"
+
+                placeholder="Ваш логін"
+              >
+
+            </div>
+
+
+            <div class="field">
+
+              <label>
+                Пароль
+              </label>
+
+              <input
+                id="authPassword"
+
+                class="input"
+
+                type="password"
+
+                autocomplete="${
+                  loginMode
+                    ?"current-password"
+                    :"new-password"
+                }"
+
+                placeholder="Ваш пароль"
+              >
+
+            </div>
+
+
+            <button
+              id="authButton"
+
+              class="
+                btn
+                btn-primary
+              "
+            >
+
+              ${
+                loginMode
+                  ?"Увійти"
+                  :"Створити акаунт"
+              }
+
+            </button>
+
+          </form>
+
+        </section>
+
+      </main>
+    `;
 
   refreshIcons();
+
 }
 
+
 /* =====================================================
-   APP SHELL
+   NAVIGATION
 ===================================================== */
 
 function navButton(
@@ -1975,16 +3440,23 @@ function navButton(
   icon,
   text
 ){
+
   return `
     <button
       class="
         nav-btn
-        ${state.page===page?"active":""}
+        ${
+          state.page===page
+            ?"active"
+            :""
+        }
       "
+
       onclick="
         navigate('${page}')
       "
     >
+
       <i
         data-lucide="${icon}"
         class="icon"
@@ -1993,25 +3465,35 @@ function navButton(
       <span>
         ${text}
       </span>
+
     </button>
   `;
+
 }
+
 
 function bottomButton(
   page,
   icon,
   text
 ){
+
   return `
     <button
       class="
         bottom-btn
-        ${state.page===page?"active":""}
+        ${
+          state.page===page
+            ?"active"
+            :""
+        }
       "
+
       onclick="
         navigate('${page}')
       "
     >
+
       <i
         data-lucide="${icon}"
         class="icon"
@@ -2020,49 +3502,161 @@ function bottomButton(
       <span>
         ${text}
       </span>
+
     </button>
   `;
+
 }
 
+
 function render(){
+
   if(!state.user){
+
     renderAuth();
+
     return;
+
   }
 
+
   const admin=
-    state.profile?.role==="admin";
+    state.profile?.role===
+    "admin";
 
-  qs("#app").innerHTML=`
-    <div class="app">
 
-      <aside class="sidebar">
+  qs("#app")
+    .innerHTML=`
 
-        <div class="brand">
+      <div class="app">
 
-          ${logoMarkup()}
+        <aside class="sidebar">
 
-          <div class="brand-name">
-            LiptonGram
+          <div class="brand">
+
+            ${logoMarkup()}
+
+            <div class="brand-name">
+              LiptonGram
+            </div>
+
           </div>
 
-        </div>
 
-        <nav class="side-nav">
+          <nav class="side-nav">
 
-          ${navButton(
+            ${navButton(
+              "chats",
+              "message-circle",
+              "Чати"
+            )}
+
+            ${navButton(
+              "shop",
+              "shopping-bag",
+              "Магазин"
+            )}
+
+            ${navButton(
+              "profile",
+              "user-round",
+              "Профіль"
+            )}
+
+            ${
+              admin
+                ?navButton(
+                    "admin",
+                    "shield",
+                    "Адмін-панель"
+                  )
+                :""
+            }
+
+          </nav>
+
+
+          <div class="sidebar-space">
+          </div>
+
+
+          <div class="side-user">
+
+            ${avatar(
+              state.profile
+            )}
+
+            <div class="side-user-info">
+
+              <div class="side-user-name">
+                ${esc(
+                  state.profile
+                    ?.username
+                  ||
+                  state.profile
+                    ?.login
+                )}
+              </div>
+
+              <div class="side-user-id">
+                ID
+                ${esc(
+                  state.profile
+                    ?.public_id
+                  ||
+                  "------"
+                )}
+              </div>
+
+            </div>
+
+
+            <button
+              class="icon-btn"
+
+              onclick="
+                logout()
+              "
+            >
+
+              <i
+                data-lucide="log-out"
+                class="icon-sm"
+              ></i>
+
+            </button>
+
+          </div>
+
+        </aside>
+
+
+        <main
+          id="mainArea"
+          class="main"
+        ></main>
+
+
+        <nav
+          class="
+            bottom-nav
+            ${admin?"four":"three"}
+          "
+        >
+
+          ${bottomButton(
             "chats",
             "message-circle",
             "Чати"
           )}
 
-          ${navButton(
+          ${bottomButton(
             "shop",
             "shopping-bag",
             "Магазин"
           )}
 
-          ${navButton(
+          ${bottomButton(
             "profile",
             "user-round",
             "Профіль"
@@ -2070,178 +3664,153 @@ function render(){
 
           ${
             admin
-              ?navButton(
+              ?bottomButton(
                   "admin",
                   "shield",
-                  "Адмін-панель"
+                  "Адмін"
                 )
               :""
           }
 
         </nav>
 
-        <div class="sidebar-space">
-        </div>
+      </div>
+    `;
 
-        <div class="side-user">
-
-          ${avatar(
-            state.profile
-          )}
-
-          <div class="side-user-info">
-
-            <div class="side-user-name">
-              ${esc(
-                state.profile?.username||
-                state.profile?.login
-              )}
-            </div>
-
-            <div class="side-user-id">
-              ID
-              ${esc(
-                state.profile?.public_id||
-                "------"
-              )}
-            </div>
-
-          </div>
-
-          <button
-            class="icon-btn"
-            onclick="logout()"
-          >
-            <i
-              data-lucide="log-out"
-              class="icon-sm"
-            ></i>
-          </button>
-
-        </div>
-
-      </aside>
-
-      <main
-        id="mainArea"
-        class="main"
-      ></main>
-
-      <nav
-        class="
-          bottom-nav
-          ${admin?"four":"three"}
-        "
-      >
-
-        ${bottomButton(
-          "chats",
-          "message-circle",
-          "Чати"
-        )}
-
-        ${bottomButton(
-          "shop",
-          "shopping-bag",
-          "Магазин"
-        )}
-
-        ${bottomButton(
-          "profile",
-          "user-round",
-          "Профіль"
-        )}
-
-        ${
-          admin
-            ?bottomButton(
-                "admin",
-                "shield",
-                "Адмін"
-              )
-            :""
-        }
-
-      </nav>
-
-    </div>
-  `;
 
   renderPage();
+
   refreshIcons();
+
 }
+
 
 function navigate(page){
+
   if(
-    page==="admin" &&
-    state.profile?.role!=="admin"
+    page==="admin"
+    &&
+    state.profile?.role!==
+    "admin"
   ){
+
     return;
+
   }
 
-  state.page=page;
+
+  state.page=
+    page;
 
   render();
+
 }
+
 
 function renderPage(){
-  if(state.page==="chats"){
+
+  if(
+    state.page==="chats"
+  ){
+
     renderChats();
+
+    return;
+
   }
 
-  if(state.page==="shop"){
+
+  if(
+    state.page==="shop"
+  ){
+
     renderShop();
+
+    return;
+
   }
 
-  if(state.page==="profile"){
+
+  if(
+    state.page==="profile"
+  ){
+
     renderProfile();
+
+    return;
+
   }
 
-  if(state.page==="admin"){
+
+  if(
+    state.page==="admin"
+  ){
+
     renderAdmin();
+
   }
+
 }
+
 
 /* =====================================================
    BALANCE
 ===================================================== */
 
 function balanceMarkup(){
+
   return `
     <div class="balance">
 
       <span class="balance-value">
+
         ${money(
           state.wallet?.balance
         )}
+
       </span>
+
 
       <button
         class="balance-plus"
-        onclick="openTopup()"
+
+        onclick="
+          openTopup()
+        "
       >
+
         <i
           data-lucide="plus"
           class="icon-sm"
         ></i>
+
       </button>
 
     </div>
   `;
+
 }
+
 
 /* =====================================================
    PROFILE
 ===================================================== */
 
 async function renderProfile(){
-  const main=qs("#mainArea");
 
-  if(!main)return;
+  const main=
+    qs("#mainArea");
+
+  if(!main){
+    return;
+  }
+
 
   main.innerHTML=`
     <div class="page">
+
       <div class="empty">
+
         <i
           data-lucide="loader-circle"
           class="icon spin"
@@ -2250,31 +3819,52 @@ async function renderProfile(){
         <p>
           Завантаження профілю
         </p>
+
       </div>
+
     </div>
   `;
 
+
   refreshIcons();
+
 
   await loadMe();
 
-  const p=state.profile||{};
+
+  const p=
+    state.profile
+    ||
+    {};
+
 
   const username=
-    p.username||
-    p.login||
+    p.username
+    ||
+    p.login
+    ||
     "Користувач";
 
+
   const publicId=
-    p.public_id||
+    p.public_id
+    ||
     "------";
 
+
   main.innerHTML=`
-    <div class="page page-animation">
+
+    <div
+      class="
+        page
+        page-animation
+      "
+    >
 
       <div class="page-head">
 
         <div>
+
           <h1 class="page-title">
             Профіль
           </h1>
@@ -2282,58 +3872,89 @@ async function renderProfile(){
           <div class="page-desc">
             Ваш профіль LiptonGram
           </div>
+
         </div>
+
 
         ${balanceMarkup()}
 
       </div>
 
+
       <section
-        class="card profile-card"
+        class="
+          card
+          profile-card
+        "
       >
 
         <div
           class="profile-banner"
+
           ${
             p.banner_url
               ?`
                 style="
                   background-image:
-                  url('${esc(p.banner_url)}')
+                  url('${esc(
+                    p.banner_url
+                  )}')
                 "
               `
               :""
           }
-        ></div>
+        >
+        </div>
+
 
         <div class="profile-info">
 
           <div class="profile-avatar">
-            ${avatar(p,true)}
+
+            ${avatar(
+              p,
+              true
+            )}
+
           </div>
+
 
           <div class="profile-main">
 
             <h2 class="profile-name">
+
               ${esc(username)}
+
             </h2>
 
             <div class="profile-login">
-              @${esc(p.login||"user")}
+
+              @${esc(
+                p.login
+                ||
+                "user"
+              )}
+
             </div>
+
 
             <div class="profile-tags">
 
               <span class="tag">
+
                 <i
                   data-lucide="fingerprint"
                   class="icon-sm"
                 ></i>
 
-                ID ${esc(publicId)}
+                ID
+                ${esc(publicId)}
+
               </span>
 
+
               <span class="tag">
+
                 <i
                   data-lucide="calendar-days"
                   class="icon-sm"
@@ -2342,26 +3963,34 @@ async function renderProfile(){
                 ${formatDate(
                   p.created_at
                 )}
+
               </span>
 
             </div>
 
           </div>
 
+
           <div class="profile-actions">
 
             <button
-              class="btn btn-secondary"
+              class="
+                btn
+                btn-secondary
+              "
+
               onclick="
                 openEditProfile()
               "
             >
+
               <i
                 data-lucide="pencil"
                 class="icon-sm"
               ></i>
 
               Редагувати
+
             </button>
 
           </div>
@@ -2370,9 +3999,16 @@ async function renderProfile(){
 
       </section>
 
+
       <div class="profile-stats">
 
-        <section class="card stat">
+        <section
+          class="
+            card
+            stat
+          "
+        >
+
           <div class="stat-label">
             Баланс
           </div>
@@ -2382,9 +4018,17 @@ async function renderProfile(){
               state.wallet?.balance
             )}
           </div>
+
         </section>
 
-        <section class="card stat">
+
+        <section
+          class="
+            card
+            stat
+          "
+        >
+
           <div class="stat-label">
             Username
           </div>
@@ -2392,9 +4036,17 @@ async function renderProfile(){
           <div class="stat-value">
             ${esc(username)}
           </div>
+
         </section>
 
-        <section class="card stat">
+
+        <section
+          class="
+            card
+            stat
+          "
+        >
+
           <div class="stat-label">
             ID
           </div>
@@ -2402,6 +4054,7 @@ async function renderProfile(){
           <div class="stat-value">
             ${esc(publicId)}
           </div>
+
         </section>
 
       </div>
@@ -2409,17 +4062,28 @@ async function renderProfile(){
     </div>
   `;
 
+
   refreshIcons();
+
 }
 
+
 function openEditProfile(){
-  const p=state.profile||{};
+
+  const p=
+    state.profile
+    ||
+    {};
+
 
   modal(
+
     "Редагування профілю",
+
     `
       <form
         class="modal-form"
+
         onsubmit="
           event.preventDefault();
           saveProfile()
@@ -2427,75 +4091,120 @@ function openEditProfile(){
       >
 
         <div class="field">
+
           <label>
             Username
           </label>
 
           <input
             id="editUsername"
+
             class="input"
+
             maxlength="24"
-            value="${esc(p.username||"")}"
+
+            value="${esc(
+              p.username
+              ||
+              ""
+            )}"
           >
+
         </div>
 
+
         <div class="field">
+
           <label>
             Ваш 6-значний ID
           </label>
 
           <input
             id="editPublicId"
+
             class="input"
+
             maxlength="6"
+
             inputmode="numeric"
+
             value="${
               p.public_id==="------"
                 ?""
-                :esc(p.public_id||"")
+                :esc(
+                    p.public_id
+                    ||
+                    ""
+                  )
             }"
           >
+
         </div>
 
+
         <div class="field">
+
           <label>
             Аватар
           </label>
 
           <input
             id="avatarFile"
+
             class="input"
+
             type="file"
+
             accept="image/*"
           >
+
         </div>
 
+
         <div class="field">
+
           <label>
             Шапка профілю
           </label>
 
           <input
             id="bannerFile"
+
             class="input"
+
             type="file"
+
             accept="image/*"
           >
+
         </div>
+
 
         <div class="modal-actions">
 
           <button
             type="button"
-            class="btn btn-secondary"
-            onclick="closeModal()"
+
+            class="
+              btn
+              btn-secondary
+            "
+
+            onclick="
+              closeModal()
+            "
           >
             Скасувати
           </button>
 
+
           <button
             id="profileSaveButton"
-            class="btn btn-primary"
+
+            class="
+              btn
+              btn-primary
+            "
           >
             Зберегти
           </button>
@@ -2504,215 +4213,328 @@ function openEditProfile(){
 
       </form>
     `
+
   );
+
 }
+
 
 async function uploadProfileImage(
   file,
   prefix
 ){
-  if(!file)return null;
+
+  if(!file){
+    return null;
+  }
+
 
   if(
-    !file.type.startsWith("image/")
+    !file.type
+      .startsWith(
+        "image/"
+      )
   ){
+
     throw new Error(
       "Оберіть зображення"
     );
+
   }
+
 
   if(
     file.size>
     8*1024*1024
   ){
+
     throw new Error(
       "Зображення занадто велике"
     );
+
   }
+
 
   const extension=
     file.name
       .split(".")
       .pop()
       ?.toLowerCase()
+
     ||
+
     "jpg";
 
+
   const path=
-    `${state.user.id}/${prefix}-${Date.now()}.${extension}`;
+    `${
+      state.user.id
+    }/${
+      prefix
+    }-${
+      Date.now()
+    }.${extension}`;
+
 
   const {error}=
     await sb.storage
+
       .from("profiles")
+
       .upload(
+
         path,
+
         file,
+
         {
           upsert:true
         }
+
       );
 
+
   if(error){
+
     throw error;
+
   }
+
 
   const {data}=
     sb.storage
+
       .from("profiles")
+
       .getPublicUrl(path);
 
+
   return data.publicUrl;
+
 }
 
+
 async function saveProfile(){
+
   const button=
     qs("#profileSaveButton");
+
 
   const username=
     qs("#editUsername")
       .value
       .trim();
 
+
   const publicId=
     qs("#editPublicId")
       .value
       .trim();
 
+
   if(
     !/^[A-Za-z0-9_]{3,24}$/
       .test(username)
   ){
+
     toast(
       "Username: 3–24 символи, букви, цифри або _",
       "error"
     );
 
     return;
+
   }
+
 
   if(
     !/^\d{6}$/
       .test(publicId)
   ){
+
     toast(
       "ID повинен містити рівно 6 цифр",
       "error"
     );
 
     return;
+
   }
+
 
   setLoading(
     button,
     true
   );
 
+
   try{
+
     let avatarUrl=
-      state.profile?.avatar_url||
+      state.profile?.avatar_url
+      ||
       null;
 
+
     let bannerUrl=
-      state.profile?.banner_url||
+      state.profile?.banner_url
+      ||
       null;
+
 
     const avatarFile=
       qs("#avatarFile")
         ?.files?.[0];
 
+
     const bannerFile=
       qs("#bannerFile")
         ?.files?.[0];
 
+
     if(avatarFile){
+
       avatarUrl=
         await uploadProfileImage(
           avatarFile,
           "avatar"
         );
+
     }
 
+
     if(bannerFile){
+
       bannerUrl=
         await uploadProfileImage(
           bannerFile,
           "banner"
         );
+
     }
 
-    const {data,error}=
+
+    const {
+      data,
+      error
+    }=
       await sb
+
         .from("profiles")
+
         .update({
+
           username,
-          public_id:publicId,
-          avatar_url:avatarUrl,
-          banner_url:bannerUrl,
+
+          public_id:
+            publicId,
+
+          avatar_url:
+            avatarUrl,
+
+          banner_url:
+            bannerUrl,
+
           updated_at:
             new Date()
               .toISOString()
+
         })
+
         .eq(
           "id",
           state.user.id
         )
+
         .select()
+
         .single();
 
+
     if(error){
+
       throw error;
+
     }
 
-    state.profile=data;
+
+    state.profile=
+      data;
+
 
     closeModal();
 
     render();
+
 
     toast(
       "Профіль збережено",
       "success"
     );
 
+
   }catch(error){
+
     console.error(error);
+
 
     const message=
       String(
-        error?.message||""
-      ).toLowerCase();
+        error?.message
+        ||
+        ""
+      )
+        .toLowerCase();
+
 
     if(
-      message.includes("duplicate") ||
-      message.includes("unique")
+      message.includes(
+        "duplicate"
+      )
+      ||
+      message.includes(
+        "unique"
+      )
     ){
+
       toast(
         "Такий Username або ID уже зайнятий",
         "error"
       );
+
     }else{
+
       toast(
-        error.message||
+        error.message
+        ||
         "Не вдалося зберегти профіль",
         "error"
       );
+
     }
 
   }finally{
+
     setLoading(
       button,
       false
     );
+
   }
+
 }
 
+
 /* =====================================================
-   CARD TOPUP
+   TOP UP
 ===================================================== */
 
 function openTopup(){
+
   modal(
+
     "Поповнення балансу",
+
     `
       <div class="payment-card">
 
@@ -2721,12 +4543,14 @@ function openTopup(){
 
         <div
           id="cardPreview"
+
           class="payment-number"
         >
           •••• •••• •••• ••••
         </div>
 
         <div class="payment-bottom">
+
           <span>
             LiptonGram
           </span>
@@ -2734,19 +4558,27 @@ function openTopup(){
           <span id="datePreview">
             MM/YY
           </span>
+
         </div>
 
       </div>
 
+
       <div
         id="paymentError"
-        class="payment-error hidden"
+
+        class="
+          payment-error
+          hidden
+        "
       >
         Не вдалося виконати транзакцію
       </div>
 
+
       <form
         class="modal-form"
+
         onsubmit="
           event.preventDefault();
           fakePayment()
@@ -2754,297 +4586,456 @@ function openTopup(){
       >
 
         <div class="field">
+
           <label>
             Сума
           </label>
 
           <input
             id="topupAmount"
+
             class="input"
+
             inputmode="decimal"
+
             placeholder="10.00"
           >
+
         </div>
 
+
         <div class="field">
+
           <label>
             Номер картки
           </label>
 
           <input
             id="cardNumber"
+
             class="input"
+
             maxlength="19"
+
             inputmode="numeric"
+
             autocomplete="off"
+
             placeholder="0000 0000 0000 0000"
+
             oninput="
               formatCard(this)
             "
           >
+
         </div>
+
 
         <div
           style="
             display:grid;
-            grid-template-columns:1fr 1fr;
+            grid-template-columns:
+              1fr 1fr;
             gap:9px
           "
         >
 
           <div class="field">
+
             <label>
               Термін
             </label>
 
             <input
               id="cardDate"
+
               class="input"
+
               maxlength="5"
+
               autocomplete="off"
+
               placeholder="MM/YY"
+
               oninput="
                 formatDateCard(this)
               "
             >
+
           </div>
 
+
           <div class="field">
+
             <label>
               CVV
             </label>
 
             <input
               id="cardCVV"
+
               class="input"
+
               type="password"
+
               maxlength="3"
+
               inputmode="numeric"
+
               autocomplete="off"
+
               placeholder="•••"
             >
+
           </div>
 
         </div>
 
+
         <button
           id="payButton"
-          class="btn btn-primary"
+
+          class="
+            btn
+            btn-primary
+          "
         >
           Поповнити
         </button>
 
       </form>
     `
+
   );
+
 }
 
+
 function formatCard(input){
+
   let value=
     input.value
-      .replace(/\D/g,"")
-      .slice(0,16);
+      .replace(
+        /\D/g,
+        ""
+      )
+      .slice(
+        0,
+        16
+      );
 
-  value=value.replace(
-    /(\d{4})(?=\d)/g,
-    "$1 "
-  );
 
-  input.value=value;
+  value=
+    value.replace(
+      /(\d{4})(?=\d)/g,
+      "$1 "
+    );
+
+
+  input.value=
+    value;
+
 
   const preview=
     qs("#cardPreview");
 
+
   if(preview){
+
     preview.textContent=
-      value||
+      value
+      ||
       "•••• •••• •••• ••••";
+
   }
+
 }
 
+
 function formatDateCard(input){
+
   let value=
     input.value
-      .replace(/\D/g,"")
-      .slice(0,4);
+      .replace(
+        /\D/g,
+        ""
+      )
+      .slice(
+        0,
+        4
+      );
 
-  if(value.length>2){
+
+  if(
+    value.length>2
+  ){
+
     value=
-      value.slice(0,2)
+      value.slice(
+        0,
+        2
+      )
+
       +
+
       "/"
+
       +
+
       value.slice(2);
+
   }
 
-  input.value=value;
+
+  input.value=
+    value;
+
 
   const preview=
     qs("#datePreview");
 
+
   if(preview){
+
     preview.textContent=
-      value||"MM/YY";
+      value
+      ||
+      "MM/YY";
+
   }
+
 }
 
+
 async function fakePayment(){
+
   const amount=
     Number(
       qs("#topupAmount")
         .value
-        .replace(",",".")
+        .replace(
+          ",",
+          "."
+        )
     );
 
+
   if(
-    !Number.isFinite(amount) ||
+    !Number.isFinite(amount)
+    ||
     amount<=0
   ){
+
     toast(
       "Вкажіть правильну суму",
       "error"
     );
 
     return;
+
   }
+
 
   const button=
     qs("#payButton");
+
 
   setLoading(
     button,
     true
   );
 
-  /*
-    Дані картки нікуди
-    не передаються і не зберігаються.
-  */
 
   await new Promise(
     resolve=>
-      setTimeout(resolve,1400)
+      setTimeout(
+        resolve,
+        1400
+      )
   );
+
 
   setLoading(
     button,
     false
   );
 
+
   qs("#paymentError")
     ?.classList
-    .remove("hidden");
+    .remove(
+      "hidden"
+    );
 
-  ["cardNumber","cardDate","cardCVV"]
-    .forEach(id=>{
-      const el=qs("#"+id);
 
-      if(el){
-        el.value="";
+  [
+    "cardNumber",
+    "cardDate",
+    "cardCVV"
+  ]
+    .forEach(
+      id=>{
+
+        const el=
+          qs("#"+id);
+
+        if(el){
+
+          el.value="";
+
+        }
+
       }
-    });
+    );
+
 }
+
 
 /* =====================================================
    USER SEARCH
 ===================================================== */
 
 function openUserSearch(){
+
   modal(
+
     "Новий чат",
+
     `
-      <div class="field">
+      <div class="user-search-help">
 
-        <label>
-          Username або 6-значний ID
-        </label>
-
-        <div class="search">
-
-          <i
-            data-lucide="search"
-            class="icon-sm"
-          ></i>
-
-          <input
-            class="input"
-            placeholder="Пошук"
-            oninput="
-              searchUsers(this.value)
-            "
-          >
-
-        </div>
+        Знайдіть користувача
+        за його Username
+        або 6-значним ID.
 
       </div>
 
-      <div
-        id="userResults"
-        style="margin-top:10px"
-      ></div>
+
+      <div class="chat-search">
+
+        <i
+          data-lucide="search"
+          class="chat-search-icon"
+        ></i>
+
+        <input
+          class="chat-search-input"
+
+          placeholder="Username або ID"
+
+          autocomplete="off"
+
+          oninput="
+            searchUsers(
+              this.value
+            )
+          "
+        >
+
+      </div>
+
+
+      <div id="userResults">
+      </div>
     `
+
   );
+
 }
 
-let searchTimer=null;
+
+let searchTimer=
+  null;
+
 
 function searchUsers(value){
+
   clearTimeout(
     searchTimer
   );
 
+
   searchTimer=
     setTimeout(
-      ()=>runUserSearch(value),
+      ()=>runUserSearch(
+        value
+      ),
       250
     );
+
 }
 
+
 async function runUserSearch(value){
+
   const root=
     qs("#userResults");
 
-  if(!root)return;
+
+  if(!root){
+    return;
+  }
+
 
   const query=
     value.trim();
 
-  if(query.length<2){
+
+  if(
+    query.length<2
+  ){
+
     root.innerHTML="";
+
     return;
+
   }
+
 
   let request=
     sb
       .from("profiles")
+
       .select(
         "id,login,username,public_id,avatar_url,banner_url,created_at"
       )
+
       .neq(
         "id",
         state.user.id
       )
+
       .limit(15);
 
-  if(/^\d{6}$/.test(query)){
+
+  if(
+    /^\d{6}$/
+      .test(query)
+  ){
+
     request=
       request.eq(
         "public_id",
         query
       );
+
   }else{
+
     const safe=
       query.replace(
         /[^A-Za-z0-9_]/g,
         ""
       );
 
+
     request=
       request.ilike(
         "username",
         `%${safe}%`
       );
+
   }
+
 
   const {
     data,
@@ -3052,119 +5043,184 @@ async function runUserSearch(value){
   }=
     await request;
 
+
   if(error){
+
     console.error(error);
+
     return;
+
   }
 
-  if(!data?.length){
+
+  if(
+    !data?.length
+  ){
+
     root.innerHTML=`
       <div class="empty">
+
         <strong>
           Нічого не знайдено
         </strong>
+
       </div>
     `;
 
     return;
+
   }
 
+
   root.innerHTML=
-    data.map(user=>`
-      <div
-        class="chat-item"
-        style="cursor:default"
-      >
+    data
+      .map(
+        user=>`
 
-        <div
-          onclick="
-            openPublicProfile(
-              '${user.id}'
-            )
-          "
-          style="cursor:pointer"
-        >
-          ${avatar(user)}
-        </div>
+          <div
+            class="chat-item"
 
-        <div
-          class="chat-item-content"
-          onclick="
-            openPublicProfile(
-              '${user.id}'
-            )
-          "
-          style="cursor:pointer"
-        >
-          <div class="chat-name">
-            ${esc(user.username)}
+            style="
+              cursor:default
+            "
+          >
+
+            <div
+              onclick="
+                openPublicProfile(
+                  '${user.id}'
+                )
+              "
+
+              style="
+                cursor:pointer
+              "
+            >
+
+              ${avatar(user)}
+
+            </div>
+
+
+            <div
+              class="chat-item-content"
+
+              onclick="
+                openPublicProfile(
+                  '${user.id}'
+                )
+              "
+
+              style="
+                cursor:pointer
+              "
+            >
+
+              <div class="chat-name">
+                ${esc(
+                  user.username
+                )}
+              </div>
+
+              <div class="chat-preview">
+                ID
+                ${esc(
+                  user.public_id
+                )}
+              </div>
+
+            </div>
+
+
+            <button
+              class="icon-btn"
+
+              onclick="
+                createChat(
+                  '${user.id}'
+                )
+              "
+            >
+
+              <i
+                data-lucide="message-circle"
+                class="icon-sm"
+              ></i>
+
+            </button>
+
           </div>
+        `
+      )
+      .join("");
 
-          <div class="chat-preview">
-            ID ${esc(user.public_id)}
-          </div>
-        </div>
-
-        <button
-          class="icon-btn"
-          onclick="
-            createChat(
-              '${user.id}'
-            )
-          "
-        >
-          <i
-            data-lucide="message-circle"
-            class="icon-sm"
-          ></i>
-        </button>
-
-      </div>
-    `).join("");
 
   refreshIcons();
+
 }
 
-async function openPublicProfile(userId){
+
+async function openPublicProfile(
+  userId
+){
+
   const {
     data:user,
     error
   }=
     await sb
       .from("profiles")
+
       .select(
         "id,login,username,public_id,avatar_url,banner_url,created_at"
       )
+
       .eq(
         "id",
         userId
       )
+
       .maybeSingle();
 
-  if(error||!user){
+
+  if(
+    error
+    ||
+    !user
+  ){
+
     toast(
       "Профіль не знайдено",
       "error"
     );
 
     return;
+
   }
 
+
   modal(
+
     user.username,
+
     `
       <div
         style="
           height:130px;
           border-radius:16px;
+
           background:
           ${
             user.banner_url
-              ?`url('${esc(user.banner_url)}') center/cover`
+              ?`url('${esc(
+                  user.banner_url
+                )}') center/cover`
               :"linear-gradient(120deg,#2b250d,#534000,#181818)"
           };
         "
-      ></div>
+      >
+      </div>
+
 
       <div
         style="
@@ -3172,18 +5228,30 @@ async function openPublicProfile(userId){
           padding:0 12px
         "
       >
-        ${avatar(user,true)}
+
+        ${avatar(
+          user,
+          true
+        )}
+
       </div>
+
 
       <div
         style="
           margin-top:10px;
+
           font-size:21px;
           font-weight:850
         "
       >
-        ${esc(user.username)}
+
+        ${esc(
+          user.username
+        )}
+
       </div>
+
 
       <div
         style="
@@ -3192,59 +5260,97 @@ async function openPublicProfile(userId){
           margin-top:3px
         "
       >
-        @${esc(user.login)}
+
+        @${esc(
+          user.login
+        )}
+
       </div>
 
-      <div
-        class="profile-tags"
-      >
+
+      <div class="profile-tags">
+
         <span class="tag">
-          ID ${esc(user.public_id)}
+
+          ID
+          ${esc(
+            user.public_id
+          )}
+
         </span>
 
         <span class="tag">
-          ${formatDate(user.created_at)}
+
+          ${formatDate(
+            user.created_at
+          )}
+
         </span>
+
       </div>
+
 
       <button
-        class="btn btn-primary"
+        class="
+          btn
+          btn-primary
+        "
+
         style="
           width:100%;
           margin-top:17px
         "
+
         onclick="
-          createChat('${user.id}')
+          createChat(
+            '${user.id}'
+          )
         "
       >
+
         <i
           data-lucide="message-circle"
           class="icon-sm"
         ></i>
 
         Написати
+
       </button>
     `
+
   );
+
 }
+
 
 /* =====================================================
    CHATS
 ===================================================== */
 
 async function renderChats(){
+
   const main=
     qs("#mainArea");
 
-  if(!main)return;
+
+  if(!main){
+    return;
+  }
+
 
   main.innerHTML=`
-    <div class="chat-layout page-animation">
+
+    <div
+      class="
+        chat-layout
+        page-animation
+      "
+    >
 
       <section
         class="
-          card
           chat-list-panel
+
           ${
             state.mobileChatOpen
               ?"mobile-hidden"
@@ -3257,61 +5363,88 @@ async function renderChats(){
 
           <div class="chat-title-row">
 
-            <h2>
-              Чати
-            </h2>
+            <div class="chat-title-content">
+
+              <h2>
+                Чати
+              </h2>
+
+              <div class="chat-title-subtitle">
+                Особисті повідомлення
+              </div>
+
+            </div>
+
 
             <button
-              class="icon-btn"
+              class="new-chat-btn"
+
               onclick="
                 openUserSearch()
               "
+
+              title="Новий чат"
             >
+
               <i
                 data-lucide="square-pen"
                 class="icon-sm"
               ></i>
+
             </button>
 
           </div>
 
-          <div class="search">
+
+          <div class="chat-search">
 
             <i
               data-lucide="search"
-              class="icon-sm"
+              class="chat-search-icon"
             ></i>
 
             <input
-              class="input"
+              class="chat-search-input"
+
               placeholder="Пошук чатів"
+
+              autocomplete="off"
+
               oninput="
-                filterChats(this.value)
+                filterChats(
+                  this.value
+                )
               "
             >
 
           </div>
 
         </div>
+
 
         <div
           id="chatList"
           class="chat-list"
         >
+
           <div class="empty">
+
             <i
               data-lucide="loader-circle"
-              class="spin"
+              class="icon spin"
             ></i>
+
           </div>
+
         </div>
 
       </section>
 
+
       <section
         class="
-          card
           chat-panel
+
           ${
             !state.mobileChatOpen
               ?"mobile-hidden"
@@ -3319,30 +5452,41 @@ async function renderChats(){
           }
         "
       >
+
         ${chatWindowMarkup()}
+
       </section>
 
     </div>
   `;
 
+
   refreshIcons();
 
+
   await loadChats();
+
 }
 
+
 function chatWindowMarkup(){
+
   if(
-    !state.activeConversation ||
+    !state.activeConversation
+    ||
     !state.activeChatUser
   ){
+
     return `
       <div class="empty">
 
         <div class="empty-icon">
+
           <i
             data-lucide="messages-square"
             class="icon"
           ></i>
+
         </div>
 
         <strong>
@@ -3350,21 +5494,26 @@ function chatWindowMarkup(){
         </strong>
 
         <p>
-          Знайдіть користувача за Username або ID.
+          Знайдіть користувача
+          за Username або ID.
         </p>
 
       </div>
     `;
+
   }
+
 
   return `
     <div class="active-chat-head">
 
       <button
         class="icon-btn"
+
         onclick="
           closeMobileChat()
         "
+
         style="
           display:${
             window.innerWidth<=760
@@ -3373,11 +5522,14 @@ function chatWindowMarkup(){
           }
         "
       >
+
         <i
           data-lucide="arrow-left"
           class="icon-sm"
         ></i>
+
       </button>
+
 
       <div
         onclick="
@@ -3385,46 +5537,67 @@ function chatWindowMarkup(){
             '${state.activeChatUser.id}'
           )
         "
-        style="cursor:pointer"
+
+        style="
+          cursor:pointer
+        "
       >
+
         ${avatar(
           state.activeChatUser
         )}
+
       </div>
+
 
       <div
         class="active-chat-user"
+
         onclick="
           openPublicProfile(
             '${state.activeChatUser.id}'
           )
         "
       >
+
         <div class="active-chat-name">
+
           ${esc(
-            state.activeChatUser.username
+            state.activeChatUser
+              .username
           )}
+
         </div>
 
+
         <div class="active-chat-id">
+
           ID
           ${esc(
-            state.activeChatUser.public_id
+            state.activeChatUser
+              .public_id
           )}
+
         </div>
+
       </div>
 
     </div>
+
 
     <div
       id="messages"
       class="messages"
     >
+
       ${messagesMarkup()}
+
     </div>
+
 
     <form
       class="composer"
+
       onsubmit="
         event.preventDefault();
         sendMessage()
@@ -3433,29 +5606,44 @@ function chatWindowMarkup(){
 
       <textarea
         id="messageInput"
+
         rows="1"
+
         maxlength="4000"
+
         placeholder="Повідомлення"
+
         onkeydown="
           messageKey(event)
         "
       ></textarea>
 
+
       <button
         class="send"
+
+        type="submit"
       >
+
         <i
           data-lucide="send"
           class="icon-sm"
         ></i>
+
       </button>
 
     </form>
   `;
+
 }
 
+
 function messagesMarkup(){
-  if(!state.messages.length){
+
+  if(
+    !state.messages.length
+  ){
+
     return `
       <div class="empty">
 
@@ -3469,71 +5657,98 @@ function messagesMarkup(){
 
       </div>
     `;
+
   }
 
+
   return state.messages
-    .map(message=>{
-      const mine=
-        message.sender_id===
-        state.user.id;
+    .map(
+      message=>{
 
-      return `
-        <div
-          class="
-            message-row
-            ${mine?"mine":""}
-          "
-        >
-          <div class="message">
+        const mine=
+          message.sender_id===
+          state.user.id;
 
-            <div>
-              ${esc(message.content)}
-            </div>
 
-            <div class="message-time">
-              ${formatTime(
-                message.created_at
-              )}
+        return `
+          <div
+            class="
+              message-row
+              ${mine?"mine":""}
+            "
+          >
 
-              ${
-                message._pending
-                  ?" · надсилання"
-                  :""
-              }
+            <div class="message">
 
-              ${
-                message._failed
-                  ?" · помилка"
-                  :""
-              }
+              <div>
+                ${esc(
+                  message.content
+                )}
+              </div>
+
+              <div class="message-time">
+
+                ${formatTime(
+                  message.created_at
+                )}
+
+                ${
+                  message._pending
+                    ?" · надсилання"
+                    :""
+                }
+
+                ${
+                  message._failed
+                    ?" · помилка"
+                    :""
+                }
+
+              </div>
+
             </div>
 
           </div>
-        </div>
-      `;
-    })
+        `;
+
+      }
+    )
     .join("");
+
 }
 
+
 async function loadChats(){
+
   const root=
     qs("#chatList");
 
-  if(!root)return;
+
+  if(!root){
+    return;
+  }
+
 
   const uid=
     state.user.id;
+
 
   const {
     data,
     error
   }=
     await sb
-      .from("direct_conversations")
+
+      .from(
+        "direct_conversations"
+      )
+
       .select("*")
+
       .or(
         `user1_id.eq.${uid},user2_id.eq.${uid}`
       )
+
       .order(
         "updated_at",
         {
@@ -3541,83 +5756,189 @@ async function loadChats(){
         }
       );
 
+
   if(error){
+
     root.innerHTML=`
       <div class="empty">
+
         <strong>
           Не вдалося завантажити чати
         </strong>
+
       </div>
     `;
 
     return;
+
   }
 
-  const chats=data||[];
+
+  const chats=
+    data
+    ||
+    [];
+
 
   const ids=
-    chats.map(chat=>
-      chat.user1_id===uid
-        ?chat.user2_id
-        :chat.user1_id
+    chats.map(
+      chat=>
+
+        chat.user1_id===uid
+
+          ?chat.user2_id
+
+          :chat.user1_id
     );
+
 
   let users=[];
 
+
   if(ids.length){
-    const {data:profiles}=
+
+    const {
+      data:profiles
+    }=
       await sb
+
         .from("profiles")
+
         .select(
           "id,login,username,public_id,avatar_url,banner_url,created_at"
         )
+
         .in(
           "id",
           ids
         );
 
-    users=profiles||[];
+
+    users=
+      profiles
+      ||
+      [];
+
   }
+
 
   const map=
     Object.fromEntries(
-      users.map(user=>[
-        user.id,
-        user
-      ])
+
+      users.map(
+        user=>[
+          user.id,
+          user
+        ]
+      )
+
     );
 
-  state.conversations=
-    chats.map(chat=>{
-      const otherId=
-        chat.user1_id===uid
-          ?chat.user2_id
-          :chat.user1_id;
 
-      return {
-        ...chat,
-        other:map[otherId]
-      };
-    });
+  const withPreview=
+    await Promise.all(
+
+      chats.map(
+        async chat=>{
+
+          const otherId=
+            chat.user1_id===uid
+
+              ?chat.user2_id
+
+              :chat.user1_id;
+
+
+          let latest=null;
+
+
+          try{
+
+            const {
+              data:lastMessage
+            }=
+              await sb
+
+                .from("messages")
+
+                .select(
+                  "content,created_at,sender_id"
+                )
+
+                .eq(
+                  "conversation_id",
+                  chat.id
+                )
+
+                .order(
+                  "created_at",
+                  {
+                    ascending:false
+                  }
+                )
+
+                .limit(1)
+
+                .maybeSingle();
+
+
+            latest=
+              lastMessage;
+
+          }catch{}
+
+
+          return {
+
+            ...chat,
+
+            other:
+              map[otherId],
+
+            latest
+
+          };
+
+        }
+      )
+
+    );
+
+
+  state.conversations=
+    withPreview;
+
 
   renderChatList();
+
 }
 
+
 function renderChatList(){
+
   const root=
     qs("#chatList");
 
-  if(!root)return;
 
-  if(!state.conversations.length){
+  if(!root){
+    return;
+  }
+
+
+  if(
+    !state.conversations.length
+  ){
+
     root.innerHTML=`
       <div class="empty">
 
         <div class="empty-icon">
+
           <i
             data-lucide="message-circle"
             class="icon"
           ></i>
+
         </div>
 
         <strong>
@@ -3625,213 +5946,351 @@ function renderChatList(){
         </strong>
 
         <p>
-          Створіть першу розмову.
+          Натисніть кнопку зверху
+          та знайдіть користувача.
         </p>
 
       </div>
     `;
 
     refreshIcons();
+
     return;
+
   }
+
 
   root.innerHTML=
     state.conversations
-      .map(chat=>`
-        <button
-          class="
-            chat-item
-            ${
-              state.activeConversation
-                ?.id===chat.id
-                ?"active"
-                :""
-            }
-          "
-          data-search="${
-            esc(
+
+      .map(
+        chat=>`
+
+          <button
+            class="
+              chat-item
+
+              ${
+                state.activeConversation
+                  ?.id===chat.id
+                  ?"active"
+                  :""
+              }
+            "
+
+            data-search="${esc(
               (
-                (chat.other?.username||"")
+                (
+                  chat.other?.username
+                  ||
+                  ""
+                )
+
                 +
+
                 " "
+
                 +
-                (chat.other?.public_id||"")
-              ).toLowerCase()
-            )
-          }"
-          onclick="
-            openChat(
-              '${chat.id}',
-              '${chat.other?.id}'
-            )
-          "
-        >
 
-          ${avatar(chat.other)}
+                (
+                  chat.other?.public_id
+                  ||
+                  ""
+                )
+              )
+              .toLowerCase()
+            )}"
 
-          <div class="chat-item-content">
+            onclick="
+              openChat(
+                '${chat.id}',
+                '${chat.other?.id}'
+              )
+            "
+          >
 
-            <div class="chat-item-row">
+            ${avatar(
+              chat.other
+            )}
 
-              <span class="chat-name">
-                ${esc(
-                  chat.other?.username||
-                  "Користувач"
-                )}
-              </span>
 
-              <span class="chat-time">
-                ${formatTime(
-                  chat.updated_at
-                )}
-              </span>
+            <div class="chat-item-content">
+
+              <div class="chat-item-row">
+
+                <span class="chat-name">
+
+                  ${esc(
+                    chat.other
+                      ?.username
+                    ||
+                    "Користувач"
+                  )}
+
+                </span>
+
+
+                <span class="chat-time">
+
+                  ${formatTime(
+                    chat.latest
+                      ?.created_at
+                    ||
+                    chat.updated_at
+                  )}
+
+                </span>
+
+              </div>
+
+
+              <div class="chat-preview">
+
+                ${
+                  chat.latest?.content
+
+                    ?esc(
+                        chat.latest.content
+                      )
+
+                    :"Розмову створено"
+                }
+
+              </div>
 
             </div>
 
-            <div class="chat-preview">
-              Відкрити розмову
-            </div>
+          </button>
+        `
+      )
 
-          </div>
-
-        </button>
-      `)
       .join("");
 
+
   refreshIcons();
+
 }
 
+
 function filterChats(value){
+
   const query=
     value
       .trim()
       .toLowerCase();
 
-  qsa(".chat-item")
-    .forEach(item=>{
-      if(!item.dataset.search){
-        return;
-      }
 
-      item.style.display=
-        item.dataset.search
-          .includes(query)
-          ?""
-          :"none";
-    });
+  qsa(
+    ".chat-item"
+  )
+    .forEach(
+      item=>{
+
+        if(
+          !item.dataset.search
+        ){
+          return;
+        }
+
+
+        item.style.display=
+
+          item.dataset.search
+            .includes(query)
+
+            ?""
+
+            :"none";
+
+      }
+    );
+
 }
 
-async function createChat(userId){
+
+async function createChat(
+  userId
+){
+
   const {
     data,
     error
   }=
     await sb.rpc(
+
       "get_or_create_direct_conversation",
+
       {
-        target_user_id:userId
+        target_user_id:
+          userId
       }
+
     );
 
+
   if(error){
+
     toast(
-      error.message||
+      error.message
+      ||
       "Не вдалося створити чат",
       "error"
     );
 
     return;
+
   }
+
 
   closeModal();
 
+
   await loadChats();
+
 
   await openChat(
     data,
     userId
   );
+
 }
+
 
 async function openChat(
   conversationId,
   userId
 ){
+
   let user=
     state.conversations
+
       .find(
         chat=>
-          chat.id===conversationId
+          chat.id===
+          conversationId
       )
+
       ?.other;
 
+
   if(!user){
+
     const {data}=
       await sb
+
         .from("profiles")
+
         .select(
           "id,login,username,public_id,avatar_url,banner_url,created_at"
         )
+
         .eq(
           "id",
           userId
         )
+
         .maybeSingle();
 
-    user=data;
+
+    user=
+      data;
+
   }
 
+
+  if(!user){
+
+    toast(
+      "Користувача не знайдено",
+      "error"
+    );
+
+    return;
+
+  }
+
+
   state.activeConversation={
-    id:conversationId
+    id:
+      conversationId
   };
 
-  state.activeChatUser=user;
 
-  state.mobileChatOpen=true;
+  state.activeChatUser=
+    user;
+
+
+  state.mobileChatOpen=
+    true;
+
 
   const {
     data,
     error
   }=
     await sb
+
       .from("messages")
+
       .select("*")
+
       .eq(
         "conversation_id",
         conversationId
       )
+
       .order(
         "created_at",
         {
           ascending:true
         }
       )
+
       .limit(500);
 
+
   if(error){
+
     toast(
       "Не вдалося відкрити чат",
       "error"
     );
 
     return;
+
   }
 
-  state.messages=data||[];
 
-  if(state.messageChannel){
+  state.messages=
+    data
+    ||
+    [];
+
+
+  if(
+    state.messageChannel
+  ){
+
     await sb.removeChannel(
       state.messageChannel
     );
+
   }
+
 
   state.messageChannel=
     sb
+
       .channel(
-        "chat:"+conversationId
+        "chat:"
+        +
+        conversationId
       )
+
       .on(
+
         "postgres_changes",
+
         {
           event:"INSERT",
           schema:"public",
@@ -3839,108 +6298,181 @@ async function openChat(
           filter:
             `conversation_id=eq.${conversationId}`
         },
+
         payload=>{
+
           const incoming=
             payload.new;
 
-          const exists=
-            state.messages.some(
-              message=>
-                message.id===
-                incoming.id
-            );
 
-          if(exists){
-            state.messages=
-              state.messages.map(
+          const exists=
+            state.messages
+              .some(
                 message=>
                   message.id===
                   incoming.id
-                    ?incoming
-                    :message
               );
+
+
+          if(exists){
+
+            state.messages=
+              state.messages
+
+                .map(
+                  message=>
+
+                    message.id===
+                    incoming.id
+
+                      ?incoming
+
+                      :message
+                );
+
           }else{
-            state.messages.push(
-              incoming
-            );
+
+            state.messages
+              .push(
+                incoming
+              );
+
           }
 
-          refreshMessages(true);
+
+          refreshMessages(
+            true
+          );
+
         }
+
       )
+
       .subscribe();
 
+
   renderChats();
+
 
   setTimeout(
     scrollMessages,
     40
   );
+
 }
 
+
 function closeMobileChat(){
-  state.mobileChatOpen=false;
+
+  state.mobileChatOpen=
+    false;
+
   renderChats();
+
 }
+
 
 function refreshMessages(
   scroll=false
 ){
+
   const root=
     qs("#messages");
 
-  if(!root)return;
+
+  if(!root){
+    return;
+  }
+
 
   root.innerHTML=
     messagesMarkup();
 
+
   refreshIcons();
 
+
   if(scroll){
+
     scrollMessages();
+
   }
+
 }
 
+
 function scrollMessages(){
+
   const root=
     qs("#messages");
 
+
   if(root){
+
     root.scrollTop=
       root.scrollHeight;
+
   }
+
 }
+
 
 function messageKey(event){
+
   if(
-    event.key==="Enter" &&
-    !event.shiftKey &&
+    event.key==="Enter"
+    &&
+    !event.shiftKey
+    &&
     window.innerWidth>760
   ){
+
     event.preventDefault();
+
     sendMessage();
+
   }
+
 }
 
+
 async function sendMessage(){
-  if(!state.activeConversation){
+
+  if(
+    !state.activeConversation
+  ){
+
     return;
+
   }
+
 
   const input=
     qs("#messageInput");
 
-  const content=
-    input?.value.trim();
 
-  if(!content)return;
+  const content=
+    input
+      ?.value
+      .trim();
+
+
+  if(!content){
+
+    return;
+
+  }
+
 
   input.value="";
+
 
   const id=
     crypto.randomUUID();
 
+
   state.messages.push({
+
     id,
 
     conversation_id:
@@ -3952,17 +6484,26 @@ async function sendMessage(){
     content,
 
     created_at:
-      new Date().toISOString(),
+      new Date()
+        .toISOString(),
 
     _pending:true
+
   });
 
-  refreshMessages(true);
+
+  refreshMessages(
+    true
+  );
+
 
   const {error}=
     await sb
+
       .from("messages")
+
       .insert({
+
         id,
 
         conversation_id:
@@ -3972,22 +6513,32 @@ async function sendMessage(){
           state.user.id,
 
         content
+
       });
 
+
   if(error){
+
     state.messages=
-      state.messages.map(
-        message=>
-          message.id===id
-            ?{
-                ...message,
-                _pending:false,
-                _failed:true
-              }
-            :message
-      );
+      state.messages
+
+        .map(
+          message=>
+
+            message.id===id
+
+              ?{
+                  ...message,
+                  _pending:false,
+                  _failed:true
+                }
+
+              :message
+        );
+
 
     refreshMessages();
+
 
     toast(
       "Повідомлення не надіслано",
@@ -3995,38 +6546,59 @@ async function sendMessage(){
     );
 
     return;
+
   }
 
+
   state.messages=
-    state.messages.map(
-      message=>
-        message.id===id
-          ?{
-              ...message,
-              _pending:false
-            }
-          :message
-    );
+    state.messages
+
+      .map(
+        message=>
+
+          message.id===id
+
+            ?{
+                ...message,
+                _pending:false
+              }
+
+            :message
+      );
+
 
   refreshMessages();
+
 }
+
 
 /* =====================================================
    SHOP
 ===================================================== */
 
 async function renderShop(){
+
   const main=
     qs("#mainArea");
 
-  if(!main)return;
+
+  if(!main){
+    return;
+  }
+
 
   main.innerHTML=`
-    <div class="page page-animation">
+    <div
+      class="
+        page
+        page-animation
+      "
+    >
 
       <div class="page-head">
 
         <div>
+
           <h1 class="page-title">
             Магазин
           </h1>
@@ -4034,7 +6606,9 @@ async function renderShop(){
           <div class="page-desc">
             Username та ID, виставлені на продаж
           </div>
+
         </div>
+
 
         <div
           style="
@@ -4047,53 +6621,79 @@ async function renderShop(){
           ${balanceMarkup()}
 
           <button
-            class="btn btn-primary"
-            onclick="openListing()"
+            class="
+              btn
+              btn-primary
+            "
+
+            onclick="
+              openListing()
+            "
           >
+
             <i
               data-lucide="plus"
               class="icon-sm"
             ></i>
 
             Продати
+
           </button>
 
         </div>
 
       </div>
 
+
       <div
         id="shopGrid"
         class="shop-grid"
       >
+
         <div class="empty">
+
           <i
             data-lucide="loader-circle"
             class="spin"
           ></i>
+
         </div>
+
       </div>
 
     </div>
   `;
 
+
   refreshIcons();
 
+
   await loadListings();
+
 }
 
+
 async function loadListings(){
+
   const root=
     qs("#shopGrid");
 
-  if(!root)return;
+
+  if(!root){
+    return;
+  }
+
 
   const {
     data,
     error
   }=
     await sb
-      .from("marketplace_listings")
+
+      .from(
+        "marketplace_listings"
+      )
+
       .select(`
         *,
         seller:profiles!marketplace_listings_seller_id_fkey(
@@ -4103,10 +6703,12 @@ async function loadListings(){
           avatar_url
         )
       `)
+
       .eq(
         "status",
         "active"
       )
+
       .order(
         "created_at",
         {
@@ -4114,47 +6716,81 @@ async function loadListings(){
         }
       );
 
+
   if(error){
+
     console.error(error);
+
 
     root.innerHTML=`
       <div
-        class="card empty"
-        style="grid-column:1/-1"
+        class="
+          card
+          empty
+        "
+
+        style="
+          grid-column:1/-1
+        "
       >
+
         <strong>
           Магазин недоступний
         </strong>
+
       </div>
     `;
 
     return;
+
   }
 
+
   state.listings=
-    data||[];
+    data
+    ||
+    [];
+
 
   renderListings();
+
 }
 
+
 function renderListings(){
+
   const root=
     qs("#shopGrid");
 
-  if(!root)return;
 
-  if(!state.listings.length){
+  if(!root){
+    return;
+  }
+
+
+  if(
+    !state.listings.length
+  ){
+
     root.innerHTML=`
       <div
-        class="card empty"
-        style="grid-column:1/-1"
+        class="
+          card
+          empty
+        "
+
+        style="
+          grid-column:1/-1
+        "
       >
 
         <div class="empty-icon">
+
           <i
             data-lucide="shopping-bag"
             class="icon"
           ></i>
+
         </div>
 
         <strong>
@@ -4164,101 +6800,158 @@ function renderListings(){
       </div>
     `;
 
+
     refreshIcons();
+
     return;
+
   }
+
 
   root.innerHTML=
     state.listings
-      .map(item=>{
-        const mine=
-          item.seller_id===
-          state.user.id;
 
-        return `
-          <section
-            class="card listing"
-          >
+      .map(
+        item=>{
 
-            <div class="listing-type">
-              ${
-                item.asset_type==="username"
-                  ?"Username"
-                  :"ID"
-              }
-            </div>
+          const mine=
+            item.seller_id===
+            state.user.id;
 
-            <div class="listing-value">
-              ${
-                item.asset_type==="username"
-                  ?"@"
-                  :""
-              }
 
-              ${esc(item.asset_value)}
-            </div>
+          return `
+            <section
+              class="
+                card
+                listing
+              "
+            >
 
-            <div class="listing-seller">
-              Продавець:
-              ${esc(
-                item.seller?.username||
-                "Користувач"
-              )}
-            </div>
+              <div class="listing-type">
 
-            <div class="listing-space">
-            </div>
+                ${
+                  item.asset_type===
+                  "username"
 
-            <div class="listing-bottom">
+                    ?"Username"
 
-              <div class="listing-price">
-                ${money(item.price)}
+                    :"ID"
+                }
+
               </div>
 
-              ${
-                mine
-                  ?`
-                    <button
-                      class="btn btn-danger"
-                      onclick="
-                        cancelListing(
-                          '${item.id}'
-                        )
-                      "
-                    >
-                      Зняти
-                    </button>
-                  `
-                  :`
-                    <button
-                      class="btn btn-primary"
-                      onclick="
-                        openBuyListing(
-                          '${item.id}'
-                        )
-                      "
-                    >
-                      Купити
-                    </button>
-                  `
-              }
 
-            </div>
+              <div class="listing-value">
 
-          </section>
-        `;
-      })
+                ${
+                  item.asset_type===
+                  "username"
+
+                    ?"@"
+
+                    :""
+                }
+
+                ${esc(
+                  item.asset_value
+                )}
+
+              </div>
+
+
+              <div class="listing-seller">
+
+                Продавець:
+
+                ${esc(
+                  item.seller
+                    ?.username
+                  ||
+                  "Користувач"
+                )}
+
+              </div>
+
+
+              <div class="listing-space">
+              </div>
+
+
+              <div class="listing-bottom">
+
+                <div class="listing-price">
+
+                  ${money(
+                    item.price
+                  )}
+
+                </div>
+
+
+                ${
+                  mine
+
+                    ?`
+                      <button
+                        class="
+                          btn
+                          btn-danger
+                        "
+
+                        onclick="
+                          cancelListing(
+                            '${item.id}'
+                          )
+                        "
+                      >
+                        Зняти
+                      </button>
+                    `
+
+                    :`
+                      <button
+                        class="
+                          btn
+                          btn-primary
+                        "
+
+                        onclick="
+                          openBuyListing(
+                            '${item.id}'
+                          )
+                        "
+                      >
+                        Купити
+                      </button>
+                    `
+                }
+
+              </div>
+
+            </section>
+          `;
+
+        }
+      )
+
       .join("");
 
+
   refreshIcons();
+
 }
 
+
 function openListing(){
+
   modal(
+
     "Продати",
+
     `
       <form
         class="modal-form"
+
         onsubmit="
           event.preventDefault();
           createListing()
@@ -4266,6 +6959,7 @@ function openListing(){
       >
 
         <div class="field">
+
           <label>
             Що продати
           </label>
@@ -4274,159 +6968,245 @@ function openListing(){
             id="listingType"
             class="input"
           >
+
             <option value="username">
+
               Username:
-              ${esc(state.profile.username)}
+              ${esc(
+                state.profile.username
+              )}
+
             </option>
 
             <option value="id">
+
               ID:
-              ${esc(state.profile.public_id)}
+              ${esc(
+                state.profile.public_id
+              )}
+
             </option>
+
           </select>
+
         </div>
 
+
         <div class="field">
+
           <label>
             Ціна, USD
           </label>
 
           <input
             id="listingPrice"
+
             class="input"
+
             inputmode="decimal"
+
             placeholder="10.00"
           >
+
         </div>
+
 
         <button
           id="listingButton"
-          class="btn btn-primary"
+
+          class="
+            btn
+            btn-primary
+          "
         >
           Виставити на продаж
         </button>
 
       </form>
     `
+
   );
+
 }
 
+
 async function createListing(){
+
   const type=
-    qs("#listingType").value;
+    qs("#listingType")
+      .value;
+
 
   const price=
     Number(
       qs("#listingPrice")
         .value
-        .replace(",",".")
+        .replace(
+          ",",
+          "."
+        )
     );
 
+
   if(
-    !Number.isFinite(price) ||
+    !Number.isFinite(price)
+    ||
     price<=0
   ){
+
     toast(
       "Вкажіть правильну ціну",
       "error"
     );
 
     return;
+
   }
 
+
   const assetValue=
+
     type==="username"
+
       ?state.profile.username
+
       :state.profile.public_id;
+
 
   const button=
     qs("#listingButton");
+
 
   setLoading(
     button,
     true
   );
 
+
   const {error}=
     await sb
-      .from("marketplace_listings")
+
+      .from(
+        "marketplace_listings"
+      )
+
       .insert({
+
         seller_id:
           state.user.id,
 
-        asset_type:type,
+        asset_type:
+          type,
 
         asset_value:
           assetValue,
 
         price,
 
-        status:"active"
+        status:
+          "active"
+
       });
+
 
   setLoading(
     button,
     false
   );
 
+
   if(error){
+
     toast(
-      error.message||
+      error.message
+      ||
       "Не вдалося виставити",
       "error"
     );
 
     return;
+
   }
+
 
   closeModal();
 
+
   await loadListings();
+
 
   toast(
     "Виставлено на продаж",
     "success"
   );
+
 }
 
+
 async function cancelListing(id){
+
   const {error}=
     await sb
-      .from("marketplace_listings")
+
+      .from(
+        "marketplace_listings"
+      )
+
       .update({
-        status:"cancelled"
+        status:
+          "cancelled"
       })
+
       .eq(
         "id",
         id
       )
+
       .eq(
         "seller_id",
         state.user.id
       );
 
+
   if(error){
+
     toast(
       "Не вдалося зняти",
       "error"
     );
 
     return;
+
   }
 
+
   await loadListings();
+
 }
 
-function openBuyListing(id){
-  const listing=
-    state.listings.find(
-      item=>item.id===id
-    );
 
-  if(!listing)return;
+function openBuyListing(id){
+
+  const listing=
+    state.listings
+
+      .find(
+        item=>
+          item.id===id
+      );
+
+
+  if(!listing){
+
+    return;
+
+  }
+
 
   modal(
+
     "Підтвердження покупки",
+
     `
       <div
         style="
@@ -4443,6 +7223,7 @@ function openBuyListing(id){
           Ви купуєте
         </div>
 
+
         <div
           style="
             font-size:22px;
@@ -4450,107 +7231,155 @@ function openBuyListing(id){
             margin-top:5px
           "
         >
+
           ${
-            listing.asset_type==="username"
+            listing.asset_type===
+            "username"
+
               ?"@"
+
               :"ID "
           }
 
-          ${esc(listing.asset_value)}
+          ${esc(
+            listing.asset_value
+          )}
+
         </div>
+
 
         <div
           style="
             margin-top:15px
           "
         >
+
           Ціна:
+
           <strong>
-            ${money(listing.price)}
+            ${money(
+              listing.price
+            )}
           </strong>
+
         </div>
 
       </div>
 
+
       <button
         id="buyButton"
-        class="btn btn-primary"
-        style="width:100%"
+
+        class="
+          btn
+          btn-primary
+        "
+
+        style="
+          width:100%
+        "
+
         onclick="
-          buyListing('${id}')
+          buyListing(
+            '${id}'
+          )
         "
       >
         Купити
       </button>
     `
+
   );
+
 }
 
+
 async function buyListing(id){
+
   const button=
     qs("#buyButton");
+
 
   setLoading(
     button,
     true
   );
 
+
   const {
     data,
     error
   }=
     await sb.rpc(
+
       "purchase_marketplace_listing",
+
       {
-        listing_id:id
+        listing_id:
+          id
       }
+
     );
+
 
   setLoading(
     button,
     false
   );
 
+
   if(error){
+
     toast(
-      error.message||
+      error.message
+      ||
       "Покупка не виконана",
       "error"
     );
 
     return;
+
   }
+
 
   closeModal();
 
+
   await loadMe();
 
+
   render();
+
 
   toast(
     "Покупку виконано",
     "success"
   );
+
 }
 
+
 /* =====================================================
-   ADMIN PANEL
+   ADMIN
 ===================================================== */
 
 function adminTab(
   tab,
   text
 ){
+
   return `
     <button
       class="
         admin-tab
+
         ${
           state.adminTab===tab
             ?"active"
             :""
         }
       "
+
       onclick="
         state.adminTab='${tab}';
         renderAdmin()
@@ -4559,27 +7388,49 @@ function adminTab(
       ${text}
     </button>
   `;
+
 }
 
+
 async function renderAdmin(){
+
   if(
-    state.profile?.role!=="admin"
+    state.profile?.role!==
+    "admin"
   ){
-    navigate("chats");
+
+    navigate(
+      "chats"
+    );
+
     return;
+
   }
+
 
   const main=
     qs("#mainArea");
 
-  if(!main)return;
+
+  if(!main){
+
+    return;
+
+  }
+
 
   main.innerHTML=`
-    <div class="page page-animation">
+    <div
+      class="
+        page
+        page-animation
+      "
+    >
 
       <div class="page-head">
 
         <div>
+
           <h1 class="page-title">
             Адмін-панель
           </h1>
@@ -4587,11 +7438,14 @@ async function renderAdmin(){
           <div class="page-desc">
             Управління LiptonGram
           </div>
+
         </div>
+
 
         ${balanceMarkup()}
 
       </div>
+
 
       <div class="admin-tabs">
 
@@ -4617,13 +7471,16 @@ async function renderAdmin(){
 
       </div>
 
+
       <div id="adminContent">
 
         <div class="empty">
+
           <i
             data-lucide="loader-circle"
             class="spin"
           ></i>
+
         </div>
 
       </div>
@@ -4631,40 +7488,63 @@ async function renderAdmin(){
     </div>
   `;
 
+
   refreshIcons();
 
+
   if(
-    state.adminTab==="dashboard"
+    state.adminTab===
+    "dashboard"
   ){
+
     await adminDashboard();
+
   }
 
+
   if(
-    state.adminTab==="users"
+    state.adminTab===
+    "users"
   ){
+
     await adminUsers();
+
   }
 
+
   if(
-    state.adminTab==="chats"
+    state.adminTab===
+    "chats"
   ){
+
     await adminChats();
+
   }
 
+
   if(
-    state.adminTab==="branding"
+    state.adminTab===
+    "branding"
   ){
+
     adminBranding();
+
   }
+
 }
+
 
 function adminStat(
   title,
   value
 ){
+
   return `
     <section
-      class="card admin-stat"
+      class="
+        card
+        admin-stat
+      "
     >
 
       <div class="stat-label">
@@ -4677,9 +7557,12 @@ function adminStat(
 
     </section>
   `;
+
 }
 
+
 async function adminDashboard(){
+
   const [
     users,
     messages,
@@ -4687,6 +7570,7 @@ async function adminDashboard(){
     transactions
   ]=
     await Promise.all([
+
       sb
         .from("profiles")
         .select(
@@ -4708,7 +7592,9 @@ async function adminDashboard(){
         ),
 
       sb
-        .from("marketplace_listings")
+        .from(
+          "marketplace_listings"
+        )
         .select(
           "id",
           {
@@ -4722,7 +7608,9 @@ async function adminDashboard(){
         ),
 
       sb
-        .from("wallet_transactions")
+        .from(
+          "wallet_transactions"
+        )
         .select(
           "id",
           {
@@ -4730,10 +7618,13 @@ async function adminDashboard(){
             head:true
           }
         )
+
     ]);
+
 
   qs("#adminContent")
     .innerHTML=`
+
       <div class="admin-stats">
 
         ${adminStat(
@@ -4758,9 +7649,13 @@ async function adminDashboard(){
 
       </div>
 
+
       <section
         class="card"
-        style="padding:20px"
+
+        style="
+          padding:20px
+        "
       >
 
         <div
@@ -4780,22 +7675,29 @@ async function adminDashboard(){
             line-height:1.6
           "
         >
-          Тут можна керувати користувачами,
-          балансом, чатами та логотипом сайту.
+          Управління користувачами,
+          балансом, чатами
+          та логотипом.
         </div>
 
       </section>
     `;
+
 }
 
+
 async function adminUsers(){
+
   const {
     data:users,
     error
   }=
     await sb
+
       .from("profiles")
+
       .select("*")
+
       .order(
         "created_at",
         {
@@ -4803,7 +7705,9 @@ async function adminUsers(){
         }
       );
 
+
   if(error){
+
     qs("#adminContent")
       .innerHTML=`
         <div class="empty">
@@ -4812,43 +7716,69 @@ async function adminUsers(){
       `;
 
     return;
+
   }
 
+
   state.adminUsers=
-    users||[];
+    users
+    ||
+    [];
+
 
   const ids=
-    state.adminUsers.map(
-      user=>user.id
-    );
+    state.adminUsers
+
+      .map(
+        user=>
+          user.id
+      );
+
 
   let wallets=[];
 
+
   if(ids.length){
+
     const {data}=
       await sb
+
         .from("wallets")
+
         .select(
           "user_id,balance"
         )
+
         .in(
           "user_id",
           ids
         );
 
-    wallets=data||[];
+
+    wallets=
+      data
+      ||
+      [];
+
   }
+
 
   const walletMap=
     Object.fromEntries(
-      wallets.map(wallet=>[
-        wallet.user_id,
-        wallet.balance
-      ])
+
+      wallets.map(
+        wallet=>[
+          wallet.user_id,
+          wallet.balance
+        ]
+      )
+
     );
+
 
   qs("#adminContent")
     .innerHTML=`
+
       <section class="card">
 
         <div
@@ -4858,16 +7788,19 @@ async function adminUsers(){
             1px solid var(--border)
           "
         >
-          <div class="search">
+
+          <div class="chat-search">
 
             <i
               data-lucide="search"
-              class="icon-sm"
+              class="chat-search-icon"
             ></i>
 
             <input
-              class="input"
+              class="chat-search-input"
+
               placeholder="Пошук користувача"
+
               oninput="
                 filterAdminUsers(
                   this.value
@@ -4876,98 +7809,161 @@ async function adminUsers(){
             >
 
           </div>
+
         </div>
+
 
         <div class="table-wrap">
 
           <table>
 
             <thead>
+
               <tr>
-                <th>Логін</th>
-                <th>Username</th>
-                <th>ID</th>
-                <th>Баланс</th>
-                <th>Роль</th>
-                <th>Дата</th>
-                <th></th>
+
+                <th>
+                  Логін
+                </th>
+
+                <th>
+                  Username
+                </th>
+
+                <th>
+                  ID
+                </th>
+
+                <th>
+                  Баланс
+                </th>
+
+                <th>
+                  Роль
+                </th>
+
+                <th>
+                  Дата
+                </th>
+
+                <th>
+                </th>
+
               </tr>
+
             </thead>
+
 
             <tbody>
 
-              ${state.adminUsers
-                .map(user=>`
-                  <tr
-                    class="admin-user-row"
-                    data-search="${
-                      esc(
-                        (
-                          user.login+
-                          " "+
-                          user.username+
-                          " "+
-                          user.public_id
-                        ).toLowerCase()
-                      )
-                    }"
-                  >
+              ${
+                state.adminUsers
 
-                    <td>
-                      ${esc(user.login)}
-                    </td>
+                  .map(
+                    user=>`
 
-                    <td>
-                      ${esc(user.username)}
-                    </td>
+                      <tr
+                        class="admin-user-row"
 
-                    <td>
-                      ${esc(user.public_id)}
-                    </td>
-
-                    <td>
-                      ${money(
-                        walletMap[user.id]||0
-                      )}
-                    </td>
-
-                    <td>
-                      <span
-                        class="
-                          role
-                          ${
-                            user.role==="admin"
-                              ?"admin"
-                              :""
-                          }
-                        "
-                      >
-                        ${esc(user.role)}
-                      </span>
-                    </td>
-
-                    <td>
-                      ${formatDate(
-                        user.created_at
-                      )}
-                    </td>
-
-                    <td>
-                      <button
-                        class="btn btn-secondary"
-                        onclick="
-                          openAdminBalance(
-                            '${user.id}'
+                        data-search="${esc(
+                          (
+                            user.login
+                            +
+                            " "
+                            +
+                            user.username
+                            +
+                            " "
+                            +
+                            user.public_id
                           )
-                        "
+                          .toLowerCase()
+                        )}"
                       >
-                        Баланс
-                      </button>
-                    </td>
 
-                  </tr>
-                `)
-                .join("")}
+                        <td>
+                          ${esc(
+                            user.login
+                          )}
+                        </td>
+
+                        <td>
+                          ${esc(
+                            user.username
+                          )}
+                        </td>
+
+                        <td>
+                          ${esc(
+                            user.public_id
+                          )}
+                        </td>
+
+                        <td>
+                          ${money(
+                            walletMap[
+                              user.id
+                            ]
+                            ||
+                            0
+                          )}
+                        </td>
+
+                        <td>
+
+                          <span
+                            class="
+                              role
+
+                              ${
+                                user.role===
+                                "admin"
+
+                                  ?"admin"
+
+                                  :""
+                              }
+                            "
+                          >
+
+                            ${esc(
+                              user.role
+                            )}
+
+                          </span>
+
+                        </td>
+
+                        <td>
+                          ${formatDate(
+                            user.created_at
+                          )}
+                        </td>
+
+                        <td>
+
+                          <button
+                            class="
+                              btn
+                              btn-secondary
+                            "
+
+                            onclick="
+                              openAdminBalance(
+                                '${user.id}'
+                              )
+                            "
+                          >
+                            Баланс
+                          </button>
+
+                        </td>
+
+                      </tr>
+                    `
+                  )
+
+                  .join("")
+              }
 
             </tbody>
 
@@ -4978,41 +7974,75 @@ async function adminUsers(){
       </section>
     `;
 
+
   refreshIcons();
+
 }
 
+
 function filterAdminUsers(value){
+
   const query=
     value
       .trim()
       .toLowerCase();
 
-  qsa(".admin-user-row")
-    .forEach(row=>{
-      row.style.display=
-        row.dataset.search
-          .includes(query)
-          ?""
-          :"none";
-    });
+
+  qsa(
+    ".admin-user-row"
+  )
+    .forEach(
+      row=>{
+
+        row.style.display=
+
+          row.dataset.search
+            .includes(query)
+
+            ?""
+
+            :"none";
+
+      }
+    );
+
 }
 
-function openAdminBalance(userId){
+
+function openAdminBalance(
+  userId
+){
+
   const user=
     state.adminUsers
+
       .find(
-        item=>item.id===userId
+        item=>
+          item.id===
+          userId
       );
 
-  if(!user)return;
+
+  if(!user){
+
+    return;
+
+  }
+
 
   modal(
-    "Баланс "+user.username,
+
+    "Баланс "
+    +
+    user.username,
+
     `
       <form
         class="modal-form"
+
         onsubmit="
           event.preventDefault();
+
           adminChangeBalance(
             '${user.id}'
           )
@@ -5020,122 +8050,180 @@ function openAdminBalance(userId){
       >
 
         <div class="field">
+
           <label>
             Сума
           </label>
 
           <input
             id="adminAmount"
+
             class="input"
+
             inputmode="decimal"
+
             placeholder="Наприклад 50 або -10"
           >
+
         </div>
 
+
         <div class="field">
+
           <label>
             Причина
           </label>
 
           <input
             id="adminReason"
+
             class="input"
+
             maxlength="200"
+
             placeholder="Коментар"
           >
+
         </div>
+
 
         <button
           id="adminBalanceButton"
-          class="btn btn-primary"
+
+          class="
+            btn
+            btn-primary
+          "
         >
           Змінити баланс
         </button>
 
       </form>
     `
+
   );
+
 }
+
 
 async function adminChangeBalance(
   userId
 ){
+
   const amount=
     Number(
       qs("#adminAmount")
         .value
-        .replace(",",".")
+        .replace(
+          ",",
+          "."
+        )
     );
+
 
   const reason=
     qs("#adminReason")
       .value
       .trim();
 
+
   if(
-    !Number.isFinite(amount) ||
+    !Number.isFinite(amount)
+    ||
     amount===0
   ){
+
     toast(
       "Вкажіть суму",
       "error"
     );
 
     return;
+
   }
+
 
   const button=
     qs("#adminBalanceButton");
+
 
   setLoading(
     button,
     true
   );
 
+
   const {error}=
     await sb.rpc(
+
       "admin_adjust_balance",
+
       {
-        target_user_id:userId,
-        adjustment_amount:amount,
+
+        target_user_id:
+          userId,
+
+        adjustment_amount:
+          amount,
+
         adjustment_reason:
-          reason||"Admin"
+          reason
+          ||
+          "Admin"
+
       }
+
     );
+
 
   setLoading(
     button,
     false
   );
 
+
   if(error){
+
     toast(
       error.message,
       "error"
     );
 
     return;
+
   }
+
 
   closeModal();
 
+
   await loadMe();
+
   await adminUsers();
+
 
   toast(
     "Баланс змінено",
     "success"
   );
+
 }
 
+
 async function adminChats(){
+
   const {
     data:chats,
     error
   }=
     await sb
-      .from("direct_conversations")
+
+      .from(
+        "direct_conversations"
+      )
+
       .select("*")
+
       .order(
         "updated_at",
         {
@@ -5143,7 +8231,9 @@ async function adminChats(){
         }
       );
 
+
   if(error){
+
     qs("#adminContent")
       .innerHTML=`
         <div class="empty">
@@ -5152,45 +8242,70 @@ async function adminChats(){
       `;
 
     return;
+
   }
+
 
   const ids=[
     ...new Set(
+
       (chats||[])
-        .flatMap(chat=>[
-          chat.user1_id,
-          chat.user2_id
-        ])
+
+        .flatMap(
+          chat=>[
+            chat.user1_id,
+            chat.user2_id
+          ]
+        )
+
     )
   ];
 
+
   let users=[];
 
+
   if(ids.length){
+
     const {data}=
       await sb
+
         .from("profiles")
+
         .select(
           "id,username,public_id"
         )
+
         .in(
           "id",
           ids
         );
 
-    users=data||[];
+
+    users=
+      data
+      ||
+      [];
+
   }
+
 
   const map=
     Object.fromEntries(
-      users.map(user=>[
-        user.id,
-        user
-      ])
+
+      users.map(
+        user=>[
+          user.id,
+          user
+        ]
+      )
+
     );
+
 
   qs("#adminContent")
     .innerHTML=`
+
       <section class="card">
 
         <div
@@ -5204,63 +8319,98 @@ async function adminChats(){
           Чати користувачів
         </div>
 
+
         <div class="table-wrap">
 
           <table>
 
             <thead>
+
               <tr>
-                <th>Користувач 1</th>
-                <th>Користувач 2</th>
-                <th>Оновлено</th>
-                <th></th>
+
+                <th>
+                  Користувач 1
+                </th>
+
+                <th>
+                  Користувач 2
+                </th>
+
+                <th>
+                  Оновлено
+                </th>
+
+                <th>
+                </th>
+
               </tr>
+
             </thead>
+
 
             <tbody>
 
-              ${(chats||[])
-                .map(chat=>`
-                  <tr>
+              ${
+                (chats||[])
 
-                    <td>
-                      ${esc(
-                        map[chat.user1_id]
-                          ?.username||
-                        "Користувач"
-                      )}
-                    </td>
+                  .map(
+                    chat=>`
 
-                    <td>
-                      ${esc(
-                        map[chat.user2_id]
-                          ?.username||
-                        "Користувач"
-                      )}
-                    </td>
+                      <tr>
 
-                    <td>
-                      ${formatDate(
-                        chat.updated_at
-                      )}
-                    </td>
+                        <td>
+                          ${esc(
+                            map[
+                              chat.user1_id
+                            ]
+                              ?.username
+                            ||
+                            "Користувач"
+                          )}
+                        </td>
 
-                    <td>
-                      <button
-                        class="btn btn-secondary"
-                        onclick="
-                          openAdminChat(
-                            '${chat.id}'
-                          )
-                        "
-                      >
-                        Відкрити
-                      </button>
-                    </td>
+                        <td>
+                          ${esc(
+                            map[
+                              chat.user2_id
+                            ]
+                              ?.username
+                            ||
+                            "Користувач"
+                          )}
+                        </td>
 
-                  </tr>
-                `)
-                .join("")}
+                        <td>
+                          ${formatDate(
+                            chat.updated_at
+                          )}
+                        </td>
+
+                        <td>
+
+                          <button
+                            class="
+                              btn
+                              btn-secondary
+                            "
+
+                            onclick="
+                              openAdminChat(
+                                '${chat.id}'
+                              )
+                            "
+                          >
+                            Відкрити
+                          </button>
+
+                        </td>
+
+                      </tr>
+                    `
+                  )
+
+                  .join("")
+              }
 
             </tbody>
 
@@ -5270,22 +8420,29 @@ async function adminChats(){
 
       </section>
     `;
+
 }
+
 
 async function openAdminChat(
   chatId
 ){
+
   const {
     data:messages,
     error
   }=
     await sb
+
       .from("messages")
+
       .select("*")
+
       .eq(
         "conversation_id",
         chatId
       )
+
       .order(
         "created_at",
         {
@@ -5293,51 +8450,78 @@ async function openAdminChat(
         }
       );
 
+
   if(error){
+
     toast(
       "Не вдалося відкрити чат",
       "error"
     );
 
     return;
+
   }
+
 
   const ids=[
     ...new Set(
+
       (messages||[])
-        .map(message=>
-          message.sender_id
+
+        .map(
+          message=>
+            message.sender_id
         )
+
     )
   ];
 
+
   let users=[];
 
+
   if(ids.length){
+
     const {data}=
       await sb
+
         .from("profiles")
+
         .select(
           "id,username"
         )
+
         .in(
           "id",
           ids
         );
 
-    users=data||[];
+
+    users=
+      data
+      ||
+      [];
+
   }
+
 
   const map=
     Object.fromEntries(
-      users.map(user=>[
-        user.id,
-        user.username
-      ])
+
+      users.map(
+        user=>[
+          user.id,
+          user.username
+        ]
+      )
+
     );
 
+
   modal(
+
     "Перегляд чату",
+
     `
       <div
         style="
@@ -5349,58 +8533,88 @@ async function openAdminChat(
 
         ${
           messages?.length
-            ?messages.map(message=>`
-              <div
-                style="
-                  padding:10px;
-                  border-radius:12px;
-                  border:
-                  1px solid var(--border);
-                  background:#171717
-                "
-              >
 
-                <div
-                  style="
-                    color:var(--yellow);
-                    font-size:10px;
-                    font-weight:800
-                  "
-                >
-                  ${esc(
-                    map[message.sender_id]||
-                    "Користувач"
-                  )}
-                </div>
+            ?messages
 
-                <div
-                  style="
-                    margin-top:5px;
-                    line-height:1.45;
-                    font-size:12px
-                  "
-                >
-                  ${esc(message.content)}
-                </div>
+                .map(
+                  message=>`
 
-                <div
-                  style="
-                    margin-top:5px;
-                    color:#666;
-                    font-size:8px
-                  "
-                >
-                  ${formatDate(
-                    message.created_at
-                  )}
+                    <div
+                      style="
+                        padding:10px;
 
-                  ${formatTime(
-                    message.created_at
-                  )}
-                </div>
+                        border-radius:12px;
 
-              </div>
-            `).join("")
+                        border:
+                        1px solid var(--border);
+
+                        background:#171717
+                      "
+                    >
+
+                      <div
+                        style="
+                          color:var(--yellow);
+
+                          font-size:10px;
+                          font-weight:800
+                        "
+                      >
+
+                        ${esc(
+                          map[
+                            message.sender_id
+                          ]
+                          ||
+                          "Користувач"
+                        )}
+
+                      </div>
+
+
+                      <div
+                        style="
+                          margin-top:5px;
+
+                          line-height:1.45;
+
+                          font-size:12px
+                        "
+                      >
+
+                        ${esc(
+                          message.content
+                        )}
+
+                      </div>
+
+
+                      <div
+                        style="
+                          margin-top:5px;
+
+                          color:#666;
+
+                          font-size:8px
+                        "
+                      >
+
+                        ${formatDate(
+                          message.created_at
+                        )}
+
+                        ${formatTime(
+                          message.created_at
+                        )}
+
+                      </div>
+
+                    </div>
+                  `
+                )
+
+                .join("")
+
             :`
               <div class="empty">
                 Повідомлень немає
@@ -5410,14 +8624,20 @@ async function openAdminChat(
 
       </div>
     `
+
   );
+
 }
 
+
 function adminBranding(){
+
   qs("#adminContent")
     .innerHTML=`
+
       <section
         class="card"
+
         style="
           padding:20px;
           max-width:600px
@@ -5435,7 +8655,9 @@ function adminBranding(){
 
           ${logoMarkup()}
 
+
           <div>
+
             <div
               style="
                 font-size:16px;
@@ -5454,27 +8676,43 @@ function adminBranding(){
             >
               Змінюється для всього сайту
             </div>
+
           </div>
 
         </div>
 
+
         <div class="field">
+
           <label>
             Новий логотип
           </label>
 
           <input
             id="adminLogo"
+
             class="input"
+
             type="file"
+
             accept="image/*"
           >
+
         </div>
+
 
         <button
           id="logoButton"
-          class="btn btn-primary"
-          style="margin-top:12px"
+
+          class="
+            btn
+            btn-primary
+          "
+
+          style="
+            margin-top:12px
+          "
+
           onclick="
             saveAdminLogo()
           "
@@ -5485,159 +8723,277 @@ function adminBranding(){
       </section>
     `;
 
+
   refreshIcons();
+
 }
 
+
 async function saveAdminLogo(){
+
   const file=
     qs("#adminLogo")
       ?.files?.[0];
 
+
   if(!file){
+
     toast(
       "Оберіть зображення",
       "error"
     );
 
     return;
+
   }
+
 
   const button=
     qs("#logoButton");
+
 
   setLoading(
     button,
     true
   );
 
+
   try{
+
     const ext=
       file.name
         .split(".")
         .pop()
+
       ||
+
       "png";
 
+
     const path=
-      `logo-${Date.now()}.${ext}`;
+      `logo-${
+        Date.now()
+      }.${ext}`;
+
 
     const {error}=
       await sb.storage
+
         .from("branding")
+
         .upload(
+
           path,
+
           file,
+
           {
             upsert:true
           }
+
         );
 
+
     if(error){
+
       throw error;
+
     }
+
 
     const {data}=
       sb.storage
+
         .from("branding")
+
         .getPublicUrl(path);
+
 
     const url=
       data.publicUrl;
+
 
     const {
       error:updateError
     }=
       await sb
-        .from("app_settings")
+
+        .from(
+          "app_settings"
+        )
+
         .update({
-          logo_url:url,
+
+          logo_url:
+            url,
+
           updated_at:
             new Date()
               .toISOString()
+
         })
+
         .eq(
           "id",
           1
         );
 
+
     if(updateError){
+
       throw updateError;
+
     }
 
-    state.logoUrl=url;
+
+    state.logoUrl=
+      url;
+
 
     render();
+
 
     toast(
       "Логотип змінено",
       "success"
     );
 
+
   }catch(error){
+
     console.error(error);
 
+
     toast(
-      error.message||
+      error.message
+      ||
       "Не вдалося змінити логотип",
       "error"
     );
 
+
   }finally{
+
     setLoading(
       button,
       false
     );
+
   }
+
 }
+
 
 /* =====================================================
    GLOBAL
 ===================================================== */
 
-window.state=state;
+window.state=
+  state;
 
-window.render=render;
-window.navigate=navigate;
+window.render=
+  render;
 
-window.signIn=signIn;
-window.signUp=signUp;
-window.logout=logout;
+window.navigate=
+  navigate;
 
-window.closeModal=closeModal;
+window.signIn=
+  signIn;
 
-window.openEditProfile=openEditProfile;
-window.saveProfile=saveProfile;
-window.renderProfile=renderProfile;
+window.signUp=
+  signUp;
 
-window.openTopup=openTopup;
-window.formatCard=formatCard;
-window.formatDateCard=formatDateCard;
-window.fakePayment=fakePayment;
+window.logout=
+  logout;
 
-window.openUserSearch=openUserSearch;
-window.searchUsers=searchUsers;
-window.openPublicProfile=openPublicProfile;
+window.closeModal=
+  closeModal;
 
-window.createChat=createChat;
-window.openChat=openChat;
-window.closeMobileChat=closeMobileChat;
-window.filterChats=filterChats;
-window.messageKey=messageKey;
-window.sendMessage=sendMessage;
+window.renderProfile=
+  renderProfile;
 
-window.openListing=openListing;
-window.createListing=createListing;
-window.cancelListing=cancelListing;
-window.openBuyListing=openBuyListing;
-window.buyListing=buyListing;
+window.openEditProfile=
+  openEditProfile;
 
-window.filterAdminUsers=filterAdminUsers;
-window.openAdminBalance=openAdminBalance;
-window.adminChangeBalance=adminChangeBalance;
-window.openAdminChat=openAdminChat;
-window.saveAdminLogo=saveAdminLogo;
+window.saveProfile=
+  saveProfile;
+
+window.openTopup=
+  openTopup;
+
+window.formatCard=
+  formatCard;
+
+window.formatDateCard=
+  formatDateCard;
+
+window.fakePayment=
+  fakePayment;
+
+window.openUserSearch=
+  openUserSearch;
+
+window.searchUsers=
+  searchUsers;
+
+window.openPublicProfile=
+  openPublicProfile;
+
+window.createChat=
+  createChat;
+
+window.openChat=
+  openChat;
+
+window.closeMobileChat=
+  closeMobileChat;
+
+window.filterChats=
+  filterChats;
+
+window.messageKey=
+  messageKey;
+
+window.sendMessage=
+  sendMessage;
+
+window.openListing=
+  openListing;
+
+window.createListing=
+  createListing;
+
+window.cancelListing=
+  cancelListing;
+
+window.openBuyListing=
+  openBuyListing;
+
+window.buyListing=
+  buyListing;
+
+window.filterAdminUsers=
+  filterAdminUsers;
+
+window.openAdminBalance=
+  openAdminBalance;
+
+window.adminChangeBalance=
+  adminChangeBalance;
+
+window.openAdminChat=
+  openAdminChat;
+
+window.saveAdminLogo=
+  saveAdminLogo;
+
+
+/* =====================================================
+   START
+===================================================== */
 
 init();
+
 </script>
 
 </body>
