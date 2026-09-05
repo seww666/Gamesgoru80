@@ -26,11 +26,11 @@
 
 :root{
   --bg:#080808;
-  --panel:#111111;
+  --panel:#111;
   --panel2:#171717;
   --panel3:#202020;
 
-  --text:#ffffff;
+  --text:#fff;
   --muted:#858585;
 
   --yellow:#f2c314;
@@ -42,8 +42,10 @@
   --border:rgba(255,255,255,.08);
 
   --shadow:
-    0 25px 70px
-    rgba(0,0,0,.36);
+    0 25px 70px rgba(0,0,0,.36);
+
+  --ease:
+    cubic-bezier(.2,.8,.2,1);
 }
 
 html,
@@ -51,6 +53,10 @@ body{
   margin:0;
   min-height:100%;
   background:var(--bg);
+}
+
+html{
+  scroll-behavior:smooth;
 }
 
 body{
@@ -65,8 +71,7 @@ body{
 
   background:
     radial-gradient(
-      900px 450px
-      at 50% -180px,
+      900px 450px at 50% -180px,
       rgba(242,195,20,.14),
       transparent 70%
     ),
@@ -96,6 +101,10 @@ textarea::placeholder{
   color:#666;
 }
 
+img{
+  max-width:100%;
+}
+
 .hidden{
   display:none!important;
 }
@@ -120,10 +129,10 @@ textarea::placeholder{
   }
 }
 
-@keyframes enter{
+@keyframes pageEnter{
   from{
     opacity:0;
-    transform:translateY(6px);
+    transform:translateY(8px);
   }
 
   to{
@@ -135,7 +144,9 @@ textarea::placeholder{
 @keyframes modalIn{
   from{
     opacity:0;
-    transform:translateY(16px) scale(.98);
+    transform:
+      translateY(18px)
+      scale(.975);
   }
 
   to{
@@ -147,7 +158,9 @@ textarea::placeholder{
 @keyframes messageAppear{
   from{
     opacity:0;
-    transform:translateY(4px) scale(.99);
+    transform:
+      translateY(7px)
+      scale(.985);
   }
 
   to{
@@ -156,8 +169,55 @@ textarea::placeholder{
   }
 }
 
+@keyframes typingBounce{
+  0%,
+  60%,
+  100%{
+    transform:translateY(0);
+    opacity:.4;
+  }
+
+  30%{
+    transform:translateY(-4px);
+    opacity:1;
+  }
+}
+
+@keyframes pulseOnline{
+  0%{
+    box-shadow:
+      0 0 0 0
+      rgba(62,207,114,.25);
+  }
+
+  70%{
+    box-shadow:
+      0 0 0 5px
+      rgba(62,207,114,0);
+  }
+
+  100%{
+    box-shadow:
+      0 0 0 0
+      rgba(62,207,114,0);
+  }
+}
+
+@keyframes imageIn{
+  from{
+    opacity:0;
+    transform:scale(.97);
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+}
+
 .page-animation{
-  animation:enter .22s ease both;
+  animation:
+    pageEnter .28s var(--ease) both;
 }
 
 ::-webkit-scrollbar{
@@ -168,6 +228,46 @@ textarea::placeholder{
 ::-webkit-scrollbar-thumb{
   background:#292929;
   border-radius:10px;
+}
+
+::-webkit-scrollbar-track{
+  background:transparent;
+}
+
+
+/* =====================================================
+   GLOBAL ANIMATIONS
+===================================================== */
+
+.card,
+.chat-list-panel,
+.chat-panel,
+.auth-card{
+  transition:
+    transform .25s var(--ease),
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.card:hover{
+  border-color:
+    rgba(255,255,255,.105);
+}
+
+.btn,
+.icon-btn,
+.nav-btn,
+.bottom-btn,
+.new-chat-btn,
+.send,
+.balance-plus{
+  transition:
+    transform .16s var(--ease),
+    filter .16s ease,
+    background .16s ease,
+    border-color .16s ease,
+    color .16s ease,
+    opacity .16s ease;
 }
 
 
@@ -192,12 +292,14 @@ textarea::placeholder{
   font-weight:750;
 
   cursor:pointer;
+}
 
-  transition:.15s ease;
+.btn:hover{
+  filter:brightness(1.055);
 }
 
 .btn:active{
-  transform:scale(.97);
+  transform:scale(.965);
 }
 
 .btn:disabled{
@@ -230,8 +332,7 @@ textarea::placeholder{
   color:#ff7979;
 
   border:
-    1px solid
-    rgba(255,88,88,.17);
+    1px solid rgba(255,88,88,.17);
 }
 
 .icon-btn{
@@ -254,8 +355,6 @@ textarea::placeholder{
   justify-content:center;
 
   cursor:pointer;
-
-  transition:.15s ease;
 }
 
 .icon-btn:hover{
@@ -263,7 +362,7 @@ textarea::placeholder{
 }
 
 .icon-btn:active{
-  transform:scale(.95);
+  transform:scale(.93);
 }
 
 
@@ -301,7 +400,14 @@ textarea::placeholder{
 
   border-radius:13px;
 
-  transition:.16s ease;
+  transition:
+    border-color .16s ease,
+    background .16s ease,
+    box-shadow .16s ease;
+}
+
+.input:hover{
+  background:#131313;
 }
 
 .input:focus{
@@ -345,6 +451,9 @@ textarea::placeholder{
   box-shadow:var(--shadow);
 
   backdrop-filter:blur(20px);
+
+  animation:
+    modalIn .34s var(--ease) both;
 }
 
 .auth-logo{
@@ -428,6 +537,8 @@ textarea::placeholder{
   font-weight:750;
 
   cursor:pointer;
+
+  transition:.17s ease;
 }
 
 .auth-tab.active{
@@ -557,13 +668,15 @@ textarea::placeholder{
   font-weight:750;
 
   cursor:pointer;
-
-  transition:.15s ease;
 }
 
 .nav-btn:hover{
   color:#fff;
+
   background:#151515;
+
+  transform:
+    translateX(2px);
 }
 
 .nav-btn.active{
@@ -648,6 +761,8 @@ textarea::placeholder{
 
   font-size:27px;
   font-weight:850;
+
+  letter-spacing:-.5px;
 }
 
 .page-desc{
@@ -678,7 +793,7 @@ textarea::placeholder{
 
 
 /* =====================================================
-   AVATAR
+   AVATAR / PRESENCE
 ===================================================== */
 
 .avatar{
@@ -723,11 +838,6 @@ textarea::placeholder{
   object-fit:cover;
 }
 
-
-/* =====================================================
-   DISCORD STYLE ONLINE STATUS
-===================================================== */
-
 .avatar-status-wrap{
   position:relative;
 
@@ -767,10 +877,6 @@ textarea::placeholder{
 
   border:
     3px solid #111;
-
-  transition:
-    background .2s ease,
-    box-shadow .2s ease;
 }
 
 .avatar-status-wrap.large
@@ -787,9 +893,8 @@ textarea::placeholder{
 .presence-dot.online{
   background:#3ecf72;
 
-  box-shadow:
-    0 0 0 1px
-    rgba(62,207,114,.12);
+  animation:
+    pulseOnline 2.3s infinite;
 }
 
 .presence-dot.offline{
@@ -803,8 +908,6 @@ textarea::placeholder{
   gap:5px;
 
   color:#777;
-
-  transition:color .15s ease;
 }
 
 .presence-text.online{
@@ -867,7 +970,6 @@ textarea::placeholder{
 
 .empty strong{
   color:#fff;
-
   font-size:15px;
 }
 
@@ -929,6 +1031,10 @@ textarea::placeholder{
   cursor:pointer;
 }
 
+.balance-plus:active{
+  transform:scale(.9);
+}
+
 
 /* =====================================================
    PROFILE
@@ -951,6 +1057,9 @@ textarea::placeholder{
 
   background-size:cover;
   background-position:center;
+
+  transition:
+    transform .35s var(--ease);
 }
 
 .profile-info{
@@ -1076,7 +1185,6 @@ textarea::placeholder{
 
 .chat-list-panel{
   min-height:0;
-
   overflow:hidden;
 
   display:flex;
@@ -1090,14 +1198,12 @@ textarea::placeholder{
     );
 
   border:
-    1px solid
-    rgba(255,255,255,.08);
+    1px solid rgba(255,255,255,.08);
 
   border-radius:22px;
 
   box-shadow:
-    0 20px 60px
-    rgba(0,0,0,.22);
+    0 20px 60px rgba(0,0,0,.22);
 }
 
 .chat-list-head{
@@ -1105,8 +1211,7 @@ textarea::placeholder{
     18px 17px 15px;
 
   border-bottom:
-    1px solid
-    rgba(255,255,255,.065);
+    1px solid rgba(255,255,255,.065);
 
   background:
     linear-gradient(
@@ -1154,8 +1259,7 @@ textarea::placeholder{
   flex:0 0 42px;
 
   border:
-    1px solid
-    rgba(242,195,20,.18);
+    1px solid rgba(242,195,20,.18);
 
   border-radius:13px;
 
@@ -1175,22 +1279,22 @@ textarea::placeholder{
   cursor:pointer;
 
   box-shadow:
-    0 8px 24px
-    rgba(242,195,20,.11);
-
-  transition:.15s ease;
+    0 8px 24px rgba(242,195,20,.11);
 }
 
 .new-chat-btn:hover{
+  transform:
+    translateY(-1px);
+
   filter:brightness(1.05);
 }
 
 .new-chat-btn:active{
-  transform:scale(.94);
+  transform:scale(.92);
 }
 
 
-/* CHAT SEARCH */
+/* SEARCH */
 
 .chat-search{
   position:relative;
@@ -1202,8 +1306,7 @@ textarea::placeholder{
   left:13px;
   top:50%;
 
-  transform:
-    translateY(-50%);
+  transform:translateY(-50%);
 
   width:17px;
   height:17px;
@@ -1226,8 +1329,7 @@ textarea::placeholder{
   border-radius:14px;
 
   border:
-    1px solid
-    rgba(255,255,255,.075);
+    1px solid rgba(255,255,255,.075);
 
   outline:none;
 
@@ -1238,7 +1340,10 @@ textarea::placeholder{
 
   font-size:12px;
 
-  transition:.16s ease;
+  transition:
+    border-color .16s ease,
+    background .16s ease,
+    box-shadow .16s ease;
 }
 
 .chat-search-input::placeholder{
@@ -1305,16 +1410,19 @@ textarea::placeholder{
 
   transition:
     background .16s ease,
-    transform .16s ease;
+    transform .16s var(--ease);
 }
 
 .chat-item:hover{
   background:
     rgba(255,255,255,.04);
+
+  transform:
+    translateX(2px);
 }
 
 .chat-item:active{
-  transform:scale(.992);
+  transform:scale(.985);
 }
 
 .chat-item.active{
@@ -1353,12 +1461,6 @@ textarea::placeholder{
   height:46px;
 
   flex:0 0 46px;
-}
-
-.chat-item
-.presence-dot{
-  right:0;
-  bottom:0;
 }
 
 .chat-item-content{
@@ -1411,7 +1513,6 @@ textarea::placeholder{
 
 .chat-panel{
   min-height:0;
-
   overflow:hidden;
 
   display:flex;
@@ -1420,21 +1521,18 @@ textarea::placeholder{
   border-radius:22px;
 
   border:
-    1px solid
-    rgba(255,255,255,.08);
+    1px solid rgba(255,255,255,.08);
 
   background:
     radial-gradient(
-      700px 330px
-      at 50% -130px,
+      700px 330px at 50% -130px,
       rgba(242,195,20,.055),
       transparent 70%
     ),
     #0e0e0e;
 
   box-shadow:
-    0 20px 60px
-    rgba(0,0,0,.22);
+    0 20px 60px rgba(0,0,0,.22);
 }
 
 .active-chat-head{
@@ -1445,8 +1543,7 @@ textarea::placeholder{
   padding:0 17px;
 
   border-bottom:
-    1px solid
-    rgba(255,255,255,.07);
+    1px solid rgba(255,255,255,.07);
 
   background:
     rgba(15,15,15,.82);
@@ -1502,7 +1599,7 @@ textarea::placeholder{
   overflow-y:auto;
 
   padding:
-    22px 20px;
+    22px 20px 12px;
 
   display:flex;
   flex-direction:column;
@@ -1513,8 +1610,7 @@ textarea::placeholder{
 
   background:
     radial-gradient(
-      520px 260px
-      at 50% 0,
+      520px 260px at 50% 0,
       rgba(255,255,255,.018),
       transparent 75%
     );
@@ -1524,8 +1620,7 @@ textarea::placeholder{
   display:flex;
 
   animation:
-    messageAppear
-    .16s ease both;
+    messageAppear .19s var(--ease) both;
 }
 
 .message-row.mine{
@@ -1546,8 +1641,7 @@ textarea::placeholder{
   background:#1d1d1d;
 
   border:
-    1px solid
-    rgba(255,255,255,.035);
+    1px solid rgba(255,255,255,.035);
 
   font-size:13px;
   line-height:1.45;
@@ -1555,8 +1649,7 @@ textarea::placeholder{
   word-break:break-word;
 
   box-shadow:
-    0 5px 16px
-    rgba(0,0,0,.12);
+    0 5px 16px rgba(0,0,0,.12);
 }
 
 .message-row.mine
@@ -1576,13 +1669,16 @@ textarea::placeholder{
   border-bottom-right-radius:5px;
 
   box-shadow:
-    0 6px 18px
-    rgba(190,145,0,.09);
+    0 6px 18px rgba(190,145,0,.09);
 }
 
 .message-row:not(.mine)
 .message{
   border-bottom-left-radius:5px;
+}
+
+.message-text{
+  white-space:pre-wrap;
 }
 
 .message-time{
@@ -1597,29 +1693,318 @@ textarea::placeholder{
 }
 
 
-/* MESSAGE INPUT */
+/* =====================================================
+   MESSAGE PHOTOS
+===================================================== */
+
+.message-image-wrap{
+  margin:
+    -5px -8px 7px;
+
+  overflow:hidden;
+
+  border-radius:13px;
+
+  background:#111;
+
+  cursor:pointer;
+
+  position:relative;
+}
+
+.message-image-wrap::after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  opacity:0;
+
+  background:
+    rgba(0,0,0,.08);
+
+  transition:
+    opacity .16s ease;
+
+  pointer-events:none;
+}
+
+.message-image-wrap:hover::after{
+  opacity:1;
+}
+
+.message-image{
+  display:block;
+
+  width:auto;
+  max-width:100%;
+
+  max-height:420px;
+
+  object-fit:contain;
+
+  border-radius:13px;
+
+  animation:
+    imageIn .2s var(--ease);
+}
+
+.message-image-loading{
+  width:230px;
+  height:150px;
+
+  border-radius:13px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #181818,
+      #242424,
+      #181818
+    );
+
+  background-size:200% 100%;
+
+  animation:
+    photoShimmer 1.1s linear infinite;
+}
+
+@keyframes photoShimmer{
+  to{
+    background-position:-200% 0;
+  }
+}
+
+
+/* =====================================================
+   TYPING INDICATOR
+===================================================== */
+
+.typing-container{
+  height:27px;
+
+  padding:
+    0 20px;
+
+  flex:0 0 27px;
+
+  display:flex;
+  align-items:center;
+
+  color:#777;
+
+  font-size:10px;
+
+  opacity:0;
+
+  transform:
+    translateY(4px);
+
+  pointer-events:none;
+
+  transition:
+    opacity .17s ease,
+    transform .17s var(--ease);
+}
+
+.typing-container.visible{
+  opacity:1;
+
+  transform:none;
+}
+
+.typing-content{
+  display:flex;
+  align-items:center;
+
+  gap:7px;
+}
+
+.typing-dots{
+  display:flex;
+  align-items:center;
+
+  gap:3px;
+}
+
+.typing-dot{
+  width:4px;
+  height:4px;
+
+  border-radius:50%;
+
+  background:#8b8b8b;
+
+  animation:
+    typingBounce 1.1s infinite;
+}
+
+.typing-dot:nth-child(2){
+  animation-delay:.14s;
+}
+
+.typing-dot:nth-child(3){
+  animation-delay:.28s;
+}
+
+
+/* =====================================================
+   COMPOSER
+===================================================== */
+
+.composer-zone{
+  border-top:
+    1px solid rgba(255,255,255,.07);
+
+  background:
+    rgba(13,13,13,.94);
+
+  backdrop-filter:blur(16px);
+}
+
+.composer-preview{
+  display:none;
+
+  padding:
+    11px 13px 0;
+}
+
+.composer-preview.visible{
+  display:block;
+
+  animation:
+    pageEnter .18s var(--ease);
+}
+
+.composer-image-card{
+  width:fit-content;
+
+  max-width:250px;
+
+  padding:7px;
+
+  border:
+    1px solid var(--border);
+
+  border-radius:15px;
+
+  background:#171717;
+
+  display:flex;
+  align-items:center;
+
+  gap:9px;
+}
+
+.composer-image-thumb{
+  width:60px;
+  height:60px;
+
+  flex:0 0 60px;
+
+  object-fit:cover;
+
+  border-radius:10px;
+}
+
+.composer-image-info{
+  min-width:0;
+}
+
+.composer-image-name{
+  max-width:120px;
+
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+
+  color:#ddd;
+
+  font-size:10px;
+  font-weight:700;
+}
+
+.composer-image-size{
+  margin-top:3px;
+
+  color:#666;
+
+  font-size:9px;
+}
+
+.remove-image{
+  width:30px;
+  height:30px;
+
+  flex:0 0 30px;
+
+  padding:0;
+
+  border:0;
+  border-radius:9px;
+
+  background:#242424;
+
+  color:#aaa;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+}
 
 .composer{
   padding:
-    11px 13px
+    10px 13px
     max(
       11px,
       env(safe-area-inset-bottom)
     );
 
-  border-top:
-    1px solid
-    rgba(255,255,255,.07);
-
-  background:
-    rgba(13,13,13,.92);
-
-  backdrop-filter:blur(16px);
-
   display:flex;
   align-items:flex-end;
 
   gap:8px;
+}
+
+.attach{
+  width:45px;
+  height:45px;
+
+  flex:0 0 45px;
+
+  padding:0;
+
+  border:
+    1px solid rgba(255,255,255,.075);
+
+  border-radius:14px;
+
+  color:#aaa;
+
+  background:#171717;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  transition:.15s ease;
+}
+
+.attach:hover{
+  color:var(--yellow);
+
+  border-color:
+    rgba(242,195,20,.24);
+
+  background:#1b1b1b;
+}
+
+.attach:active{
+  transform:scale(.92);
 }
 
 .composer textarea{
@@ -1640,14 +2025,16 @@ textarea::placeholder{
   background:#171717;
 
   border:
-    1px solid
-    rgba(255,255,255,.075);
+    1px solid rgba(255,255,255,.075);
 
   border-radius:15px;
 
   line-height:1.4;
 
-  transition:.15s ease;
+  transition:
+    border-color .15s ease,
+    background .15s ease,
+    box-shadow .15s ease;
 }
 
 .composer textarea:focus{
@@ -1688,22 +2075,112 @@ textarea::placeholder{
   cursor:pointer;
 
   box-shadow:
-    0 7px 24px
-    rgba(242,195,20,.09);
-
-  transition:.14s ease;
+    0 7px 24px rgba(242,195,20,.09);
 }
 
 .send:hover{
+  transform:
+    translateY(-1px);
+
   filter:brightness(1.04);
 }
 
 .send:active{
-  transform:scale(.93);
+  transform:scale(.91);
 }
 
 
-/* USER SEARCH */
+/* =====================================================
+   IMAGE VIEWER
+===================================================== */
+
+.image-viewer-bg{
+  position:fixed;
+  inset:0;
+
+  z-index:1500;
+
+  padding:20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+    rgba(0,0,0,.91);
+
+  backdrop-filter:
+    blur(16px);
+
+  animation:
+    pageEnter .18s ease both;
+}
+
+.image-viewer{
+  position:relative;
+
+  max-width:
+    min(1100px,100%);
+
+  max-height:
+    calc(100dvh - 40px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.image-viewer img{
+  display:block;
+
+  max-width:100%;
+  max-height:
+    calc(100dvh - 40px);
+
+  object-fit:contain;
+
+  border-radius:15px;
+
+  box-shadow:
+    0 30px 100px
+    rgba(0,0,0,.7);
+
+  animation:
+    imageIn .22s var(--ease);
+}
+
+.image-viewer-close{
+  position:absolute;
+
+  top:10px;
+  right:10px;
+
+  width:42px;
+  height:42px;
+
+  padding:0;
+
+  border:
+    1px solid rgba(255,255,255,.13);
+
+  border-radius:13px;
+
+  background:
+    rgba(15,15,15,.8);
+
+  backdrop-filter:blur(12px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+}
+
+
+/* =====================================================
+   USER SEARCH
+===================================================== */
 
 .user-search-help{
   margin-bottom:11px;
@@ -1743,6 +2220,14 @@ textarea::placeholder{
 
   display:flex;
   flex-direction:column;
+}
+
+.listing:hover{
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.25);
 }
 
 .listing-type{
@@ -1882,8 +2367,7 @@ td{
   white-space:nowrap;
 
   border-bottom:
-    1px solid
-    rgba(255,255,255,.05);
+    1px solid rgba(255,255,255,.05);
 }
 
 th{
@@ -1928,6 +2412,9 @@ th{
   display:flex;
   align-items:center;
   justify-content:center;
+
+  animation:
+    pageEnter .16s ease both;
 }
 
 .modal{
@@ -1941,16 +2428,14 @@ th{
   border-radius:23px;
 
   border:
-    1px solid
-    rgba(255,255,255,.1);
+    1px solid rgba(255,255,255,.1);
 
   background:#111;
 
   box-shadow:var(--shadow);
 
   animation:
-    modalIn
-    .18s ease both;
+    modalIn .21s var(--ease) both;
 }
 
 .modal-head{
@@ -2005,13 +2490,11 @@ th{
   border-radius:21px;
 
   border:
-    1px solid
-    rgba(242,195,20,.16);
+    1px solid rgba(242,195,20,.16);
 
   background:
     radial-gradient(
-      250px 120px
-      at 90% 0,
+      250px 120px at 90% 0,
       rgba(255,220,60,.27),
       transparent 65%
     ),
@@ -2070,8 +2553,7 @@ th{
     rgba(255,80,80,.08);
 
   border:
-    1px solid
-    rgba(255,80,80,.15);
+    1px solid rgba(255,80,80,.15);
 
   font-size:11px;
 }
@@ -2087,7 +2569,7 @@ th{
   right:16px;
   bottom:16px;
 
-  z-index:1000;
+  z-index:2000;
 
   display:flex;
   flex-direction:column;
@@ -2111,7 +2593,10 @@ th{
   border:
     1px solid var(--border);
 
-  background:#191919;
+  background:
+    rgba(25,25,25,.94);
+
+  backdrop-filter:blur(15px);
 
   box-shadow:var(--shadow);
 
@@ -2123,8 +2608,7 @@ th{
   font-size:11px;
 
   animation:
-    enter
-    .18s ease both;
+    pageEnter .2s var(--ease) both;
 }
 
 .bottom-nav{
@@ -2206,8 +2690,7 @@ th{
     border-radius:19px;
 
     border:
-      1px solid
-      rgba(255,255,255,.09);
+      1px solid rgba(255,255,255,.09);
 
     background:
       rgba(15,15,15,.92);
@@ -2217,8 +2700,7 @@ th{
     display:grid;
 
     box-shadow:
-      0 18px 60px
-      rgba(0,0,0,.45);
+      0 18px 60px rgba(0,0,0,.45);
   }
 
   .bottom-nav.three{
@@ -2252,6 +2734,7 @@ th{
 
   .bottom-btn.active{
     color:#111;
+
     background:var(--yellow);
   }
 
@@ -2361,22 +2844,36 @@ th{
 
   .messages{
     padding:
-      15px 10px;
+      15px 10px 10px;
   }
 
   .message{
-    max-width:85%;
+    max-width:88%;
 
     font-size:13px;
   }
 
+  .message-image{
+    max-height:330px;
+  }
+
+  .typing-container{
+    padding:
+      0 12px;
+  }
+
   .composer{
     padding:
-      9px 10px
+      8px 10px
       max(
         10px,
         env(safe-area-inset-bottom)
       );
+  }
+
+  .composer-preview{
+    padding:
+      9px 10px 0;
   }
 
   .admin-stats{
@@ -2394,6 +2891,8 @@ th{
 <div id="app"></div>
 
 <div id="modalRoot"></div>
+
+<div id="imageViewerRoot"></div>
 
 <div id="toasts"></div>
 
@@ -2449,6 +2948,8 @@ const state = {
 
   messageChannel:null,
 
+  chatChannelReady:false,
+
   listings:[],
 
   mobileChatOpen:false,
@@ -2457,14 +2958,22 @@ const state = {
 
   adminUsers:[],
 
-  /*
-    ONLINE STATUS
-  */
-
   presenceChannel:null,
 
   onlineUsers:
-    new Set()
+    new Set(),
+
+  typingUserId:null,
+
+  typingHideTimer:null,
+
+  typingSendTimer:null,
+
+  typingActive:false,
+
+  selectedImage:null,
+
+  selectedImagePreview:null
 
 };
 
@@ -2495,30 +3004,11 @@ function esc(value=""){
 
   return String(value)
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
@@ -2528,9 +3018,7 @@ function refreshIcons(){
   requestAnimationFrame(()=>{
 
     if(window.lucide){
-
       lucide.createIcons();
-
     }
 
   });
@@ -2541,15 +3029,13 @@ function refreshIcons(){
 function money(value){
 
   return new Intl.NumberFormat(
-
     "en-US",
-
     {
       style:"currency",
       currency:"USD"
     }
-
-  ).format(
+  )
+  .format(
     Number(value||0)
   );
 
@@ -2565,16 +3051,14 @@ function formatDate(value){
   try{
 
     return new Intl.DateTimeFormat(
-
       "uk-UA",
-
       {
         day:"2-digit",
         month:"2-digit",
         year:"numeric"
       }
-
-    ).format(
+    )
+    .format(
       new Date(value)
     );
 
@@ -2596,15 +3080,13 @@ function formatTime(value){
   try{
 
     return new Intl.DateTimeFormat(
-
       "uk-UA",
-
       {
         hour:"2-digit",
         minute:"2-digit"
       }
-
-    ).format(
+    )
+    .format(
       new Date(value)
     );
 
@@ -2617,15 +3099,34 @@ function formatTime(value){
 }
 
 
+function fileSize(bytes){
+
+  if(!bytes){
+    return "0 KB";
+  }
+
+  if(bytes<1024*1024){
+
+    return (
+      bytes/1024
+    ).toFixed(1)+" KB";
+
+  }
+
+  return (
+    bytes/(1024*1024)
+  ).toFixed(1)+" MB";
+
+}
+
+
 function loginEmail(login){
 
   return (
     login
       .trim()
       .toLowerCase()
-
     +
-
     "@liptongram.app"
   );
 
@@ -2656,7 +3157,7 @@ function initials(profile){
 
 
 /* =====================================================
-   ONLINE / OFFLINE
+   ONLINE
 ===================================================== */
 
 function isOnline(userId){
@@ -2665,13 +3166,8 @@ function isOnline(userId){
     return false;
   }
 
-  /*
-    Власний акаунт завжди online,
-    поки сторінка відкрита.
-  */
-
   if(
-    userId ===
+    userId===
     state.user?.id
   ){
     return true;
@@ -2686,8 +3182,8 @@ function isOnline(userId){
 function presenceText(userId){
 
   return isOnline(userId)
-    ? "В мережі"
-    : "Не в мережі";
+    ?"В мережі"
+    :"Не в мережі";
 
 }
 
@@ -2741,7 +3237,7 @@ function avatarStatus(
 ){
 
   const id =
-    profile?.id || "";
+    profile?.id||"";
 
   const online =
     isOnline(id);
@@ -2787,7 +3283,7 @@ function presenceLabel(userId){
       "
 
       data-presence-text="${esc(
-        userId || ""
+        userId||""
       )}"
     >
 
@@ -2816,63 +3312,58 @@ function refreshOnlineIndicators(){
   qsa(
     "[data-presence-dot]"
   )
-    .forEach(dot=>{
+  .forEach(dot=>{
 
-      const id =
-        dot.dataset
-          .presenceDot;
+    const id =
+      dot.dataset.presenceDot;
 
-      const online =
-        isOnline(id);
+    const online =
+      isOnline(id);
 
-      dot.classList
-        .toggle(
-          "online",
-          online
-        );
+    dot.classList.toggle(
+      "online",
+      online
+    );
 
-      dot.classList
-        .toggle(
-          "offline",
-          !online
-        );
+    dot.classList.toggle(
+      "offline",
+      !online
+    );
 
-    });
+  });
 
 
   qsa(
     "[data-presence-text]"
   )
-    .forEach(element=>{
+  .forEach(element=>{
 
-      const id =
-        element.dataset
-          .presenceText;
+    const id =
+      element.dataset.presenceText;
 
-      const online =
-        isOnline(id);
+    const online =
+      isOnline(id);
 
-      element.classList
-        .toggle(
-          "online",
-          online
-        );
+    element.classList.toggle(
+      "online",
+      online
+    );
 
-      const text =
-        element.querySelector(
-          ".presence-label-value"
-        );
+    const text =
+      element.querySelector(
+        ".presence-label-value"
+      );
 
-      if(text){
+    if(text){
 
-        text.textContent =
-          online
-            ?"В мережі"
-            :"Не в мережі";
+      text.textContent =
+        online
+          ?"В мережі"
+          :"Не в мережі";
 
-      }
+    }
 
-    });
+  });
 
 }
 
@@ -2884,20 +3375,16 @@ async function stopPresence(){
   ){
 
     try{
-
       await state
         .presenceChannel
         .untrack();
-
     }catch{}
 
 
     try{
-
       await sb.removeChannel(
         state.presenceChannel
       );
-
     }catch{}
 
 
@@ -2925,9 +3412,7 @@ async function startPresence(){
 
   const channel =
     sb.channel(
-
       "liptongram-online",
-
       {
         config:{
           presence:{
@@ -2936,7 +3421,6 @@ async function startPresence(){
           }
         }
       }
-
     );
 
 
@@ -2944,96 +3428,55 @@ async function startPresence(){
     channel;
 
 
+  function sync(){
+
+    const presenceState =
+      channel.presenceState();
+
+    state.onlineUsers =
+      new Set(
+        Object.keys(
+          presenceState
+        )
+      );
+
+    refreshOnlineIndicators();
+
+  }
+
+
   channel.on(
-
     "presence",
-
     {
       event:"sync"
     },
-
-    ()=>{
-
-      const presenceState =
-        channel.presenceState();
-
-
-      state.onlineUsers =
-        new Set(
-          Object.keys(
-            presenceState
-          )
-        );
-
-
-      refreshOnlineIndicators();
-
-    }
-
+    sync
   );
 
 
   channel.on(
-
     "presence",
-
     {
       event:"join"
     },
-
-    ()=>{
-
-      const presenceState =
-        channel.presenceState();
-
-      state.onlineUsers =
-        new Set(
-          Object.keys(
-            presenceState
-          )
-        );
-
-      refreshOnlineIndicators();
-
-    }
-
+    sync
   );
 
 
   channel.on(
-
     "presence",
-
     {
       event:"leave"
     },
-
-    ()=>{
-
-      const presenceState =
-        channel.presenceState();
-
-      state.onlineUsers =
-        new Set(
-          Object.keys(
-            presenceState
-          )
-        );
-
-      refreshOnlineIndicators();
-
-    }
-
+    sync
   );
 
 
   channel.subscribe(
-
     async status=>{
 
       if(
-        status ===
-        "SUBSCRIBED"
+        status==="SUBSCRIBED"
       ){
 
         await channel.track({
@@ -3059,7 +3502,6 @@ async function startPresence(){
       }
 
     }
-
   );
 
 }
@@ -3100,7 +3542,7 @@ function logoMarkup(
 
 
 /* =====================================================
-   TOAST / MODAL
+   TOAST
 ===================================================== */
 
 function toast(
@@ -3119,8 +3561,10 @@ function toast(
   div.className =
     "toast";
 
+
   let icon =
     "info";
+
 
   if(type==="error"){
     icon="circle-alert";
@@ -3152,6 +3596,9 @@ function toast(
 
     div.style.opacity="0";
 
+    div.style.transform=
+      "translateY(6px)";
+
     setTimeout(
       ()=>div.remove(),
       200
@@ -3161,6 +3608,10 @@ function toast(
 
 }
 
+
+/* =====================================================
+   MODAL
+===================================================== */
 
 function modal(
   title,
@@ -3276,6 +3727,71 @@ function setLoading(
 
 
 /* =====================================================
+   IMAGE VIEWER
+===================================================== */
+
+function openImageViewer(url){
+
+  if(!url){
+    return;
+  }
+
+
+  qs("#imageViewerRoot")
+    .innerHTML=`
+
+      <div
+        class="image-viewer-bg"
+
+        onclick="
+          if(event.target===this){
+            closeImageViewer()
+          }
+        "
+      >
+
+        <div class="image-viewer">
+
+          <img
+            src="${esc(url)}"
+            alt=""
+          >
+
+          <button
+            class="image-viewer-close"
+
+            onclick="
+              closeImageViewer()
+            "
+          >
+
+            <i
+              data-lucide="x"
+              class="icon"
+            ></i>
+
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+
+  refreshIcons();
+
+}
+
+
+function closeImageViewer(){
+
+  qs("#imageViewerRoot")
+    .innerHTML="";
+
+}
+
+
+/* =====================================================
    INITIALIZE
 ===================================================== */
 
@@ -3303,7 +3819,7 @@ async function loadBranding(){
 
 
     state.logoUrl =
-      data?.logo_url || null;
+      data?.logo_url||null;
 
   }catch{
 
@@ -3331,7 +3847,7 @@ async function init(){
     session;
 
   state.user =
-    session?.user || null;
+    session?.user||null;
 
 
   if(state.user){
@@ -3357,7 +3873,7 @@ async function init(){
         session;
 
       state.user =
-        session?.user || null;
+        session?.user||null;
 
 
       if(state.user){
@@ -3369,6 +3885,8 @@ async function init(){
       }else{
 
         await stopPresence();
+
+        await stopChatChannel();
 
 
         state.profile =
@@ -3394,7 +3912,7 @@ async function init(){
 
 
 /* =====================================================
-   LOAD CURRENT USER
+   LOAD USER
 ===================================================== */
 
 async function loadMe(){
@@ -3721,22 +4239,11 @@ async function signUp(){
 
 async function logout(){
 
-  if(
-    state.messageChannel
-  ){
+  await stopTyping();
 
-    await sb.removeChannel(
-      state.messageChannel
-    );
-
-    state.messageChannel =
-      null;
-
-  }
-
+  await stopChatChannel();
 
   await stopPresence();
-
 
   await sb.auth.signOut();
 
@@ -3750,8 +4257,7 @@ async function logout(){
 function renderAuth(){
 
   const loginMode =
-    state.authMode ===
-    "login";
+    state.authMode==="login";
 
 
   qs("#app")
@@ -4001,7 +4507,7 @@ function render(){
 
 
   const admin =
-    state.profile?.role ===
+    state.profile?.role===
     "admin";
 
 
@@ -4173,6 +4679,17 @@ function navigate(page){
   }
 
 
+  if(
+    state.page==="chats"
+    &&
+    page!=="chats"
+  ){
+
+    stopTyping();
+
+  }
+
+
   state.page =
     page;
 
@@ -4238,13 +4755,10 @@ function balanceMarkup(){
     <div class="balance">
 
       <span class="balance-value">
-
         ${money(
           state.wallet?.balance
         )}
-
       </span>
-
 
       <button
         class="balance-plus"
@@ -4309,7 +4823,7 @@ async function renderProfile(){
 
 
   const p =
-    state.profile || {};
+    state.profile||{};
 
 
   const username =
@@ -4401,9 +4915,7 @@ async function renderProfile(){
 
             <div class="profile-login">
               @${esc(
-                p.login
-                ||
-                "user"
+                p.login||"user"
               )}
             </div>
 
@@ -4552,7 +5064,7 @@ async function renderProfile(){
 function openEditProfile(){
 
   const p =
-    state.profile || {};
+    state.profile||{};
 
 
   modal(
@@ -4583,7 +5095,7 @@ function openEditProfile(){
             maxlength="24"
 
             value="${esc(
-              p.username || ""
+              p.username||""
             )}"
           >
 
@@ -4609,7 +5121,7 @@ function openEditProfile(){
               p.public_id==="------"
                 ?""
                 :esc(
-                    p.public_id || ""
+                    p.public_id||""
                   )
             }"
           >
@@ -4705,9 +5217,10 @@ async function uploadProfileImage(
 
 
   if(
-    !file.type.startsWith(
-      "image/"
-    )
+    !file.type
+      .startsWith(
+        "image/"
+      )
   ){
 
     throw new Error(
@@ -4718,7 +5231,7 @@ async function uploadProfileImage(
 
 
   if(
-    file.size >
+    file.size>
     8*1024*1024
   ){
 
@@ -4734,9 +5247,7 @@ async function uploadProfileImage(
       .split(".")
       .pop()
       ?.toLowerCase()
-
     ||
-
     "jpg";
 
 
@@ -4750,15 +5261,11 @@ async function uploadProfileImage(
       .from("profiles")
 
       .upload(
-
         path,
-
         file,
-
         {
           upsert:true
         }
-
       );
 
 
@@ -4837,15 +5344,10 @@ async function saveProfile(){
   try{
 
     let avatarUrl =
-      state.profile?.avatar_url
-      ||
-      null;
-
+      state.profile?.avatar_url||null;
 
     let bannerUrl =
-      state.profile?.banner_url
-      ||
-      null;
+      state.profile?.banner_url||null;
 
 
     const avatarFile =
@@ -4926,11 +5428,6 @@ async function saveProfile(){
       data;
 
 
-    /*
-      Оновлюємо username
-      у Presence.
-    */
-
     if(
       state.presenceChannel
     ){
@@ -4976,9 +5473,9 @@ async function saveProfile(){
 
     const message =
       String(
-        error?.message || ""
+        error?.message||""
       )
-        .toLowerCase();
+      .toLowerCase();
 
 
     if(
@@ -5271,7 +5768,7 @@ function formatDateCard(input){
   if(preview){
 
     preview.textContent =
-      value || "MM/YY";
+      value||"MM/YY";
 
   }
 
@@ -5339,16 +5836,16 @@ async function fakePayment(){
     "cardDate",
     "cardCVV"
   ]
-    .forEach(id=>{
+  .forEach(id=>{
 
-      const el =
-        qs("#"+id);
+    const el =
+      qs("#"+id);
 
-      if(el){
-        el.value="";
-      }
+    if(el){
+      el.value="";
+    }
 
-    });
+  });
 
 }
 
@@ -5404,8 +5901,7 @@ function openUserSearch(){
 }
 
 
-let searchTimer =
-  null;
+let searchTimer=null;
 
 
 function searchUsers(value){
@@ -5722,11 +6218,7 @@ async function openPublicProfile(
           font-weight:850
         "
       >
-
-        ${esc(
-          user.username
-        )}
-
+        ${esc(user.username)}
       </div>
 
 
@@ -5737,39 +6229,29 @@ async function openPublicProfile(
           margin-top:3px
         "
       >
-
-        @${esc(
-          user.login
-        )}
-
+        @${esc(user.login)}
       </div>
 
 
       <div class="profile-tags">
 
         <span class="tag">
-
           ${presenceLabel(
             user.id
           )}
-
         </span>
 
         <span class="tag">
-
           ID
           ${esc(
             user.public_id
           )}
-
         </span>
 
         <span class="tag">
-
           ${formatDate(
             user.created_at
           )}
-
         </span>
 
       </div>
@@ -5804,6 +6286,676 @@ async function openPublicProfile(
     `
 
   );
+
+}
+
+
+/* =====================================================
+   CHAT MEDIA
+===================================================== */
+
+async function createSignedImageUrl(
+  path
+){
+
+  if(!path){
+    return null;
+  }
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await sb.storage
+
+        .from("chat-media")
+
+        .createSignedUrl(
+          path,
+          60*60
+        );
+
+
+    if(error){
+      throw error;
+    }
+
+
+    return data?.signedUrl||null;
+
+
+  }catch(error){
+
+    console.error(
+      "SIGNED IMAGE ERROR",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+async function hydrateMessageMedia(
+  message
+){
+
+  if(
+    !message?.image_path
+  ){
+
+    return message;
+
+  }
+
+
+  if(
+    message._imageUrl
+  ){
+
+    return message;
+
+  }
+
+
+  const url =
+    await createSignedImageUrl(
+      message.image_path
+    );
+
+
+  return {
+    ...message,
+    _imageUrl:url
+  };
+
+}
+
+
+async function uploadChatImage(
+  file
+){
+
+  if(
+    !state.activeConversation
+  ){
+
+    throw new Error(
+      "Чат не відкрито"
+    );
+
+  }
+
+
+  const allowed = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ];
+
+
+  if(
+    !allowed.includes(
+      file.type
+    )
+  ){
+
+    throw new Error(
+      "Дозволені JPG, PNG, WEBP або GIF"
+    );
+
+  }
+
+
+  if(
+    file.size >
+    8*1024*1024
+  ){
+
+    throw new Error(
+      "Фото має бути до 8 МБ"
+    );
+
+  }
+
+
+  let ext =
+    file.name
+      .split(".")
+      .pop()
+      ?.toLowerCase();
+
+
+  if(
+    !ext
+    ||
+    ext.length>6
+  ){
+
+    ext="jpg";
+
+  }
+
+
+  const path =
+    `${
+      state.activeConversation.id
+    }/${
+      state.user.id
+    }/${
+      crypto.randomUUID()
+    }.${ext}`;
+
+
+  const {error} =
+    await sb.storage
+
+      .from("chat-media")
+
+      .upload(
+        path,
+        file,
+        {
+          cacheControl:"3600",
+          upsert:false,
+          contentType:
+            file.type
+        }
+      );
+
+
+  if(error){
+    throw error;
+  }
+
+
+  return path;
+
+}
+
+
+/* =====================================================
+   IMAGE SELECTOR
+===================================================== */
+
+function chooseChatImage(){
+
+  const input =
+    qs("#chatImageInput");
+
+
+  if(input){
+
+    input.value="";
+
+    input.click();
+
+  }
+
+}
+
+
+function handleChatImage(
+  input
+){
+
+  const file =
+    input?.files?.[0];
+
+
+  if(!file){
+    return;
+  }
+
+
+  const allowed = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ];
+
+
+  if(
+    !allowed.includes(
+      file.type
+    )
+  ){
+
+    toast(
+      "Можна надсилати JPG, PNG, WEBP або GIF",
+      "error"
+    );
+
+    input.value="";
+
+    return;
+
+  }
+
+
+  if(
+    file.size >
+    8*1024*1024
+  ){
+
+    toast(
+      "Максимальний розмір фото — 8 МБ",
+      "error"
+    );
+
+    input.value="";
+
+    return;
+
+  }
+
+
+  clearSelectedImage();
+
+
+  state.selectedImage =
+    file;
+
+
+  state.selectedImagePreview =
+    URL.createObjectURL(
+      file
+    );
+
+
+  updateComposerPreview();
+
+}
+
+
+function updateComposerPreview(){
+
+  const root =
+    qs("#composerPreview");
+
+
+  if(!root){
+    return;
+  }
+
+
+  if(
+    !state.selectedImage
+    ||
+    !state.selectedImagePreview
+  ){
+
+    root.classList.remove(
+      "visible"
+    );
+
+    root.innerHTML="";
+
+    return;
+
+  }
+
+
+  root.innerHTML=`
+
+    <div class="composer-image-card">
+
+      <img
+        class="composer-image-thumb"
+
+        src="${esc(
+          state.selectedImagePreview
+        )}"
+
+        alt=""
+      >
+
+
+      <div class="composer-image-info">
+
+        <div class="composer-image-name">
+          ${esc(
+            state.selectedImage.name
+          )}
+        </div>
+
+        <div class="composer-image-size">
+          ${fileSize(
+            state.selectedImage.size
+          )}
+        </div>
+
+      </div>
+
+
+      <button
+        type="button"
+
+        class="remove-image"
+
+        onclick="
+          clearSelectedImage()
+        "
+      >
+
+        <i
+          data-lucide="x"
+          class="icon-sm"
+        ></i>
+
+      </button>
+
+    </div>
+  `;
+
+
+  root.classList.add(
+    "visible"
+  );
+
+
+  refreshIcons();
+
+}
+
+
+function clearSelectedImage(){
+
+  if(
+    state.selectedImagePreview
+  ){
+
+    try{
+
+      URL.revokeObjectURL(
+        state.selectedImagePreview
+      );
+
+    }catch{}
+
+  }
+
+
+  state.selectedImage =
+    null;
+
+  state.selectedImagePreview =
+    null;
+
+
+  const input =
+    qs("#chatImageInput");
+
+
+  if(input){
+    input.value="";
+  }
+
+
+  updateComposerPreview();
+
+}
+
+
+/* =====================================================
+   TYPING
+===================================================== */
+
+function typingMarkup(){
+
+  return `
+    <div
+      id="typingIndicator"
+
+      class="typing-container"
+    >
+
+      <div class="typing-content">
+
+        <div class="typing-dots">
+
+          <span class="typing-dot">
+          </span>
+
+          <span class="typing-dot">
+          </span>
+
+          <span class="typing-dot">
+          </span>
+
+        </div>
+
+        <span id="typingText">
+          Друкує...
+        </span>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+function showTypingIndicator(
+  userId,
+  typing
+){
+
+  if(
+    !state.activeChatUser
+    ||
+    userId !==
+    state.activeChatUser.id
+  ){
+
+    return;
+
+  }
+
+
+  const indicator =
+    qs("#typingIndicator");
+
+
+  const text =
+    qs("#typingText");
+
+
+  if(!indicator){
+    return;
+  }
+
+
+  if(
+    state.typingHideTimer
+  ){
+
+    clearTimeout(
+      state.typingHideTimer
+    );
+
+  }
+
+
+  if(typing){
+
+    state.typingUserId =
+      userId;
+
+
+    if(text){
+
+      text.textContent =
+        `${
+          state.activeChatUser
+            ?.username
+          ||
+          "Користувач"
+        } друкує`;
+
+    }
+
+
+    indicator.classList.add(
+      "visible"
+    );
+
+
+    state.typingHideTimer =
+      setTimeout(()=>{
+
+        showTypingIndicator(
+          userId,
+          false
+        );
+
+      },3500);
+
+
+  }else{
+
+    state.typingUserId =
+      null;
+
+    indicator.classList.remove(
+      "visible"
+    );
+
+  }
+
+}
+
+
+async function broadcastTyping(
+  typing
+){
+
+  if(
+    !state.messageChannel
+    ||
+    !state.chatChannelReady
+    ||
+    !state.activeConversation
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    await state.messageChannel.send({
+
+      type:"broadcast",
+
+      event:"typing",
+
+      payload:{
+
+        user_id:
+          state.user.id,
+
+        conversation_id:
+          state.activeConversation.id,
+
+        typing:
+          Boolean(typing)
+
+      }
+
+    });
+
+  }catch(error){
+
+    console.warn(
+      "TYPING SEND",
+      error
+    );
+
+  }
+
+}
+
+
+function composerTyping(){
+
+  if(
+    !state.activeConversation
+  ){
+    return;
+  }
+
+
+  if(
+    !state.typingActive
+  ){
+
+    state.typingActive =
+      true;
+
+    broadcastTyping(true);
+
+  }
+
+
+  if(
+    state.typingSendTimer
+  ){
+
+    clearTimeout(
+      state.typingSendTimer
+    );
+
+  }
+
+
+  state.typingSendTimer =
+    setTimeout(()=>{
+
+      stopTyping();
+
+    },1300);
+
+}
+
+
+async function stopTyping(){
+
+  if(
+    state.typingSendTimer
+  ){
+
+    clearTimeout(
+      state.typingSendTimer
+    );
+
+    state.typingSendTimer =
+      null;
+
+  }
+
+
+  if(
+    state.typingActive
+  ){
+
+    state.typingActive =
+      false;
+
+    await broadcastTyping(
+      false
+    );
+
+  }
 
 }
 
@@ -5996,6 +7148,7 @@ function chatWindowMarkup(){
 
 
   return `
+
     <div class="active-chat-head">
 
       <button
@@ -6050,11 +7203,9 @@ function chatWindowMarkup(){
       >
 
         <div class="active-chat-name">
-
           ${esc(
             user.username
           )}
-
         </div>
 
 
@@ -6064,9 +7215,7 @@ function chatWindowMarkup(){
             user.id
           )}
 
-          <span
-            class="active-chat-separator"
-          >
+          <span class="active-chat-separator">
             ·
           </span>
 
@@ -6088,50 +7237,132 @@ function chatWindowMarkup(){
       id="messages"
       class="messages"
     >
-
       ${messagesMarkup()}
-
     </div>
 
 
-    <form
-      class="composer"
+    ${typingMarkup()}
 
-      onsubmit="
-        event.preventDefault();
-        sendMessage()
-      "
-    >
 
-      <textarea
-        id="messageInput"
+    <div class="composer-zone">
 
-        rows="1"
+      <div
+        id="composerPreview"
 
-        maxlength="4000"
+        class="composer-preview"
+      ></div>
 
-        placeholder="Повідомлення"
 
-        onkeydown="
-          messageKey(event)
+      <form
+        class="composer"
+
+        onsubmit="
+          event.preventDefault();
+          sendMessage()
         "
-      ></textarea>
-
-
-      <button
-        class="send"
-        type="submit"
       >
 
-        <i
-          data-lucide="send"
-          class="icon-sm"
-        ></i>
+        <input
+          id="chatImageInput"
 
-      </button>
+          type="file"
 
-    </form>
+          accept="
+            image/jpeg,
+            image/png,
+            image/webp,
+            image/gif
+          "
+
+          hidden
+
+          onchange="
+            handleChatImage(this)
+          "
+        >
+
+
+        <button
+          type="button"
+
+          class="attach"
+
+          title="Надіслати фото"
+
+          onclick="
+            chooseChatImage()
+          "
+        >
+
+          <i
+            data-lucide="paperclip"
+            class="icon-sm"
+          ></i>
+
+        </button>
+
+
+        <textarea
+          id="messageInput"
+
+          rows="1"
+
+          maxlength="4000"
+
+          placeholder="Повідомлення"
+
+          oninput="
+            composerTyping();
+            resizeComposer(this)
+          "
+
+          onkeydown="
+            messageKey(event)
+          "
+
+          onblur="
+            stopTyping()
+          "
+        ></textarea>
+
+
+        <button
+          id="sendMessageButton"
+
+          class="send"
+
+          type="submit"
+        >
+
+          <i
+            data-lucide="send"
+            class="icon-sm"
+          ></i>
+
+        </button>
+
+      </form>
+
+    </div>
   `;
+
+}
+
+
+function resizeComposer(
+  textarea
+){
+
+  textarea.style.height =
+    "45px";
+
+
+  textarea.style.height =
+    Math.min(
+      textarea.scrollHeight,
+      130
+    )
+    +"px";
 
 }
 
@@ -6164,8 +7395,16 @@ function messagesMarkup(){
     .map(message=>{
 
       const mine =
-        message.sender_id ===
+        message.sender_id===
         state.user.id;
+
+
+      const text =
+        message.content||"";
+
+
+      const image =
+        message._imageUrl||null;
 
 
       return `
@@ -6178,17 +7417,75 @@ function messagesMarkup(){
 
           <div class="message">
 
-            <div>
-              ${esc(
-                message.content
-              )}
-            </div>
+            ${
+              message.image_path
+              ||
+              image
+                ?`
+
+                  ${
+                    image
+
+                      ?`
+                        <div
+                          class="message-image-wrap"
+
+                          onclick="
+                            openImageViewer(
+                              '${esc(image)}'
+                            )
+                          "
+                        >
+
+                          <img
+                            class="message-image"
+
+                            src="${esc(image)}"
+
+                            alt="Фото"
+
+                            loading="lazy"
+                          >
+
+                        </div>
+                      `
+
+                      :`
+                        <div
+                          class="message-image-loading"
+                        ></div>
+                      `
+                  }
+
+                `
+                :""
+            }
+
+
+            ${
+              text
+
+                ?`
+                  <div class="message-text">
+                    ${esc(text)}
+                  </div>
+                `
+
+                :""
+            }
+
 
             <div class="message-time">
 
               ${formatTime(
                 message.created_at
               )}
+
+              ${
+                message._uploading
+                  ?" · завантаження фото"
+                  :""
+              }
 
               ${
                 message._pending
@@ -6215,6 +7512,10 @@ function messagesMarkup(){
 
 }
 
+
+/* =====================================================
+   LOAD CHAT LIST
+===================================================== */
 
 async function loadChats(){
 
@@ -6273,14 +7574,16 @@ async function loadChats(){
 
 
   const chats =
-    data || [];
+    data||[];
 
 
   const ids =
     chats.map(chat=>
 
       chat.user1_id===uid
+
         ?chat.user2_id
+
         :chat.user1_id
 
     );
@@ -6309,7 +7612,7 @@ async function loadChats(){
 
 
     users =
-      profiles || [];
+      profiles||[];
 
   }
 
@@ -6329,7 +7632,6 @@ async function loadChats(){
     await Promise.all(
 
       chats.map(
-
         async chat=>{
 
           const otherId =
@@ -6354,7 +7656,7 @@ async function loadChats(){
                 .from("messages")
 
                 .select(
-                  "content,created_at,sender_id"
+                  "content,image_path,created_at,sender_id"
                 )
 
                 .eq(
@@ -6392,7 +7694,6 @@ async function loadChats(){
           };
 
         }
-
       )
 
     );
@@ -6457,107 +7758,126 @@ function renderChatList(){
   root.innerHTML =
     state.conversations
 
-      .map(chat=>`
+      .map(chat=>{
 
-        <button
-          class="
-            chat-item
-
-            ${
-              state.activeConversation
-                ?.id===chat.id
-                ?"active"
-                :""
-            }
-          "
-
-          data-search="${esc(
-            (
-              (
-                chat.other?.username
-                ||
-                ""
-              )
-
-              +
-
-              " "
-
-              +
-
-              (
-                chat.other?.public_id
-                ||
-                ""
-              )
-            )
-            .toLowerCase()
-          )}"
-
-          onclick="
-            openChat(
-              '${chat.id}',
-              '${chat.other?.id}'
-            )
-          "
-        >
-
-          ${avatarStatus(
-            chat.other
-          )}
+        let preview =
+          "Розмову створено";
 
 
-          <div class="chat-item-content">
+        if(
+          chat.latest?.image_path
+          &&
+          chat.latest?.content
+        ){
 
-            <div class="chat-item-row">
+          preview =
+            "Фото · "
+            +
+            chat.latest.content;
 
-              <span class="chat-name">
+        }else if(
+          chat.latest?.image_path
+        ){
 
-                ${esc(
-                  chat.other
-                    ?.username
-                  ||
-                  "Користувач"
-                )}
+          preview =
+            "Фото";
 
-              </span>
+        }else if(
+          chat.latest?.content
+        ){
 
+          preview =
+            chat.latest.content;
 
-              <span class="chat-time">
-
-                ${formatTime(
-                  chat.latest
-                    ?.created_at
-                  ||
-                  chat.updated_at
-                )}
-
-              </span>
-
-            </div>
+        }
 
 
-            <div class="chat-preview">
+        return `
+
+          <button
+            class="
+              chat-item
 
               ${
-                chat.latest?.content
-
-                  ?esc(
-                      chat.latest.content
-                    )
-
-                  :presenceText(
-                      chat.other?.id
-                    )
+                state.activeConversation
+                  ?.id===chat.id
+                  ?"active"
+                  :""
               }
+            "
+
+            data-search="${esc(
+              (
+                (
+                  chat.other?.username
+                  ||
+                  ""
+                )
+                +
+                " "
+                +
+                (
+                  chat.other?.public_id
+                  ||
+                  ""
+                )
+              )
+              .toLowerCase()
+            )}"
+
+            onclick="
+              openChat(
+                '${chat.id}',
+                '${chat.other?.id}'
+              )
+            "
+          >
+
+            ${avatarStatus(
+              chat.other
+            )}
+
+
+            <div class="chat-item-content">
+
+              <div class="chat-item-row">
+
+                <span class="chat-name">
+
+                  ${esc(
+                    chat.other
+                      ?.username
+                    ||
+                    "Користувач"
+                  )}
+
+                </span>
+
+
+                <span class="chat-time">
+
+                  ${formatTime(
+                    chat.latest
+                      ?.created_at
+                    ||
+                    chat.updated_at
+                  )}
+
+                </span>
+
+              </div>
+
+
+              <div class="chat-preview">
+                ${esc(preview)}
+              </div>
 
             </div>
 
-          </div>
+          </button>
+        `;
 
-        </button>
-
-      `)
+      })
 
       .join("");
 
@@ -6580,28 +7900,32 @@ function filterChats(value){
   qsa(
     ".chat-item"
   )
-    .forEach(item=>{
+  .forEach(item=>{
 
-      if(
-        !item.dataset.search
-      ){
-        return;
-      }
+    if(
+      !item.dataset.search
+    ){
+      return;
+    }
 
 
-      item.style.display =
+    item.style.display =
 
-        item.dataset.search
-          .includes(query)
+      item.dataset.search
+        .includes(query)
 
-          ?""
+        ?""
 
-          :"none";
+        :"none";
 
-    });
+  });
 
 }
 
+
+/* =====================================================
+   CREATE CHAT
+===================================================== */
 
 async function createChat(
   userId
@@ -6651,10 +7975,191 @@ async function createChat(
 }
 
 
+/* =====================================================
+   CHAT CHANNEL
+===================================================== */
+
+async function stopChatChannel(){
+
+  state.chatChannelReady =
+    false;
+
+
+  if(
+    state.messageChannel
+  ){
+
+    try{
+
+      await sb.removeChannel(
+        state.messageChannel
+      );
+
+    }catch{}
+
+
+    state.messageChannel =
+      null;
+
+  }
+
+}
+
+
+async function setupChatChannel(
+  conversationId
+){
+
+  await stopChatChannel();
+
+
+  const channel =
+    sb.channel(
+      "chat:"
+      +
+      conversationId,
+      {
+        config:{
+          broadcast:{
+            self:false
+          }
+        }
+      }
+    );
+
+
+  state.messageChannel =
+    channel;
+
+
+  channel.on(
+
+    "postgres_changes",
+
+    {
+      event:"INSERT",
+
+      schema:"public",
+
+      table:"messages",
+
+      filter:
+        `conversation_id=eq.${conversationId}`
+    },
+
+    async payload=>{
+
+      const incoming =
+        await hydrateMessageMedia(
+          payload.new
+        );
+
+
+      const index =
+        state.messages
+          .findIndex(
+            message=>
+              message.id===
+              incoming.id
+          );
+
+
+      if(index>=0){
+
+        state.messages[index] =
+          incoming;
+
+      }else{
+
+        state.messages.push(
+          incoming
+        );
+
+      }
+
+
+      refreshMessages(
+        true
+      );
+
+
+      refreshConversationPreview(
+        incoming
+      );
+
+    }
+
+  );
+
+
+  channel.on(
+
+    "broadcast",
+
+    {
+      event:"typing"
+    },
+
+    payload=>{
+
+      const data =
+        payload.payload||{};
+
+
+      if(
+        data.user_id===
+        state.user.id
+      ){
+        return;
+      }
+
+
+      if(
+        data.conversation_id!==
+        state.activeConversation?.id
+      ){
+        return;
+      }
+
+
+      showTypingIndicator(
+        data.user_id,
+        Boolean(
+          data.typing
+        )
+      );
+
+    }
+
+  );
+
+
+  channel.subscribe(
+    status=>{
+
+      state.chatChannelReady =
+        status==="SUBSCRIBED";
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   OPEN CHAT
+===================================================== */
+
 async function openChat(
   conversationId,
   userId
 ){
+
+  await stopTyping();
+
+
+  clearSelectedImage();
+
 
   let user =
     state.conversations
@@ -6757,93 +8262,19 @@ async function openChat(
 
 
   state.messages =
-    data || [];
+    await Promise.all(
 
+      (data||[])
+        .map(
+          hydrateMessageMedia
+        )
 
-  if(
-    state.messageChannel
-  ){
-
-    await sb.removeChannel(
-      state.messageChannel
     );
 
-  }
 
-
-  state.messageChannel =
-    sb
-
-      .channel(
-        "chat:"
-        +
-        conversationId
-      )
-
-      .on(
-
-        "postgres_changes",
-
-        {
-          event:"INSERT",
-
-          schema:"public",
-
-          table:"messages",
-
-          filter:
-            `conversation_id=eq.${conversationId}`
-        },
-
-        payload=>{
-
-          const incoming =
-            payload.new;
-
-
-          const exists =
-            state.messages
-              .some(
-                message=>
-                  message.id===
-                  incoming.id
-              );
-
-
-          if(exists){
-
-            state.messages =
-              state.messages
-
-                .map(message=>
-
-                  message.id===
-                  incoming.id
-
-                    ?incoming
-
-                    :message
-
-                );
-
-          }else{
-
-            state.messages.push(
-              incoming
-            );
-
-          }
-
-
-          refreshMessages(
-            true
-          );
-
-        }
-
-      )
-
-      .subscribe();
+  await setupChatChannel(
+    conversationId
+  );
 
 
   renderChats();
@@ -6859,13 +8290,23 @@ async function openChat(
 
 function closeMobileChat(){
 
+  stopTyping();
+
+  clearSelectedImage();
+
+
   state.mobileChatOpen =
     false;
+
 
   renderChats();
 
 }
 
+
+/* =====================================================
+   MESSAGE UI
+===================================================== */
 
 function refreshMessages(
   scroll=false
@@ -6904,8 +8345,12 @@ function scrollMessages(){
 
   if(root){
 
-    root.scrollTop =
-      root.scrollHeight;
+    requestAnimationFrame(()=>{
+
+      root.scrollTop =
+        root.scrollHeight;
+
+    });
 
   }
 
@@ -6931,6 +8376,10 @@ function messageKey(event){
 }
 
 
+/* =====================================================
+   SEND MESSAGE
+===================================================== */
+
 async function sendMessage(){
 
   if(
@@ -6947,22 +8396,64 @@ async function sendMessage(){
   const content =
     input
       ?.value
-      .trim();
+      .trim()
+    ||
+    "";
 
 
-  if(!content){
+  const imageFile =
+    state.selectedImage;
+
+
+  if(
+    !content
+    &&
+    !imageFile
+  ){
+
     return;
+
   }
 
 
-  input.value="";
+  await stopTyping();
+
+
+  const button =
+    qs("#sendMessageButton");
+
+
+  if(button){
+    button.disabled=true;
+  }
 
 
   const id =
     crypto.randomUUID();
 
 
-  state.messages.push({
+  const createdAt =
+    new Date()
+      .toISOString();
+
+
+  let localImageUrl =
+    null;
+
+
+  if(
+    imageFile
+    &&
+    state.selectedImagePreview
+  ){
+
+    localImageUrl =
+      state.selectedImagePreview;
+
+  }
+
+
+  const optimistic = {
 
     id,
 
@@ -6972,93 +8463,305 @@ async function sendMessage(){
     sender_id:
       state.user.id,
 
-    content,
+    content:
+      content||null,
+
+    image_path:
+      imageFile
+        ?"pending"
+        :null,
 
     created_at:
-      new Date()
-        .toISOString(),
+      createdAt,
 
-    _pending:true
+    _imageUrl:
+      localImageUrl,
 
-  });
+    _uploading:
+      Boolean(imageFile),
+
+    _pending:
+      !imageFile,
+
+    _failed:false
+
+  };
 
 
-  refreshMessages(
-    true
+  state.messages.push(
+    optimistic
   );
 
 
-  const {error} =
-    await sb
+  if(input){
 
-      .from("messages")
+    input.value="";
 
-      .insert({
+    input.style.height=
+      "45px";
 
-        id,
-
-        conversation_id:
-          state.activeConversation.id,
-
-        sender_id:
-          state.user.id,
-
-        content
-
-      });
+  }
 
 
-  if(error){
+  /*
+    Важливо:
+    не викликаємо clearSelectedImage()
+    одразу, щоб objectURL
+    не зник з optimistic message.
+  */
+
+  state.selectedImage =
+    null;
+
+  state.selectedImagePreview =
+    null;
+
+
+  updateComposerPreview();
+
+
+  refreshMessages(true);
+
+
+  try{
+
+    let imagePath=null;
+
+
+    if(imageFile){
+
+      imagePath =
+        await uploadChatImage(
+          imageFile
+        );
+
+
+      state.messages =
+        state.messages.map(
+          message=>
+
+            message.id===id
+
+              ?{
+                  ...message,
+
+                  image_path:
+                    imagePath,
+
+                  _uploading:false,
+
+                  _pending:true
+                }
+
+              :message
+
+        );
+
+
+      refreshMessages(
+        true
+      );
+
+    }
+
+
+    const {
+      data:inserted,
+      error
+    } =
+      await sb
+
+        .from("messages")
+
+        .insert({
+
+          id,
+
+          conversation_id:
+            state.activeConversation.id,
+
+          sender_id:
+            state.user.id,
+
+          content:
+            content||null,
+
+          image_path:
+            imagePath
+
+        })
+
+        .select()
+
+        .single();
+
+
+    if(error){
+      throw error;
+    }
+
+
+    let finalMessage =
+      await hydrateMessageMedia(
+        inserted
+      );
+
+
+    /*
+      Якщо signed URL ще не отримався,
+      тимчасово залишаємо локальне фото.
+    */
+
+    if(
+      imageFile
+      &&
+      !finalMessage._imageUrl
+      &&
+      localImageUrl
+    ){
+
+      finalMessage._imageUrl =
+        localImageUrl;
+
+    }
+
 
     state.messages =
-      state.messages
+      state.messages.map(
+        message=>
 
-        .map(message=>
+          message.id===id
+
+            ?finalMessage
+
+            :message
+
+      );
+
+
+    refreshMessages(true);
+
+
+    refreshConversationPreview(
+      finalMessage
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "SEND ERROR",
+      error
+    );
+
+
+    state.messages =
+      state.messages.map(
+        message=>
 
           message.id===id
 
             ?{
                 ...message,
+
                 _pending:false,
+
+                _uploading:false,
+
                 _failed:true
               }
 
             :message
 
-        );
+      );
 
 
     refreshMessages();
 
 
     toast(
+      error.message
+      ||
       "Повідомлення не надіслано",
       "error"
     );
 
-    return;
+
+  }finally{
+
+    if(button){
+      button.disabled=false;
+    }
 
   }
 
+}
 
-  state.messages =
-    state.messages
 
-      .map(message=>
+/* =====================================================
+   UPDATE CHAT PREVIEW WITHOUT FULL RELOAD
+===================================================== */
 
-        message.id===id
+function refreshConversationPreview(
+  message
+){
 
-          ?{
-              ...message,
-              _pending:false
-            }
-
-          :message
-
+  const chat =
+    state.conversations
+      .find(
+        item=>
+          item.id===
+          message.conversation_id
       );
 
 
-  refreshMessages();
+  if(!chat){
+    return;
+  }
+
+
+  chat.latest = {
+
+    content:
+      message.content,
+
+    image_path:
+      message.image_path,
+
+    created_at:
+      message.created_at,
+
+    sender_id:
+      message.sender_id
+
+  };
+
+
+  chat.updated_at =
+    message.created_at;
+
+
+  state.conversations.sort(
+    (a,b)=>
+
+      new Date(
+        b.latest?.created_at
+        ||
+        b.updated_at
+      )
+
+      -
+
+      new Date(
+        a.latest?.created_at
+        ||
+        a.updated_at
+      )
+
+  );
+
+
+  renderChatList();
 
 }
 
@@ -7238,7 +8941,7 @@ async function loadListings(){
 
 
   state.listings =
-    data || [];
+    data||[];
 
 
   renderListings();
@@ -7308,6 +9011,7 @@ function renderListings(){
 
 
         return `
+
           <section
             class="
               card
@@ -7789,7 +9493,6 @@ async function buyListing(id){
 
 
   const {
-    data,
     error
   } =
     await sb.rpc(
@@ -7854,7 +9557,6 @@ function adminTab(
     <button
       class="
         admin-tab
-
         ${
           state.adminTab===tab
             ?"active"
@@ -7881,9 +9583,7 @@ async function renderAdmin(){
     "admin"
   ){
 
-    navigate(
-      "chats"
-    );
+    navigate("chats");
 
     return;
 
@@ -8201,12 +9901,14 @@ async function adminUsers(){
 
 
   state.adminUsers =
-    users || [];
+    users||[];
 
 
   const ids =
     state.adminUsers
-      .map(user=>user.id);
+      .map(
+        user=>user.id
+      );
 
 
   let wallets=[];
@@ -8230,7 +9932,7 @@ async function adminUsers(){
 
 
     wallets =
-      data || [];
+      data||[];
 
   }
 
@@ -8381,7 +10083,6 @@ async function adminUsers(){
                         <span
                           class="
                             role
-
                             ${
                               user.role===
                               "admin"
@@ -8392,21 +10093,17 @@ async function adminUsers(){
                             }
                           "
                         >
-
                           ${esc(
                             user.role
                           )}
-
                         </span>
 
                       </td>
 
                       <td>
-
                         ${presenceLabel(
                           user.id
                         )}
-
                       </td>
 
                       <td>
@@ -8469,18 +10166,18 @@ function filterAdminUsers(value){
   qsa(
     ".admin-user-row"
   )
-    .forEach(row=>{
+  .forEach(row=>{
 
-      row.style.display =
+    row.style.display =
 
-        row.dataset.search
-          .includes(query)
+      row.dataset.search
+        .includes(query)
 
-          ?""
+        ?""
 
-          :"none";
+        :"none";
 
-    });
+  });
 
 }
 
@@ -8494,8 +10191,7 @@ function openAdminBalance(
 
       .find(
         item=>
-          item.id===
-          userId
+          item.id===userId
       );
 
 
@@ -8751,7 +10447,7 @@ async function adminChats(){
 
 
     users =
-      data || [];
+      data||[];
 
   }
 
@@ -8959,7 +10655,7 @@ async function openAdminChat(
 
 
     users =
-      data || [];
+      data||[];
 
   }
 
@@ -8972,6 +10668,15 @@ async function openAdminChat(
         user.username
       ])
 
+    );
+
+
+  const hydrated =
+    await Promise.all(
+      (messages||[])
+        .map(
+          hydrateMessageMedia
+        )
     );
 
 
@@ -8989,9 +10694,9 @@ async function openAdminChat(
       >
 
         ${
-          messages?.length
+          hydrated.length
 
-            ?messages
+            ?hydrated
 
                 .map(message=>`
 
@@ -9028,21 +10733,66 @@ async function openAdminChat(
                     </div>
 
 
-                    <div
-                      style="
-                        margin-top:5px;
+                    ${
+                      message._imageUrl
 
-                        line-height:1.45;
+                        ?`
+                          <img
+                            src="${esc(
+                              message._imageUrl
+                            )}"
 
-                        font-size:12px
-                      "
-                    >
+                            style="
+                              display:block;
 
-                      ${esc(
-                        message.content
-                      )}
+                              max-width:100%;
 
-                    </div>
+                              max-height:300px;
+
+                              object-fit:contain;
+
+                              border-radius:10px;
+
+                              margin-top:8px;
+
+                              cursor:pointer
+                            "
+
+                            onclick="
+                              openImageViewer(
+                                '${esc(
+                                  message._imageUrl
+                                )}'
+                              )
+                            "
+                          >
+                        `
+
+                        :""
+                    }
+
+
+                    ${
+                      message.content
+
+                        ?`
+                          <div
+                            style="
+                              margin-top:7px;
+
+                              line-height:1.45;
+
+                              font-size:12px
+                            "
+                          >
+                            ${esc(
+                              message.content
+                            )}
+                          </div>
+                        `
+
+                        :""
+                    }
 
 
                     <div
@@ -9220,9 +10970,7 @@ async function saveAdminLogo(){
       file.name
         .split(".")
         .pop()
-
       ||
-
       "png";
 
 
@@ -9236,15 +10984,11 @@ async function saveAdminLogo(){
         .from("branding")
 
         .upload(
-
           path,
-
           file,
-
           {
             upsert:true
           }
-
         );
 
 
@@ -9335,107 +11079,131 @@ async function saveAdminLogo(){
 
 
 /* =====================================================
+   KEYBOARD / CLEANUP
+===================================================== */
+
+document.addEventListener(
+  "keydown",
+  event=>{
+
+    if(
+      event.key==="Escape"
+    ){
+
+      closeImageViewer();
+
+    }
+
+  }
+);
+
+
+window.addEventListener(
+  "beforeunload",
+  ()=>{
+
+    try{
+
+      if(
+        state.presenceChannel
+      ){
+
+        state.presenceChannel
+          .untrack();
+
+      }
+
+    }catch{}
+
+  }
+);
+
+
+/* =====================================================
    GLOBAL
 ===================================================== */
 
-window.state =
-  state;
+window.state=state;
 
-window.render =
-  render;
+window.render=render;
 
-window.navigate =
-  navigate;
+window.navigate=navigate;
 
-window.signIn =
-  signIn;
+window.signIn=signIn;
 
-window.signUp =
-  signUp;
+window.signUp=signUp;
 
-window.logout =
-  logout;
+window.logout=logout;
 
-window.closeModal =
-  closeModal;
+window.closeModal=closeModal;
 
-window.renderProfile =
-  renderProfile;
+window.openImageViewer=openImageViewer;
 
-window.openEditProfile =
-  openEditProfile;
+window.closeImageViewer=closeImageViewer;
 
-window.saveProfile =
-  saveProfile;
+window.renderProfile=renderProfile;
 
-window.openTopup =
-  openTopup;
+window.openEditProfile=openEditProfile;
 
-window.formatCard =
-  formatCard;
+window.saveProfile=saveProfile;
 
-window.formatDateCard =
-  formatDateCard;
+window.openTopup=openTopup;
 
-window.fakePayment =
-  fakePayment;
+window.formatCard=formatCard;
 
-window.openUserSearch =
-  openUserSearch;
+window.formatDateCard=formatDateCard;
 
-window.searchUsers =
-  searchUsers;
+window.fakePayment=fakePayment;
 
-window.openPublicProfile =
-  openPublicProfile;
+window.openUserSearch=openUserSearch;
 
-window.createChat =
-  createChat;
+window.searchUsers=searchUsers;
 
-window.openChat =
-  openChat;
+window.openPublicProfile=openPublicProfile;
 
-window.closeMobileChat =
-  closeMobileChat;
+window.createChat=createChat;
 
-window.filterChats =
-  filterChats;
+window.openChat=openChat;
 
-window.messageKey =
-  messageKey;
+window.closeMobileChat=closeMobileChat;
 
-window.sendMessage =
-  sendMessage;
+window.filterChats=filterChats;
 
-window.openListing =
-  openListing;
+window.messageKey=messageKey;
 
-window.createListing =
-  createListing;
+window.sendMessage=sendMessage;
 
-window.cancelListing =
-  cancelListing;
+window.resizeComposer=resizeComposer;
 
-window.openBuyListing =
-  openBuyListing;
+window.composerTyping=composerTyping;
 
-window.buyListing =
-  buyListing;
+window.stopTyping=stopTyping;
 
-window.filterAdminUsers =
-  filterAdminUsers;
+window.chooseChatImage=chooseChatImage;
 
-window.openAdminBalance =
-  openAdminBalance;
+window.handleChatImage=handleChatImage;
 
-window.adminChangeBalance =
-  adminChangeBalance;
+window.clearSelectedImage=clearSelectedImage;
 
-window.openAdminChat =
-  openAdminChat;
+window.openListing=openListing;
 
-window.saveAdminLogo =
-  saveAdminLogo;
+window.createListing=createListing;
+
+window.cancelListing=cancelListing;
+
+window.openBuyListing=openBuyListing;
+
+window.buyListing=buyListing;
+
+window.filterAdminUsers=filterAdminUsers;
+
+window.openAdminBalance=openAdminBalance;
+
+window.adminChangeBalance=adminChangeBalance;
+
+window.openAdminChat=openAdminChat;
+
+window.saveAdminLogo=saveAdminLogo;
 
 
 /* =====================================================
@@ -9445,6 +11213,303 @@ window.saveAdminLogo =
 init();
 
 </script>
+
+
+<!--
+
+=========================================================
+SUPABASE SQL PATCH ДЛЯ ФОТО В ЧАТАХ
+=========================================================
+
+ЦЕЙ КОД НЕ ВИКОНУЄТЬСЯ В HTML.
+
+Скопіюй ТІЛЬКИ SQL між
+SQL_START
+і
+SQL_END
+
+Supabase -> SQL Editor -> New query -> Run
+
+
+SQL_START
+
+
+alter table public.messages
+add column if not exists image_path text;
+
+
+alter table public.messages
+alter column content drop not null;
+
+
+/*
+  Видаляємо старий constraint,
+  який не дозволяв повідомлення
+  без тексту.
+*/
+
+alter table public.messages
+drop constraint if exists message_content_length;
+
+
+/*
+  Тепер повідомлення може мати:
+  - тільки текст
+  - тільки фото
+  - текст + фото
+*/
+
+alter table public.messages
+add constraint message_text_or_image_check
+check (
+
+    (
+        content is not null
+
+        and
+
+        length(trim(content))
+        between 1 and 4000
+    )
+
+    or
+
+    (
+        image_path is not null
+
+        and
+
+        length(trim(image_path)) > 0
+    )
+
+);
+
+
+/*
+  Private Storage bucket
+*/
+
+insert into storage.buckets (
+    id,
+    name,
+    public,
+    file_size_limit,
+    allowed_mime_types
+)
+values (
+    'chat-media',
+    'chat-media',
+    false,
+    8388608,
+    array[
+        'image/jpeg',
+        'image/png',
+        'image/webp',
+        'image/gif'
+    ]
+)
+on conflict (id)
+do update set
+    public = false,
+    file_size_limit = 8388608,
+    allowed_mime_types = array[
+        'image/jpeg',
+        'image/png',
+        'image/webp',
+        'image/gif'
+    ];
+
+
+/*
+  Видаляємо старі policies
+  якщо SQL запускається повторно
+*/
+
+drop policy if exists
+"chat_media_insert"
+on storage.objects;
+
+drop policy if exists
+"chat_media_read"
+on storage.objects;
+
+drop policy if exists
+"chat_media_delete"
+on storage.objects;
+
+
+/*
+  Шлях фото:
+
+  conversation_id/user_id/file.jpg
+
+  Другий folder повинен
+  відповідати auth.uid()
+*/
+
+create policy
+"chat_media_insert"
+on storage.objects
+for insert
+to authenticated
+with check (
+
+    bucket_id = 'chat-media'
+
+    and
+
+    (storage.foldername(name))[2]
+        =
+    auth.uid()::text
+
+    and
+
+    exists (
+
+        select 1
+
+        from public.direct_conversations c
+
+        where
+            c.id::text =
+            (storage.foldername(name))[1]
+
+        and (
+
+            c.user1_id = auth.uid()
+
+            or
+
+            c.user2_id = auth.uid()
+
+        )
+
+    )
+
+);
+
+
+/*
+  Читати фото можуть
+  тільки учасники цього чату
+  або адмін.
+*/
+
+create policy
+"chat_media_read"
+on storage.objects
+for select
+to authenticated
+using (
+
+    bucket_id = 'chat-media'
+
+    and
+
+    (
+
+        public.is_admin(
+            auth.uid()
+        )
+
+        or
+
+        exists (
+
+            select 1
+
+            from public.direct_conversations c
+
+            where
+                c.id::text =
+                (storage.foldername(name))[1]
+
+            and (
+
+                c.user1_id =
+                    auth.uid()
+
+                or
+
+                c.user2_id =
+                    auth.uid()
+
+            )
+
+        )
+
+    )
+
+);
+
+
+/*
+  Видалити власне фото
+  може тільки той,
+  хто його завантажив.
+*/
+
+create policy
+"chat_media_delete"
+on storage.objects
+for delete
+to authenticated
+using (
+
+    bucket_id = 'chat-media'
+
+    and
+
+    (storage.foldername(name))[2]
+        =
+    auth.uid()::text
+
+);
+
+
+/*
+  Realtime messages
+*/
+
+do $$
+begin
+
+    if not exists (
+
+        select 1
+
+        from pg_publication_tables
+
+        where
+            pubname =
+            'supabase_realtime'
+
+        and
+            schemaname =
+            'public'
+
+        and
+            tablename =
+            'messages'
+
+    ) then
+
+        alter publication
+        supabase_realtime
+        add table
+        public.messages;
+
+    end if;
+
+end;
+$$;
+
+
+SQL_END
+
+=========================================================
+
+-->
 
 </body>
 </html>
