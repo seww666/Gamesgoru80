@@ -2,11 +2,16 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
+
 <meta
   name="viewport"
   content="width=device-width,initial-scale=1,viewport-fit=cover"
 >
-<meta name="theme-color" content="#f2c314">
+
+<meta
+  name="theme-color"
+  content="#f2c314"
+>
 
 <title>LiptonGram</title>
 
@@ -14,29 +19,31 @@
 <script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
 
 :root{
   --bg:#080808;
-  --panel:#111;
+  --panel:#111111;
   --panel2:#171717;
   --panel3:#202020;
 
-  --text:#fff;
+  --text:#ffffff;
   --muted:#858585;
 
   --yellow:#f2c314;
   --yellow2:#ffdd4c;
 
   --danger:#ff5858;
-  --success:#45d685;
+  --success:#3ecf72;
 
   --border:rgba(255,255,255,.08);
 
   --shadow:
-    0 25px 70px rgba(0,0,0,.36);
+    0 25px 70px
+    rgba(0,0,0,.36);
 }
 
 html,
@@ -128,10 +135,7 @@ textarea::placeholder{
 @keyframes modalIn{
   from{
     opacity:0;
-
-    transform:
-      translateY(16px)
-      scale(.98);
+    transform:translateY(16px) scale(.98);
   }
 
   to{
@@ -143,10 +147,7 @@ textarea::placeholder{
 @keyframes messageAppear{
   from{
     opacity:0;
-
-    transform:
-      translateY(4px)
-      scale(.99);
+    transform:translateY(4px) scale(.99);
   }
 
   to{
@@ -273,7 +274,6 @@ textarea::placeholder{
 .field{
   display:flex;
   flex-direction:column;
-
   gap:7px;
 }
 
@@ -290,7 +290,7 @@ textarea::placeholder{
 
   padding:0 14px;
 
-  color:white;
+  color:#fff;
 
   background:#101010;
 
@@ -351,8 +351,7 @@ textarea::placeholder{
   width:70px;
   height:70px;
 
-  margin:
-    0 auto 18px;
+  margin:0 auto 18px;
 
   border-radius:21px;
 
@@ -391,8 +390,7 @@ textarea::placeholder{
 }
 
 .auth-sub{
-  margin:
-    7px 0 23px;
+  margin:7px 0 23px;
 
   color:var(--muted);
 
@@ -403,9 +401,7 @@ textarea::placeholder{
 
 .auth-tabs{
   display:grid;
-
-  grid-template-columns:
-    1fr 1fr;
+  grid-template-columns:1fr 1fr;
 
   padding:4px;
 
@@ -423,7 +419,6 @@ textarea::placeholder{
   height:39px;
 
   border:0;
-
   border-radius:10px;
 
   background:transparent;
@@ -437,14 +432,12 @@ textarea::placeholder{
 
 .auth-tab.active{
   background:#202020;
-
-  color:white;
+  color:#fff;
 }
 
 .auth-form{
   display:flex;
   flex-direction:column;
-
   gap:14px;
 }
 
@@ -478,8 +471,7 @@ textarea::placeholder{
   background:
     rgba(9,9,9,.88);
 
-  backdrop-filter:
-    blur(20px);
+  backdrop-filter:blur(20px);
 
   display:flex;
   flex-direction:column;
@@ -541,7 +533,6 @@ textarea::placeholder{
 .side-nav{
   display:flex;
   flex-direction:column;
-
   gap:5px;
 }
 
@@ -571,7 +562,7 @@ textarea::placeholder{
 }
 
 .nav-btn:hover{
-  color:white;
+  color:#fff;
   background:#151515;
 }
 
@@ -617,6 +608,7 @@ textarea::placeholder{
 
   overflow:hidden;
   text-overflow:ellipsis;
+  white-space:nowrap;
 }
 
 .side-user-id{
@@ -727,7 +719,112 @@ textarea::placeholder{
 .avatar img{
   width:100%;
   height:100%;
+
   object-fit:cover;
+}
+
+
+/* =====================================================
+   DISCORD STYLE ONLINE STATUS
+===================================================== */
+
+.avatar-status-wrap{
+  position:relative;
+
+  width:43px;
+  height:43px;
+
+  flex:0 0 43px;
+
+  display:inline-flex;
+}
+
+.avatar-status-wrap.large{
+  width:106px;
+  height:106px;
+
+  flex:0 0 106px;
+}
+
+.avatar-status-wrap .avatar{
+  width:100%;
+  height:100%;
+  flex:1;
+}
+
+.presence-dot{
+  position:absolute;
+
+  right:-1px;
+  bottom:-1px;
+
+  width:13px;
+  height:13px;
+
+  border-radius:50%;
+
+  background:#555;
+
+  border:
+    3px solid #111;
+
+  transition:
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+.avatar-status-wrap.large
+.presence-dot{
+  width:20px;
+  height:20px;
+
+  right:4px;
+  bottom:5px;
+
+  border-width:4px;
+}
+
+.presence-dot.online{
+  background:#3ecf72;
+
+  box-shadow:
+    0 0 0 1px
+    rgba(62,207,114,.12);
+}
+
+.presence-dot.offline{
+  background:#5b5b5b;
+}
+
+.presence-text{
+  display:inline-flex;
+  align-items:center;
+
+  gap:5px;
+
+  color:#777;
+
+  transition:color .15s ease;
+}
+
+.presence-text.online{
+  color:#54d981;
+}
+
+.presence-mini-dot{
+  width:6px;
+  height:6px;
+
+  flex:0 0 6px;
+
+  border-radius:50%;
+
+  background:#5b5b5b;
+}
+
+.presence-text.online
+.presence-mini-dot{
+  background:#3ecf72;
 }
 
 
@@ -769,7 +866,7 @@ textarea::placeholder{
 }
 
 .empty strong{
-  color:white;
+  color:#fff;
 
   font-size:15px;
 }
@@ -777,8 +874,7 @@ textarea::placeholder{
 .empty p{
   max-width:400px;
 
-  margin:
-    7px 0 0;
+  margin:7px 0 0;
 
   line-height:1.5;
 
@@ -793,9 +889,7 @@ textarea::placeholder{
 .balance{
   height:42px;
 
-  padding:
-    4px 5px
-    4px 13px;
+  padding:4px 5px 4px 13px;
 
   border-radius:13px;
 
@@ -822,7 +916,6 @@ textarea::placeholder{
   padding:0;
 
   border:0;
-
   border-radius:9px;
 
   color:#111;
@@ -861,8 +954,7 @@ textarea::placeholder{
 }
 
 .profile-info{
-  padding:
-    0 23px 23px;
+  padding:0 23px 23px;
 
   display:flex;
   align-items:flex-end;
@@ -876,7 +968,6 @@ textarea::placeholder{
 
 .profile-main{
   min-width:0;
-
   flex:1;
 
   padding-top:16px;
@@ -966,7 +1057,7 @@ textarea::placeholder{
 
 
 /* =====================================================
-   CHATS — IMPROVED DESIGN
+   CHATS
 ===================================================== */
 
 .chat-layout{
@@ -983,11 +1074,9 @@ textarea::placeholder{
   gap:14px;
 }
 
-
-/* LEFT PANEL */
-
 .chat-list-panel{
   min-height:0;
+
   overflow:hidden;
 
   display:flex;
@@ -1101,7 +1190,7 @@ textarea::placeholder{
 }
 
 
-/* SEARCH */
+/* CHAT SEARCH */
 
 .chat-search{
   position:relative;
@@ -1178,11 +1267,10 @@ textarea::placeholder{
 }
 
 
-/* LIST */
+/* CHAT LIST */
 
 .chat-list{
   min-height:0;
-
   flex:1;
 
   overflow-y:auto;
@@ -1200,7 +1288,6 @@ textarea::placeholder{
   padding:10px;
 
   border:0;
-
   border-radius:16px;
 
   color:#fff;
@@ -1260,20 +1347,22 @@ textarea::placeholder{
   background:var(--yellow);
 }
 
-.chat-item .avatar{
+.chat-item
+.avatar-status-wrap{
   width:46px;
   height:46px;
 
   flex:0 0 46px;
+}
 
-  box-shadow:
-    0 4px 16px
-    rgba(0,0,0,.22);
+.chat-item
+.presence-dot{
+  right:0;
+  bottom:0;
 }
 
 .chat-item-content{
   min-width:0;
-
   flex:1;
 }
 
@@ -1317,16 +1406,12 @@ textarea::placeholder{
   white-space:nowrap;
 }
 
-.chat-item.active
-.chat-preview{
-  color:#9a8a47;
-}
 
-
-/* RIGHT PANEL */
+/* CHAT WINDOW */
 
 .chat-panel{
   min-height:0;
+
   overflow:hidden;
 
   display:flex;
@@ -1374,16 +1459,8 @@ textarea::placeholder{
   gap:11px;
 }
 
-.active-chat-head .avatar{
-  width:44px;
-  height:44px;
-
-  flex:0 0 44px;
-}
-
 .active-chat-user{
   min-width:0;
-
   flex:1;
 
   cursor:pointer;
@@ -1404,6 +1481,15 @@ textarea::placeholder{
   color:#707070;
 
   font-size:10px;
+
+  display:flex;
+  align-items:center;
+
+  gap:7px;
+}
+
+.active-chat-separator{
+  color:#4b4b4b;
 }
 
 
@@ -1411,7 +1497,6 @@ textarea::placeholder{
 
 .messages{
   min-height:0;
-
   flex:1;
 
   overflow-y:auto;
@@ -1456,7 +1541,7 @@ textarea::placeholder{
 
   border-radius:17px;
 
-  color:#eeeeee;
+  color:#eee;
 
   background:#1d1d1d;
 
@@ -1512,7 +1597,7 @@ textarea::placeholder{
 }
 
 
-/* COMPOSER */
+/* MESSAGE INPUT */
 
 .composer{
   padding:
@@ -1958,7 +2043,6 @@ th{
 
 .payment-number{
   font-size:16px;
-
   letter-spacing:2px;
 }
 
@@ -2071,7 +2155,6 @@ th{
 
   .nav-btn{
     padding:0;
-
     justify-content:center;
   }
 
@@ -2087,7 +2170,6 @@ th{
 
 }
 
-
 @media(max-width:760px){
 
   .app{
@@ -2100,7 +2182,6 @@ th{
 
   .main{
     min-height:100dvh;
-
     padding-bottom:78px;
   }
 
@@ -2131,8 +2212,7 @@ th{
     background:
       rgba(15,15,15,.92);
 
-    backdrop-filter:
-      blur(20px);
+    backdrop-filter:blur(20px);
 
     display:grid;
 
@@ -2172,7 +2252,6 @@ th{
 
   .bottom-btn.active{
     color:#111;
-
     background:var(--yellow);
   }
 
@@ -2209,7 +2288,6 @@ th{
 
   .profile-actions{
     width:100%;
-
     padding-top:0;
   }
 
@@ -2227,9 +2305,6 @@ th{
     grid-template-columns:1fr;
   }
 
-
-  /* MOBILE CHATS */
-
   .chat-layout{
     height:
       calc(100dvh - 78px);
@@ -2244,7 +2319,6 @@ th{
     height:100%;
 
     border:0;
-
     border-radius:0;
 
     box-shadow:none;
@@ -2311,9 +2385,9 @@ th{
   }
 
 }
+
 </style>
 </head>
-
 
 <body>
 
@@ -2337,20 +2411,20 @@ const SUPABASE_KEY =
   "sb_publishable_9KKwvgywcvchh-s_FMSvbw_hx2LMgX-";
 
 const sb =
-  window.supabase
-    .createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
 /* =====================================================
    STATE
 ===================================================== */
 
-const state={
+const state = {
 
   user:null,
+
   session:null,
 
   profile:null,
@@ -2381,7 +2455,16 @@ const state={
 
   adminTab:"dashboard",
 
-  adminUsers:[]
+  adminUsers:[],
+
+  /*
+    ONLINE STATUS
+  */
+
+  presenceChannel:null,
+
+  onlineUsers:
+    new Set()
 
 };
 
@@ -2442,17 +2525,15 @@ function esc(value=""){
 
 function refreshIcons(){
 
-  requestAnimationFrame(
-    ()=>{
+  requestAnimationFrame(()=>{
 
-      if(window.lucide){
+    if(window.lucide){
 
-        lucide.createIcons();
-
-      }
+      lucide.createIcons();
 
     }
-  );
+
+  });
 
 }
 
@@ -2574,14 +2655,49 @@ function initials(profile){
 }
 
 
+/* =====================================================
+   ONLINE / OFFLINE
+===================================================== */
+
+function isOnline(userId){
+
+  if(!userId){
+    return false;
+  }
+
+  /*
+    Власний акаунт завжди online,
+    поки сторінка відкрита.
+  */
+
+  if(
+    userId ===
+    state.user?.id
+  ){
+    return true;
+  }
+
+  return state.onlineUsers
+    .has(userId);
+
+}
+
+
+function presenceText(userId){
+
+  return isOnline(userId)
+    ? "В мережі"
+    : "Не в мережі";
+
+}
+
+
 function avatar(
   profile,
   large=false
 ){
 
-  if(
-    profile?.avatar_url
-  ){
+  if(profile?.avatar_url){
 
     return `
       <div
@@ -2590,12 +2706,14 @@ function avatar(
           ${large?"large":""}
         "
       >
+
         <img
           src="${esc(
             profile.avatar_url
           )}"
           alt=""
         >
+
       </div>
     `;
 
@@ -2616,6 +2734,340 @@ function avatar(
 
 }
 
+
+function avatarStatus(
+  profile,
+  large=false
+){
+
+  const id =
+    profile?.id || "";
+
+  const online =
+    isOnline(id);
+
+  return `
+    <div
+      class="
+        avatar-status-wrap
+        ${large?"large":""}
+      "
+    >
+
+      ${avatar(
+        profile,
+        large
+      )}
+
+      <span
+        class="
+          presence-dot
+          ${online?"online":"offline"}
+        "
+
+        data-presence-dot="${esc(id)}"
+      ></span>
+
+    </div>
+  `;
+
+}
+
+
+function presenceLabel(userId){
+
+  const online =
+    isOnline(userId);
+
+  return `
+    <span
+      class="
+        presence-text
+        ${online?"online":""}
+      "
+
+      data-presence-text="${esc(
+        userId || ""
+      )}"
+    >
+
+      <span
+        class="presence-mini-dot"
+      ></span>
+
+      <span
+        class="presence-label-value"
+      >
+        ${
+          online
+            ?"В мережі"
+            :"Не в мережі"
+        }
+      </span>
+
+    </span>
+  `;
+
+}
+
+
+function refreshOnlineIndicators(){
+
+  qsa(
+    "[data-presence-dot]"
+  )
+    .forEach(dot=>{
+
+      const id =
+        dot.dataset
+          .presenceDot;
+
+      const online =
+        isOnline(id);
+
+      dot.classList
+        .toggle(
+          "online",
+          online
+        );
+
+      dot.classList
+        .toggle(
+          "offline",
+          !online
+        );
+
+    });
+
+
+  qsa(
+    "[data-presence-text]"
+  )
+    .forEach(element=>{
+
+      const id =
+        element.dataset
+          .presenceText;
+
+      const online =
+        isOnline(id);
+
+      element.classList
+        .toggle(
+          "online",
+          online
+        );
+
+      const text =
+        element.querySelector(
+          ".presence-label-value"
+        );
+
+      if(text){
+
+        text.textContent =
+          online
+            ?"В мережі"
+            :"Не в мережі";
+
+      }
+
+    });
+
+}
+
+
+async function stopPresence(){
+
+  if(
+    state.presenceChannel
+  ){
+
+    try{
+
+      await state
+        .presenceChannel
+        .untrack();
+
+    }catch{}
+
+
+    try{
+
+      await sb.removeChannel(
+        state.presenceChannel
+      );
+
+    }catch{}
+
+
+    state.presenceChannel =
+      null;
+
+  }
+
+
+  state.onlineUsers =
+    new Set();
+
+}
+
+
+async function startPresence(){
+
+  if(!state.user){
+    return;
+  }
+
+
+  await stopPresence();
+
+
+  const channel =
+    sb.channel(
+
+      "liptongram-online",
+
+      {
+        config:{
+          presence:{
+            key:
+              state.user.id
+          }
+        }
+      }
+
+    );
+
+
+  state.presenceChannel =
+    channel;
+
+
+  channel.on(
+
+    "presence",
+
+    {
+      event:"sync"
+    },
+
+    ()=>{
+
+      const presenceState =
+        channel.presenceState();
+
+
+      state.onlineUsers =
+        new Set(
+          Object.keys(
+            presenceState
+          )
+        );
+
+
+      refreshOnlineIndicators();
+
+    }
+
+  );
+
+
+  channel.on(
+
+    "presence",
+
+    {
+      event:"join"
+    },
+
+    ()=>{
+
+      const presenceState =
+        channel.presenceState();
+
+      state.onlineUsers =
+        new Set(
+          Object.keys(
+            presenceState
+          )
+        );
+
+      refreshOnlineIndicators();
+
+    }
+
+  );
+
+
+  channel.on(
+
+    "presence",
+
+    {
+      event:"leave"
+    },
+
+    ()=>{
+
+      const presenceState =
+        channel.presenceState();
+
+      state.onlineUsers =
+        new Set(
+          Object.keys(
+            presenceState
+          )
+        );
+
+      refreshOnlineIndicators();
+
+    }
+
+  );
+
+
+  channel.subscribe(
+
+    async status=>{
+
+      if(
+        status ===
+        "SUBSCRIBED"
+      ){
+
+        await channel.track({
+
+          user_id:
+            state.user.id,
+
+          username:
+            state.profile
+              ?.username
+            ||
+            state.profile
+              ?.login
+            ||
+            "user",
+
+          online_at:
+            new Date()
+              .toISOString()
+
+        });
+
+      }
+
+    }
+
+  );
+
+}
+
+
+/* =====================================================
+   LOGO
+===================================================== */
 
 function logoMarkup(
   className="brand-logo"
@@ -2647,34 +3099,37 @@ function logoMarkup(
 }
 
 
+/* =====================================================
+   TOAST / MODAL
+===================================================== */
+
 function toast(
   text,
   type=""
 ){
 
-  const root=
+  const root =
     qs("#toasts");
 
-  const div=
+  const div =
     document.createElement(
       "div"
     );
 
-  div.className=
+  div.className =
     "toast";
 
-  let icon=
+  let icon =
     "info";
 
   if(type==="error"){
-    icon=
-      "circle-alert";
+    icon="circle-alert";
   }
 
   if(type==="success"){
-    icon=
-      "circle-check";
+    icon="circle-check";
   }
+
 
   div.innerHTML=`
     <i
@@ -2687,23 +3142,22 @@ function toast(
     </span>
   `;
 
+
   root.appendChild(div);
 
   refreshIcons();
 
-  setTimeout(
-    ()=>{
 
-      div.style.opacity="0";
+  setTimeout(()=>{
 
-      setTimeout(
-        ()=>div.remove(),
-        200
-      );
+    div.style.opacity="0";
 
-    },
-    3000
-  );
+    setTimeout(
+      ()=>div.remove(),
+      200
+    );
+
+  },3000);
 
 }
 
@@ -2720,9 +3174,7 @@ function modal(
         class="modal-bg"
 
         onclick="
-          if(
-            event.target===this
-          ){
+          if(event.target===this){
             closeModal()
           }
         "
@@ -2762,7 +3214,10 @@ function modal(
       </div>
     `;
 
+
   refreshIcons();
+
+  refreshOnlineIndicators();
 
 }
 
@@ -2784,12 +3239,14 @@ function setLoading(
     return;
   }
 
-  button.disabled=
+
+  button.disabled =
     loading;
+
 
   if(loading){
 
-    button.dataset.oldHtml=
+    button.dataset.oldHtml =
       button.innerHTML;
 
     button.innerHTML=`
@@ -2805,12 +3262,13 @@ function setLoading(
       button.dataset.oldHtml
     ){
 
-      button.innerHTML=
+      button.innerHTML =
         button.dataset.oldHtml;
 
     }
 
   }
+
 
   refreshIcons();
 
@@ -2818,31 +3276,34 @@ function setLoading(
 
 
 /* =====================================================
-   INIT
+   INITIALIZE
 ===================================================== */
 
 async function loadBranding(){
 
   try{
 
-    const {data}=
+    const {data} =
       await sb
+
         .from(
           "app_settings"
         )
+
         .select(
           "logo_url"
         )
+
         .eq(
           "id",
           1
         )
+
         .maybeSingle();
 
-    state.logoUrl=
-      data?.logo_url
-      ||
-      null;
+
+    state.logoUrl =
+      data?.logo_url || null;
 
   }catch{
 
@@ -2857,78 +3318,83 @@ async function init(){
 
   await loadBranding();
 
+
   const {
     data:{
       session
     }
-  }=
-    await sb.auth
-      .getSession();
+  } =
+    await sb.auth.getSession();
 
-  state.session=
+
+  state.session =
     session;
 
-  state.user=
-    session?.user
-    ||
-    null;
+  state.user =
+    session?.user || null;
+
 
   if(state.user){
 
     await loadMe();
 
+    startPresence();
+
   }
+
 
   render();
 
 
-  sb.auth
-    .onAuthStateChange(
+  sb.auth.onAuthStateChange(
 
-      async(
-        event,
-        session
-      )=>{
+    async(
+      event,
+      session
+    )=>{
 
-        state.session=
-          session;
+      state.session =
+        session;
 
-        state.user=
-          session?.user
-          ||
+      state.user =
+        session?.user || null;
+
+
+      if(state.user){
+
+        await loadMe();
+
+        startPresence();
+
+      }else{
+
+        await stopPresence();
+
+
+        state.profile =
           null;
 
+        state.wallet = {
+          balance:0
+        };
 
-        if(state.user){
-
-          await loadMe();
-
-        }else{
-
-          state.profile=
-            null;
-
-          state.wallet={
-            balance:0
-          };
-
-          state.page=
-            "chats";
-
-        }
-
-
-        render();
+        state.page =
+          "chats";
 
       }
 
-    );
+
+      render();
+
+    }
+
+  );
 
 }
 
 
 /* =====================================================
-   LOAD PROFILE
+   LOAD CURRENT USER
 ===================================================== */
 
 async function loadMe(){
@@ -2936,6 +3402,7 @@ async function loadMe(){
   if(!state.user){
     return;
   }
+
 
   try{
 
@@ -2958,14 +3425,18 @@ async function loadMe(){
     const {
       data:profile,
       error:profileError
-    }=
+    } =
       await sb
+
         .from("profiles")
+
         .select("*")
+
         .eq(
           "id",
           state.user.id
         )
+
         .maybeSingle();
 
 
@@ -2980,12 +3451,12 @@ async function loadMe(){
 
     if(profile){
 
-      state.profile=
+      state.profile =
         profile;
 
     }else{
 
-      const login=
+      const login =
         state.user
           .user_metadata
           ?.login
@@ -3001,7 +3472,7 @@ async function loadMe(){
         "user";
 
 
-      state.profile={
+      state.profile = {
 
         id:
           state.user.id,
@@ -3033,18 +3504,22 @@ async function loadMe(){
 
     const {
       data:wallet
-    }=
+    } =
       await sb
+
         .from("wallets")
+
         .select("*")
+
         .eq(
           "user_id",
           state.user.id
         )
+
         .maybeSingle();
 
 
-    state.wallet=
+    state.wallet =
       wallet
       ||
       {
@@ -3070,12 +3545,12 @@ async function loadMe(){
 
 async function signIn(){
 
-  const login=
+  const login =
     qs("#authLogin")
       .value
       .trim();
 
-  const password=
+  const password =
     qs("#authPassword")
       .value;
 
@@ -3094,8 +3569,9 @@ async function signIn(){
   }
 
 
-  const button=
+  const button =
     qs("#authButton");
+
 
   setLoading(
     button,
@@ -3103,7 +3579,7 @@ async function signIn(){
   );
 
 
-  const {error}=
+  const {error} =
     await sb.auth
       .signInWithPassword({
 
@@ -3135,12 +3611,12 @@ async function signIn(){
 
 async function signUp(){
 
-  const login=
+  const login =
     qs("#authLogin")
       .value
       .trim();
 
-  const password=
+  const password =
     qs("#authPassword")
       .value;
 
@@ -3175,8 +3651,9 @@ async function signUp(){
   }
 
 
-  const button=
+  const button =
     qs("#authButton");
+
 
   setLoading(
     button,
@@ -3187,22 +3664,21 @@ async function signUp(){
   const {
     data,
     error
-  }=
-    await sb.auth
-      .signUp({
+  } =
+    await sb.auth.signUp({
 
-        email:
-          loginEmail(login),
+      email:
+        loginEmail(login),
 
-        password,
+      password,
 
-        options:{
-          data:{
-            login
-          }
+      options:{
+        data:{
+          login
         }
+      }
 
-      });
+    });
 
 
   setLoading(
@@ -3253,13 +3729,16 @@ async function logout(){
       state.messageChannel
     );
 
-    state.messageChannel=
+    state.messageChannel =
       null;
 
   }
 
-  await sb.auth
-    .signOut();
+
+  await stopPresence();
+
+
+  await sb.auth.signOut();
 
 }
 
@@ -3270,8 +3749,8 @@ async function logout(){
 
 function renderAuth(){
 
-  const loginMode=
-    state.authMode===
+  const loginMode =
+    state.authMode ===
     "login";
 
 
@@ -3426,6 +3905,7 @@ function renderAuth(){
       </main>
     `;
 
+
   refreshIcons();
 
 }
@@ -3520,8 +4000,8 @@ function render(){
   }
 
 
-  const admin=
-    state.profile?.role===
+  const admin =
+    state.profile?.role ===
     "admin";
 
 
@@ -3582,7 +4062,7 @@ function render(){
 
           <div class="side-user">
 
-            ${avatar(
+            ${avatarStatus(
               state.profile
             )}
 
@@ -3599,13 +4079,7 @@ function render(){
               </div>
 
               <div class="side-user-id">
-                ID
-                ${esc(
-                  state.profile
-                    ?.public_id
-                  ||
-                  "------"
-                )}
+                В мережі
               </div>
 
             </div>
@@ -3682,6 +4156,8 @@ function render(){
 
   refreshIcons();
 
+  refreshOnlineIndicators();
+
 }
 
 
@@ -3693,14 +4169,13 @@ function navigate(page){
     state.profile?.role!==
     "admin"
   ){
-
     return;
-
   }
 
 
-  state.page=
+  state.page =
     page;
+
 
   render();
 
@@ -3798,8 +4273,9 @@ function balanceMarkup(){
 
 async function renderProfile(){
 
-  const main=
+  const main =
     qs("#mainArea");
+
 
   if(!main){
     return;
@@ -3832,13 +4308,11 @@ async function renderProfile(){
   await loadMe();
 
 
-  const p=
-    state.profile
-    ||
-    {};
+  const p =
+    state.profile || {};
 
 
-  const username=
+  const username =
     p.username
     ||
     p.login
@@ -3846,7 +4320,7 @@ async function renderProfile(){
     "Користувач";
 
 
-  const publicId=
+  const publicId =
     p.public_id
     ||
     "------";
@@ -3911,7 +4385,7 @@ async function renderProfile(){
 
           <div class="profile-avatar">
 
-            ${avatar(
+            ${avatarStatus(
               p,
               true
             )}
@@ -3922,19 +4396,15 @@ async function renderProfile(){
           <div class="profile-main">
 
             <h2 class="profile-name">
-
               ${esc(username)}
-
             </h2>
 
             <div class="profile-login">
-
               @${esc(
                 p.login
                 ||
                 "user"
               )}
-
             </div>
 
 
@@ -3949,6 +4419,15 @@ async function renderProfile(){
 
                 ID
                 ${esc(publicId)}
+
+              </span>
+
+
+              <span class="tag">
+
+                ${presenceLabel(
+                  p.id
+                )}
 
               </span>
 
@@ -4065,15 +4544,15 @@ async function renderProfile(){
 
   refreshIcons();
 
+  refreshOnlineIndicators();
+
 }
 
 
 function openEditProfile(){
 
-  const p=
-    state.profile
-    ||
-    {};
+  const p =
+    state.profile || {};
 
 
   modal(
@@ -4104,9 +4583,7 @@ function openEditProfile(){
             maxlength="24"
 
             value="${esc(
-              p.username
-              ||
-              ""
+              p.username || ""
             )}"
           >
 
@@ -4132,9 +4609,7 @@ function openEditProfile(){
               p.public_id==="------"
                 ?""
                 :esc(
-                    p.public_id
-                    ||
-                    ""
+                    p.public_id || ""
                   )
             }"
           >
@@ -4230,10 +4705,9 @@ async function uploadProfileImage(
 
 
   if(
-    !file.type
-      .startsWith(
-        "image/"
-      )
+    !file.type.startsWith(
+      "image/"
+    )
   ){
 
     throw new Error(
@@ -4244,7 +4718,7 @@ async function uploadProfileImage(
 
 
   if(
-    file.size>
+    file.size >
     8*1024*1024
   ){
 
@@ -4255,7 +4729,7 @@ async function uploadProfileImage(
   }
 
 
-  const extension=
+  const extension =
     file.name
       .split(".")
       .pop()
@@ -4266,17 +4740,11 @@ async function uploadProfileImage(
     "jpg";
 
 
-  const path=
-    `${
-      state.user.id
-    }/${
-      prefix
-    }-${
-      Date.now()
-    }.${extension}`;
+  const path =
+    `${state.user.id}/${prefix}-${Date.now()}.${extension}`;
 
 
-  const {error}=
+  const {error} =
     await sb.storage
 
       .from("profiles")
@@ -4295,13 +4763,11 @@ async function uploadProfileImage(
 
 
   if(error){
-
     throw error;
-
   }
 
 
-  const {data}=
+  const {data} =
     sb.storage
 
       .from("profiles")
@@ -4316,17 +4782,17 @@ async function uploadProfileImage(
 
 async function saveProfile(){
 
-  const button=
+  const button =
     qs("#profileSaveButton");
 
 
-  const username=
+  const username =
     qs("#editUsername")
       .value
       .trim();
 
 
-  const publicId=
+  const publicId =
     qs("#editPublicId")
       .value
       .trim();
@@ -4370,31 +4836,31 @@ async function saveProfile(){
 
   try{
 
-    let avatarUrl=
+    let avatarUrl =
       state.profile?.avatar_url
       ||
       null;
 
 
-    let bannerUrl=
+    let bannerUrl =
       state.profile?.banner_url
       ||
       null;
 
 
-    const avatarFile=
+    const avatarFile =
       qs("#avatarFile")
         ?.files?.[0];
 
 
-    const bannerFile=
+    const bannerFile =
       qs("#bannerFile")
         ?.files?.[0];
 
 
     if(avatarFile){
 
-      avatarUrl=
+      avatarUrl =
         await uploadProfileImage(
           avatarFile,
           "avatar"
@@ -4405,7 +4871,7 @@ async function saveProfile(){
 
     if(bannerFile){
 
-      bannerUrl=
+      bannerUrl =
         await uploadProfileImage(
           bannerFile,
           "banner"
@@ -4417,7 +4883,7 @@ async function saveProfile(){
     const {
       data,
       error
-    }=
+    } =
       await sb
 
         .from("profiles")
@@ -4452,14 +4918,44 @@ async function saveProfile(){
 
 
     if(error){
-
       throw error;
-
     }
 
 
-    state.profile=
+    state.profile =
       data;
+
+
+    /*
+      Оновлюємо username
+      у Presence.
+    */
+
+    if(
+      state.presenceChannel
+    ){
+
+      try{
+
+        await state
+          .presenceChannel
+          .track({
+
+            user_id:
+              state.user.id,
+
+            username:
+              state.profile.username,
+
+            online_at:
+              new Date()
+                .toISOString()
+
+          });
+
+      }catch{}
+
+    }
 
 
     closeModal();
@@ -4478,11 +4974,9 @@ async function saveProfile(){
     console.error(error);
 
 
-    const message=
+    const message =
       String(
-        error?.message
-        ||
-        ""
+        error?.message || ""
       )
         .toLowerCase();
 
@@ -4543,7 +5037,6 @@ function openTopup(){
 
         <div
           id="cardPreview"
-
           class="payment-number"
         >
           •••• •••• •••• ••••
@@ -4634,8 +5127,7 @@ function openTopup(){
         <div
           style="
             display:grid;
-            grid-template-columns:
-              1fr 1fr;
+            grid-template-columns:1fr 1fr;
             gap:9px
           "
         >
@@ -4713,36 +5205,30 @@ function openTopup(){
 
 function formatCard(input){
 
-  let value=
+  let value =
     input.value
-      .replace(
-        /\D/g,
-        ""
-      )
-      .slice(
-        0,
-        16
-      );
+      .replace(/\D/g,"")
+      .slice(0,16);
 
 
-  value=
+  value =
     value.replace(
       /(\d{4})(?=\d)/g,
       "$1 "
     );
 
 
-  input.value=
+  input.value =
     value;
 
 
-  const preview=
+  const preview =
     qs("#cardPreview");
 
 
   if(preview){
 
-    preview.textContent=
+    preview.textContent =
       value
       ||
       "•••• •••• •••• ••••";
@@ -4754,53 +5240,38 @@ function formatCard(input){
 
 function formatDateCard(input){
 
-  let value=
+  let value =
     input.value
-      .replace(
-        /\D/g,
-        ""
-      )
-      .slice(
-        0,
-        4
-      );
+      .replace(/\D/g,"")
+      .slice(0,4);
 
 
   if(
     value.length>2
   ){
 
-    value=
-      value.slice(
-        0,
-        2
-      )
-
+    value =
+      value.slice(0,2)
       +
-
       "/"
-
       +
-
       value.slice(2);
 
   }
 
 
-  input.value=
+  input.value =
     value;
 
 
-  const preview=
+  const preview =
     qs("#datePreview");
 
 
   if(preview){
 
-    preview.textContent=
-      value
-      ||
-      "MM/YY";
+    preview.textContent =
+      value || "MM/YY";
 
   }
 
@@ -4809,14 +5280,11 @@ function formatDateCard(input){
 
 async function fakePayment(){
 
-  const amount=
+  const amount =
     Number(
       qs("#topupAmount")
         .value
-        .replace(
-          ",",
-          "."
-        )
+        .replace(",",".")
     );
 
 
@@ -4836,7 +5304,7 @@ async function fakePayment(){
   }
 
 
-  const button=
+  const button =
     qs("#payButton");
 
 
@@ -4863,9 +5331,7 @@ async function fakePayment(){
 
   qs("#paymentError")
     ?.classList
-    .remove(
-      "hidden"
-    );
+    .remove("hidden");
 
 
   [
@@ -4873,20 +5339,16 @@ async function fakePayment(){
     "cardDate",
     "cardCVV"
   ]
-    .forEach(
-      id=>{
+    .forEach(id=>{
 
-        const el=
-          qs("#"+id);
+      const el =
+        qs("#"+id);
 
-        if(el){
-
-          el.value="";
-
-        }
-
+      if(el){
+        el.value="";
       }
-    );
+
+    });
 
 }
 
@@ -4903,11 +5365,9 @@ function openUserSearch(){
 
     `
       <div class="user-search-help">
-
         Знайдіть користувача
         за його Username
         або 6-значним ID.
-
       </div>
 
 
@@ -4944,7 +5404,7 @@ function openUserSearch(){
 }
 
 
-let searchTimer=
+let searchTimer =
   null;
 
 
@@ -4955,11 +5415,9 @@ function searchUsers(value){
   );
 
 
-  searchTimer=
+  searchTimer =
     setTimeout(
-      ()=>runUserSearch(
-        value
-      ),
+      ()=>runUserSearch(value),
       250
     );
 
@@ -4968,7 +5426,7 @@ function searchUsers(value){
 
 async function runUserSearch(value){
 
-  const root=
+  const root =
     qs("#userResults");
 
 
@@ -4977,7 +5435,7 @@ async function runUserSearch(value){
   }
 
 
-  const query=
+  const query =
     value.trim();
 
 
@@ -4992,7 +5450,7 @@ async function runUserSearch(value){
   }
 
 
-  let request=
+  let request =
     sb
       .from("profiles")
 
@@ -5013,7 +5471,7 @@ async function runUserSearch(value){
       .test(query)
   ){
 
-    request=
+    request =
       request.eq(
         "public_id",
         query
@@ -5021,14 +5479,14 @@ async function runUserSearch(value){
 
   }else{
 
-    const safe=
+    const safe =
       query.replace(
         /[^A-Za-z0-9_]/g,
         ""
       );
 
 
-    request=
+    request =
       request.ilike(
         "username",
         `%${safe}%`
@@ -5040,7 +5498,7 @@ async function runUserSearch(value){
   const {
     data,
     error
-  }=
+  } =
     await request;
 
 
@@ -5072,93 +5530,112 @@ async function runUserSearch(value){
   }
 
 
-  root.innerHTML=
+  root.innerHTML =
     data
-      .map(
-        user=>`
+
+      .map(user=>`
+
+        <div
+          class="chat-item"
+
+          style="
+            cursor:default
+          "
+        >
 
           <div
-            class="chat-item"
+            onclick="
+              openPublicProfile(
+                '${user.id}'
+              )
+            "
 
             style="
-              cursor:default
+              cursor:pointer
             "
           >
 
-            <div
-              onclick="
-                openPublicProfile(
-                  '${user.id}'
-                )
-              "
+            ${avatarStatus(user)}
 
-              style="
-                cursor:pointer
-              "
-            >
+          </div>
 
-              ${avatar(user)}
 
+          <div
+            class="chat-item-content"
+
+            onclick="
+              openPublicProfile(
+                '${user.id}'
+              )
+            "
+
+            style="
+              cursor:pointer
+            "
+          >
+
+            <div class="chat-name">
+              ${esc(
+                user.username
+              )}
             </div>
 
+            <div class="chat-preview">
 
-            <div
-              class="chat-item-content"
+              ${presenceLabel(
+                user.id
+              )}
 
-              onclick="
-                openPublicProfile(
-                  '${user.id}'
-                )
-              "
-
-              style="
-                cursor:pointer
-              "
-            >
-
-              <div class="chat-name">
-                ${esc(
-                  user.username
-                )}
-              </div>
-
-              <div class="chat-preview">
+              <span
+                style="
+                  margin-left:6px
+                "
+              >
                 ID
                 ${esc(
                   user.public_id
                 )}
-              </div>
+              </span>
 
             </div>
 
-
-            <button
-              class="icon-btn"
-
-              onclick="
-                createChat(
-                  '${user.id}'
-                )
-              "
-            >
-
-              <i
-                data-lucide="message-circle"
-                class="icon-sm"
-              ></i>
-
-            </button>
-
           </div>
-        `
-      )
+
+
+          <button
+            class="icon-btn"
+
+            onclick="
+              createChat(
+                '${user.id}'
+              )
+            "
+          >
+
+            <i
+              data-lucide="message-circle"
+              class="icon-sm"
+            ></i>
+
+          </button>
+
+        </div>
+
+      `)
+
       .join("");
 
 
   refreshIcons();
 
+  refreshOnlineIndicators();
+
 }
 
+
+/* =====================================================
+   PUBLIC PROFILE
+===================================================== */
 
 async function openPublicProfile(
   userId
@@ -5167,8 +5644,9 @@ async function openPublicProfile(
   const {
     data:user,
     error
-  }=
+  } =
     await sb
+
       .from("profiles")
 
       .select(
@@ -5229,7 +5707,7 @@ async function openPublicProfile(
         "
       >
 
-        ${avatar(
+        ${avatarStatus(
           user,
           true
         )}
@@ -5240,7 +5718,6 @@ async function openPublicProfile(
       <div
         style="
           margin-top:10px;
-
           font-size:21px;
           font-weight:850
         "
@@ -5269,6 +5746,14 @@ async function openPublicProfile(
 
 
       <div class="profile-tags">
+
+        <span class="tag">
+
+          ${presenceLabel(
+            user.id
+          )}
+
+        </span>
 
         <span class="tag">
 
@@ -5329,7 +5814,7 @@ async function openPublicProfile(
 
 async function renderChats(){
 
-  const main=
+  const main =
     qs("#mainArea");
 
 
@@ -5463,6 +5948,8 @@ async function renderChats(){
 
   refreshIcons();
 
+  refreshOnlineIndicators();
+
 
   await loadChats();
 
@@ -5504,6 +5991,10 @@ function chatWindowMarkup(){
   }
 
 
+  const user =
+    state.activeChatUser;
+
+
   return `
     <div class="active-chat-head">
 
@@ -5534,7 +6025,7 @@ function chatWindowMarkup(){
       <div
         onclick="
           openPublicProfile(
-            '${state.activeChatUser.id}'
+            '${user.id}'
           )
         "
 
@@ -5543,9 +6034,7 @@ function chatWindowMarkup(){
         "
       >
 
-        ${avatar(
-          state.activeChatUser
-        )}
+        ${avatarStatus(user)}
 
       </div>
 
@@ -5555,7 +6044,7 @@ function chatWindowMarkup(){
 
         onclick="
           openPublicProfile(
-            '${state.activeChatUser.id}'
+            '${user.id}'
           )
         "
       >
@@ -5563,8 +6052,7 @@ function chatWindowMarkup(){
         <div class="active-chat-name">
 
           ${esc(
-            state.activeChatUser
-              .username
+            user.username
           )}
 
         </div>
@@ -5572,11 +6060,22 @@ function chatWindowMarkup(){
 
         <div class="active-chat-id">
 
-          ID
-          ${esc(
-            state.activeChatUser
-              .public_id
+          ${presenceLabel(
+            user.id
           )}
+
+          <span
+            class="active-chat-separator"
+          >
+            ·
+          </span>
+
+          <span>
+            ID
+            ${esc(
+              user.public_id
+            )}
+          </span>
 
         </div>
 
@@ -5621,7 +6120,6 @@ function chatWindowMarkup(){
 
       <button
         class="send"
-
         type="submit"
       >
 
@@ -5662,57 +6160,57 @@ function messagesMarkup(){
 
 
   return state.messages
-    .map(
-      message=>{
 
-        const mine=
-          message.sender_id===
-          state.user.id;
+    .map(message=>{
+
+      const mine =
+        message.sender_id ===
+        state.user.id;
 
 
-        return `
-          <div
-            class="
-              message-row
-              ${mine?"mine":""}
-            "
-          >
+      return `
+        <div
+          class="
+            message-row
+            ${mine?"mine":""}
+          "
+        >
 
-            <div class="message">
+          <div class="message">
 
-              <div>
-                ${esc(
-                  message.content
-                )}
-              </div>
+            <div>
+              ${esc(
+                message.content
+              )}
+            </div>
 
-              <div class="message-time">
+            <div class="message-time">
 
-                ${formatTime(
-                  message.created_at
-                )}
+              ${formatTime(
+                message.created_at
+              )}
 
-                ${
-                  message._pending
-                    ?" · надсилання"
-                    :""
-                }
+              ${
+                message._pending
+                  ?" · надсилання"
+                  :""
+              }
 
-                ${
-                  message._failed
-                    ?" · помилка"
-                    :""
-                }
-
-              </div>
+              ${
+                message._failed
+                  ?" · помилка"
+                  :""
+              }
 
             </div>
 
           </div>
-        `;
 
-      }
-    )
+        </div>
+      `;
+
+    })
+
     .join("");
 
 }
@@ -5720,7 +6218,7 @@ function messagesMarkup(){
 
 async function loadChats(){
 
-  const root=
+  const root =
     qs("#chatList");
 
 
@@ -5729,14 +6227,14 @@ async function loadChats(){
   }
 
 
-  const uid=
+  const uid =
     state.user.id;
 
 
   const {
     data,
     error
-  }=
+  } =
     await sb
 
       .from(
@@ -5774,21 +6272,17 @@ async function loadChats(){
   }
 
 
-  const chats=
-    data
-    ||
-    [];
+  const chats =
+    data || [];
 
 
-  const ids=
-    chats.map(
-      chat=>
+  const ids =
+    chats.map(chat=>
 
-        chat.user1_id===uid
+      chat.user1_id===uid
+        ?chat.user2_id
+        :chat.user1_id
 
-          ?chat.user2_id
-
-          :chat.user1_id
     );
 
 
@@ -5799,7 +6293,7 @@ async function loadChats(){
 
     const {
       data:profiles
-    }=
+    } =
       await sb
 
         .from("profiles")
@@ -5814,34 +6308,32 @@ async function loadChats(){
         );
 
 
-    users=
-      profiles
-      ||
-      [];
+    users =
+      profiles || [];
 
   }
 
 
-  const map=
+  const map =
     Object.fromEntries(
 
-      users.map(
-        user=>[
-          user.id,
-          user
-        ]
-      )
+      users.map(user=>[
+        user.id,
+        user
+      ])
 
     );
 
 
-  const withPreview=
+  const withPreview =
     await Promise.all(
 
       chats.map(
+
         async chat=>{
 
-          const otherId=
+          const otherId =
+
             chat.user1_id===uid
 
               ?chat.user2_id
@@ -5856,7 +6348,7 @@ async function loadChats(){
 
             const {
               data:lastMessage
-            }=
+            } =
               await sb
 
                 .from("messages")
@@ -5882,7 +6374,7 @@ async function loadChats(){
                 .maybeSingle();
 
 
-            latest=
+            latest =
               lastMessage;
 
           }catch{}
@@ -5900,12 +6392,13 @@ async function loadChats(){
           };
 
         }
+
       )
 
     );
 
 
-  state.conversations=
+  state.conversations =
     withPreview;
 
 
@@ -5916,7 +6409,7 @@ async function loadChats(){
 
 function renderChatList(){
 
-  const root=
+  const root =
     qs("#chatList");
 
 
@@ -5953,6 +6446,7 @@ function renderChatList(){
       </div>
     `;
 
+
     refreshIcons();
 
     return;
@@ -5960,121 +6454,124 @@ function renderChatList(){
   }
 
 
-  root.innerHTML=
+  root.innerHTML =
     state.conversations
 
-      .map(
-        chat=>`
+      .map(chat=>`
 
-          <button
-            class="
-              chat-item
+        <button
+          class="
+            chat-item
 
-              ${
-                state.activeConversation
-                  ?.id===chat.id
-                  ?"active"
-                  :""
-              }
-            "
+            ${
+              state.activeConversation
+                ?.id===chat.id
+                ?"active"
+                :""
+            }
+          "
 
-            data-search="${esc(
+          data-search="${esc(
+            (
               (
-                (
-                  chat.other?.username
-                  ||
-                  ""
-                )
-
-                +
-
-                " "
-
-                +
-
-                (
-                  chat.other?.public_id
-                  ||
-                  ""
-                )
+                chat.other?.username
+                ||
+                ""
               )
-              .toLowerCase()
-            )}"
 
-            onclick="
-              openChat(
-                '${chat.id}',
-                '${chat.other?.id}'
+              +
+
+              " "
+
+              +
+
+              (
+                chat.other?.public_id
+                ||
+                ""
               )
-            "
-          >
+            )
+            .toLowerCase()
+          )}"
 
-            ${avatar(
-              chat.other
-            )}
+          onclick="
+            openChat(
+              '${chat.id}',
+              '${chat.other?.id}'
+            )
+          "
+        >
 
-
-            <div class="chat-item-content">
-
-              <div class="chat-item-row">
-
-                <span class="chat-name">
-
-                  ${esc(
-                    chat.other
-                      ?.username
-                    ||
-                    "Користувач"
-                  )}
-
-                </span>
+          ${avatarStatus(
+            chat.other
+          )}
 
 
-                <span class="chat-time">
+          <div class="chat-item-content">
 
-                  ${formatTime(
-                    chat.latest
-                      ?.created_at
-                    ||
-                    chat.updated_at
-                  )}
+            <div class="chat-item-row">
 
-                </span>
+              <span class="chat-name">
 
-              </div>
+                ${esc(
+                  chat.other
+                    ?.username
+                  ||
+                  "Користувач"
+                )}
+
+              </span>
 
 
-              <div class="chat-preview">
+              <span class="chat-time">
 
-                ${
-                  chat.latest?.content
+                ${formatTime(
+                  chat.latest
+                    ?.created_at
+                  ||
+                  chat.updated_at
+                )}
 
-                    ?esc(
-                        chat.latest.content
-                      )
-
-                    :"Розмову створено"
-                }
-
-              </div>
+              </span>
 
             </div>
 
-          </button>
-        `
-      )
+
+            <div class="chat-preview">
+
+              ${
+                chat.latest?.content
+
+                  ?esc(
+                      chat.latest.content
+                    )
+
+                  :presenceText(
+                      chat.other?.id
+                    )
+              }
+
+            </div>
+
+          </div>
+
+        </button>
+
+      `)
 
       .join("");
 
 
   refreshIcons();
 
+  refreshOnlineIndicators();
+
 }
 
 
 function filterChats(value){
 
-  const query=
+  const query =
     value
       .trim()
       .toLowerCase();
@@ -6083,27 +6580,25 @@ function filterChats(value){
   qsa(
     ".chat-item"
   )
-    .forEach(
-      item=>{
+    .forEach(item=>{
 
-        if(
-          !item.dataset.search
-        ){
-          return;
-        }
-
-
-        item.style.display=
-
-          item.dataset.search
-            .includes(query)
-
-            ?""
-
-            :"none";
-
+      if(
+        !item.dataset.search
+      ){
+        return;
       }
-    );
+
+
+      item.style.display =
+
+        item.dataset.search
+          .includes(query)
+
+          ?""
+
+          :"none";
+
+    });
 
 }
 
@@ -6115,7 +6610,7 @@ async function createChat(
   const {
     data,
     error
-  }=
+  } =
     await sb.rpc(
 
       "get_or_create_direct_conversation",
@@ -6161,7 +6656,7 @@ async function openChat(
   userId
 ){
 
-  let user=
+  let user =
     state.conversations
 
       .find(
@@ -6175,7 +6670,7 @@ async function openChat(
 
   if(!user){
 
-    const {data}=
+    const {data} =
       await sb
 
         .from("profiles")
@@ -6192,7 +6687,7 @@ async function openChat(
         .maybeSingle();
 
 
-    user=
+    user =
       data;
 
   }
@@ -6210,24 +6705,24 @@ async function openChat(
   }
 
 
-  state.activeConversation={
+  state.activeConversation = {
     id:
       conversationId
   };
 
 
-  state.activeChatUser=
+  state.activeChatUser =
     user;
 
 
-  state.mobileChatOpen=
+  state.mobileChatOpen =
     true;
 
 
   const {
     data,
     error
-  }=
+  } =
     await sb
 
       .from("messages")
@@ -6261,10 +6756,8 @@ async function openChat(
   }
 
 
-  state.messages=
-    data
-    ||
-    [];
+  state.messages =
+    data || [];
 
 
   if(
@@ -6278,7 +6771,7 @@ async function openChat(
   }
 
 
-  state.messageChannel=
+  state.messageChannel =
     sb
 
       .channel(
@@ -6293,19 +6786,22 @@ async function openChat(
 
         {
           event:"INSERT",
+
           schema:"public",
+
           table:"messages",
+
           filter:
             `conversation_id=eq.${conversationId}`
         },
 
         payload=>{
 
-          const incoming=
+          const incoming =
             payload.new;
 
 
-          const exists=
+          const exists =
             state.messages
               .some(
                 message=>
@@ -6316,26 +6812,25 @@ async function openChat(
 
           if(exists){
 
-            state.messages=
+            state.messages =
               state.messages
 
-                .map(
-                  message=>
+                .map(message=>
 
-                    message.id===
-                    incoming.id
+                  message.id===
+                  incoming.id
 
-                      ?incoming
+                    ?incoming
 
-                      :message
+                    :message
+
                 );
 
           }else{
 
-            state.messages
-              .push(
-                incoming
-              );
+            state.messages.push(
+              incoming
+            );
 
           }
 
@@ -6364,7 +6859,7 @@ async function openChat(
 
 function closeMobileChat(){
 
-  state.mobileChatOpen=
+  state.mobileChatOpen =
     false;
 
   renderChats();
@@ -6376,7 +6871,7 @@ function refreshMessages(
   scroll=false
 ){
 
-  const root=
+  const root =
     qs("#messages");
 
 
@@ -6385,7 +6880,7 @@ function refreshMessages(
   }
 
 
-  root.innerHTML=
+  root.innerHTML =
     messagesMarkup();
 
 
@@ -6403,13 +6898,13 @@ function refreshMessages(
 
 function scrollMessages(){
 
-  const root=
+  const root =
     qs("#messages");
 
 
   if(root){
 
-    root.scrollTop=
+    root.scrollTop =
       root.scrollHeight;
 
   }
@@ -6441,33 +6936,29 @@ async function sendMessage(){
   if(
     !state.activeConversation
   ){
-
     return;
-
   }
 
 
-  const input=
+  const input =
     qs("#messageInput");
 
 
-  const content=
+  const content =
     input
       ?.value
       .trim();
 
 
   if(!content){
-
     return;
-
   }
 
 
   input.value="";
 
 
-  const id=
+  const id =
     crypto.randomUUID();
 
 
@@ -6497,7 +6988,7 @@ async function sendMessage(){
   );
 
 
-  const {error}=
+  const {error} =
     await sb
 
       .from("messages")
@@ -6519,21 +7010,21 @@ async function sendMessage(){
 
   if(error){
 
-    state.messages=
+    state.messages =
       state.messages
 
-        .map(
-          message=>
+        .map(message=>
 
-            message.id===id
+          message.id===id
 
-              ?{
-                  ...message,
-                  _pending:false,
-                  _failed:true
-                }
+            ?{
+                ...message,
+                _pending:false,
+                _failed:true
+              }
 
-              :message
+            :message
+
         );
 
 
@@ -6550,20 +7041,20 @@ async function sendMessage(){
   }
 
 
-  state.messages=
+  state.messages =
     state.messages
 
-      .map(
-        message=>
+      .map(message=>
 
-          message.id===id
+        message.id===id
 
-            ?{
-                ...message,
-                _pending:false
-              }
+          ?{
+              ...message,
+              _pending:false
+            }
 
-            :message
+          :message
+
       );
 
 
@@ -6578,7 +7069,7 @@ async function sendMessage(){
 
 async function renderShop(){
 
-  const main=
+  const main =
     qs("#mainArea");
 
 
@@ -6675,7 +7166,7 @@ async function renderShop(){
 
 async function loadListings(){
 
-  const root=
+  const root =
     qs("#shopGrid");
 
 
@@ -6687,7 +7178,7 @@ async function loadListings(){
   const {
     data,
     error
-  }=
+  } =
     await sb
 
       .from(
@@ -6746,10 +7237,8 @@ async function loadListings(){
   }
 
 
-  state.listings=
-    data
-    ||
-    [];
+  state.listings =
+    data || [];
 
 
   renderListings();
@@ -6759,7 +7248,7 @@ async function loadListings(){
 
 function renderListings(){
 
-  const root=
+  const root =
     qs("#shopGrid");
 
 
@@ -6808,131 +7297,129 @@ function renderListings(){
   }
 
 
-  root.innerHTML=
+  root.innerHTML =
     state.listings
 
-      .map(
-        item=>{
+      .map(item=>{
 
-          const mine=
-            item.seller_id===
-            state.user.id;
-
-
-          return `
-            <section
-              class="
-                card
-                listing
-              "
-            >
-
-              <div class="listing-type">
-
-                ${
-                  item.asset_type===
-                  "username"
-
-                    ?"Username"
-
-                    :"ID"
-                }
-
-              </div>
+        const mine =
+          item.seller_id===
+          state.user.id;
 
 
-              <div class="listing-value">
+        return `
+          <section
+            class="
+              card
+              listing
+            "
+          >
 
-                ${
-                  item.asset_type===
-                  "username"
+            <div class="listing-type">
 
-                    ?"@"
+              ${
+                item.asset_type===
+                "username"
 
-                    :""
-                }
+                  ?"Username"
 
-                ${esc(
-                  item.asset_value
+                  :"ID"
+              }
+
+            </div>
+
+
+            <div class="listing-value">
+
+              ${
+                item.asset_type===
+                "username"
+
+                  ?"@"
+
+                  :""
+              }
+
+              ${esc(
+                item.asset_value
+              )}
+
+            </div>
+
+
+            <div class="listing-seller">
+
+              Продавець:
+
+              ${esc(
+                item.seller
+                  ?.username
+                ||
+                "Користувач"
+              )}
+
+            </div>
+
+
+            <div class="listing-space">
+            </div>
+
+
+            <div class="listing-bottom">
+
+              <div class="listing-price">
+
+                ${money(
+                  item.price
                 )}
 
               </div>
 
 
-              <div class="listing-seller">
+              ${
+                mine
 
-                Продавець:
+                  ?`
+                    <button
+                      class="
+                        btn
+                        btn-danger
+                      "
 
-                ${esc(
-                  item.seller
-                    ?.username
-                  ||
-                  "Користувач"
-                )}
+                      onclick="
+                        cancelListing(
+                          '${item.id}'
+                        )
+                      "
+                    >
+                      Зняти
+                    </button>
+                  `
 
-              </div>
+                  :`
+                    <button
+                      class="
+                        btn
+                        btn-primary
+                      "
 
+                      onclick="
+                        openBuyListing(
+                          '${item.id}'
+                        )
+                      "
+                    >
+                      Купити
+                    </button>
+                  `
+              }
 
-              <div class="listing-space">
-              </div>
+            </div>
 
+          </section>
+        `;
 
-              <div class="listing-bottom">
-
-                <div class="listing-price">
-
-                  ${money(
-                    item.price
-                  )}
-
-                </div>
-
-
-                ${
-                  mine
-
-                    ?`
-                      <button
-                        class="
-                          btn
-                          btn-danger
-                        "
-
-                        onclick="
-                          cancelListing(
-                            '${item.id}'
-                          )
-                        "
-                      >
-                        Зняти
-                      </button>
-                    `
-
-                    :`
-                      <button
-                        class="
-                          btn
-                          btn-primary
-                        "
-
-                        onclick="
-                          openBuyListing(
-                            '${item.id}'
-                          )
-                        "
-                      >
-                        Купити
-                      </button>
-                    `
-                }
-
-              </div>
-
-            </section>
-          `;
-
-        }
-      )
+      })
 
       .join("");
 
@@ -7032,19 +7519,16 @@ function openListing(){
 
 async function createListing(){
 
-  const type=
+  const type =
     qs("#listingType")
       .value;
 
 
-  const price=
+  const price =
     Number(
       qs("#listingPrice")
         .value
-        .replace(
-          ",",
-          "."
-        )
+        .replace(",",".")
     );
 
 
@@ -7064,7 +7548,7 @@ async function createListing(){
   }
 
 
-  const assetValue=
+  const assetValue =
 
     type==="username"
 
@@ -7073,7 +7557,7 @@ async function createListing(){
       :state.profile.public_id;
 
 
-  const button=
+  const button =
     qs("#listingButton");
 
 
@@ -7083,7 +7567,7 @@ async function createListing(){
   );
 
 
-  const {error}=
+  const {error} =
     await sb
 
       .from(
@@ -7145,7 +7629,7 @@ async function createListing(){
 
 async function cancelListing(id){
 
-  const {error}=
+  const {error} =
     await sb
 
       .from(
@@ -7187,7 +7671,7 @@ async function cancelListing(id){
 
 function openBuyListing(id){
 
-  const listing=
+  const listing =
     state.listings
 
       .find(
@@ -7197,9 +7681,7 @@ function openBuyListing(id){
 
 
   if(!listing){
-
     return;
-
   }
 
 
@@ -7296,7 +7778,7 @@ function openBuyListing(id){
 
 async function buyListing(id){
 
-  const button=
+  const button =
     qs("#buyButton");
 
 
@@ -7309,7 +7791,7 @@ async function buyListing(id){
   const {
     data,
     error
-  }=
+  } =
     await sb.rpc(
 
       "purchase_marketplace_listing",
@@ -7408,14 +7890,12 @@ async function renderAdmin(){
   }
 
 
-  const main=
+  const main =
     qs("#mainArea");
 
 
   if(!main){
-
     return;
-
   }
 
 
@@ -7568,7 +8048,7 @@ async function adminDashboard(){
     messages,
     listings,
     transactions
-  ]=
+  ] =
     await Promise.all([
 
       sb
@@ -7691,7 +8171,7 @@ async function adminUsers(){
   const {
     data:users,
     error
-  }=
+  } =
     await sb
 
       .from("profiles")
@@ -7720,19 +8200,13 @@ async function adminUsers(){
   }
 
 
-  state.adminUsers=
-    users
-    ||
-    [];
+  state.adminUsers =
+    users || [];
 
 
-  const ids=
+  const ids =
     state.adminUsers
-
-      .map(
-        user=>
-          user.id
-      );
+      .map(user=>user.id);
 
 
   let wallets=[];
@@ -7740,7 +8214,7 @@ async function adminUsers(){
 
   if(ids.length){
 
-    const {data}=
+    const {data} =
       await sb
 
         .from("wallets")
@@ -7755,23 +8229,19 @@ async function adminUsers(){
         );
 
 
-    wallets=
-      data
-      ||
-      [];
+    wallets =
+      data || [];
 
   }
 
 
-  const walletMap=
+  const walletMap =
     Object.fromEntries(
 
-      wallets.map(
-        wallet=>[
-          wallet.user_id,
-          wallet.balance
-        ]
-      )
+      wallets.map(wallet=>[
+        wallet.user_id,
+        wallet.balance
+      ])
 
     );
 
@@ -7842,11 +8312,14 @@ async function adminUsers(){
                 </th>
 
                 <th>
-                  Дата
+                  Статус
                 </th>
 
                 <th>
+                  Дата
                 </th>
+
+                <th></th>
 
               </tr>
 
@@ -7858,109 +8331,112 @@ async function adminUsers(){
               ${
                 state.adminUsers
 
-                  .map(
-                    user=>`
+                  .map(user=>`
 
-                      <tr
-                        class="admin-user-row"
+                    <tr
+                      class="admin-user-row"
 
-                        data-search="${esc(
-                          (
-                            user.login
-                            +
-                            " "
-                            +
-                            user.username
-                            +
-                            " "
-                            +
-                            user.public_id
-                          )
-                          .toLowerCase()
-                        )}"
-                      >
+                      data-search="${esc(
+                        (
+                          user.login+
+                          " "+
+                          user.username+
+                          " "+
+                          user.public_id
+                        )
+                        .toLowerCase()
+                      )}"
+                    >
 
-                        <td>
+                      <td>
+                        ${esc(
+                          user.login
+                        )}
+                      </td>
+
+                      <td>
+                        ${esc(
+                          user.username
+                        )}
+                      </td>
+
+                      <td>
+                        ${esc(
+                          user.public_id
+                        )}
+                      </td>
+
+                      <td>
+                        ${money(
+                          walletMap[
+                            user.id
+                          ]
+                          ||
+                          0
+                        )}
+                      </td>
+
+                      <td>
+
+                        <span
+                          class="
+                            role
+
+                            ${
+                              user.role===
+                              "admin"
+
+                                ?"admin"
+
+                                :""
+                            }
+                          "
+                        >
+
                           ${esc(
-                            user.login
+                            user.role
                           )}
-                        </td>
 
-                        <td>
-                          ${esc(
-                            user.username
-                          )}
-                        </td>
+                        </span>
 
-                        <td>
-                          ${esc(
-                            user.public_id
-                          )}
-                        </td>
+                      </td>
 
-                        <td>
-                          ${money(
-                            walletMap[
-                              user.id
-                            ]
-                            ||
-                            0
-                          )}
-                        </td>
+                      <td>
 
-                        <td>
+                        ${presenceLabel(
+                          user.id
+                        )}
 
-                          <span
-                            class="
-                              role
+                      </td>
 
-                              ${
-                                user.role===
-                                "admin"
+                      <td>
+                        ${formatDate(
+                          user.created_at
+                        )}
+                      </td>
 
-                                  ?"admin"
+                      <td>
 
-                                  :""
-                              }
-                            "
-                          >
+                        <button
+                          class="
+                            btn
+                            btn-secondary
+                          "
 
-                            ${esc(
-                              user.role
-                            )}
+                          onclick="
+                            openAdminBalance(
+                              '${user.id}'
+                            )
+                          "
+                        >
+                          Баланс
+                        </button>
 
-                          </span>
+                      </td>
 
-                        </td>
+                    </tr>
 
-                        <td>
-                          ${formatDate(
-                            user.created_at
-                          )}
-                        </td>
-
-                        <td>
-
-                          <button
-                            class="
-                              btn
-                              btn-secondary
-                            "
-
-                            onclick="
-                              openAdminBalance(
-                                '${user.id}'
-                              )
-                            "
-                          >
-                            Баланс
-                          </button>
-
-                        </td>
-
-                      </tr>
-                    `
-                  )
+                  `)
 
                   .join("")
               }
@@ -7977,12 +8453,14 @@ async function adminUsers(){
 
   refreshIcons();
 
+  refreshOnlineIndicators();
+
 }
 
 
 function filterAdminUsers(value){
 
-  const query=
+  const query =
     value
       .trim()
       .toLowerCase();
@@ -7991,20 +8469,18 @@ function filterAdminUsers(value){
   qsa(
     ".admin-user-row"
   )
-    .forEach(
-      row=>{
+    .forEach(row=>{
 
-        row.style.display=
+      row.style.display =
 
-          row.dataset.search
-            .includes(query)
+        row.dataset.search
+          .includes(query)
 
-            ?""
+          ?""
 
-            :"none";
+          :"none";
 
-      }
-    );
+    });
 
 }
 
@@ -8013,7 +8489,7 @@ function openAdminBalance(
   userId
 ){
 
-  const user=
+  const user =
     state.adminUsers
 
       .find(
@@ -8024,9 +8500,7 @@ function openAdminBalance(
 
 
   if(!user){
-
     return;
-
   }
 
 
@@ -8110,18 +8584,15 @@ async function adminChangeBalance(
   userId
 ){
 
-  const amount=
+  const amount =
     Number(
       qs("#adminAmount")
         .value
-        .replace(
-          ",",
-          "."
-        )
+        .replace(",",".")
     );
 
 
-  const reason=
+  const reason =
     qs("#adminReason")
       .value
       .trim();
@@ -8143,7 +8614,7 @@ async function adminChangeBalance(
   }
 
 
-  const button=
+  const button =
     qs("#adminBalanceButton");
 
 
@@ -8153,7 +8624,7 @@ async function adminChangeBalance(
   );
 
 
-  const {error}=
+  const {error} =
     await sb.rpc(
 
       "admin_adjust_balance",
@@ -8215,7 +8686,7 @@ async function adminChats(){
   const {
     data:chats,
     error
-  }=
+  } =
     await sb
 
       .from(
@@ -8246,17 +8717,14 @@ async function adminChats(){
   }
 
 
-  const ids=[
+  const ids = [
     ...new Set(
 
       (chats||[])
-
-        .flatMap(
-          chat=>[
-            chat.user1_id,
-            chat.user2_id
-          ]
-        )
+        .flatMap(chat=>[
+          chat.user1_id,
+          chat.user2_id
+        ])
 
     )
   ];
@@ -8267,7 +8735,7 @@ async function adminChats(){
 
   if(ids.length){
 
-    const {data}=
+    const {data} =
       await sb
 
         .from("profiles")
@@ -8282,23 +8750,19 @@ async function adminChats(){
         );
 
 
-    users=
-      data
-      ||
-      [];
+    users =
+      data || [];
 
   }
 
 
-  const map=
+  const map =
     Object.fromEntries(
 
-      users.map(
-        user=>[
-          user.id,
-          user
-        ]
-      )
+      users.map(user=>[
+        user.id,
+        user
+      ])
 
     );
 
@@ -8340,8 +8804,7 @@ async function adminChats(){
                   Оновлено
                 </th>
 
-                <th>
-                </th>
+                <th></th>
 
               </tr>
 
@@ -8353,61 +8816,60 @@ async function adminChats(){
               ${
                 (chats||[])
 
-                  .map(
-                    chat=>`
+                  .map(chat=>`
 
-                      <tr>
+                    <tr>
 
-                        <td>
-                          ${esc(
-                            map[
-                              chat.user1_id
-                            ]
-                              ?.username
-                            ||
-                            "Користувач"
-                          )}
-                        </td>
+                      <td>
+                        ${esc(
+                          map[
+                            chat.user1_id
+                          ]
+                            ?.username
+                          ||
+                          "Користувач"
+                        )}
+                      </td>
 
-                        <td>
-                          ${esc(
-                            map[
-                              chat.user2_id
-                            ]
-                              ?.username
-                            ||
-                            "Користувач"
-                          )}
-                        </td>
+                      <td>
+                        ${esc(
+                          map[
+                            chat.user2_id
+                          ]
+                            ?.username
+                          ||
+                          "Користувач"
+                        )}
+                      </td>
 
-                        <td>
-                          ${formatDate(
-                            chat.updated_at
-                          )}
-                        </td>
+                      <td>
+                        ${formatDate(
+                          chat.updated_at
+                        )}
+                      </td>
 
-                        <td>
+                      <td>
 
-                          <button
-                            class="
-                              btn
-                              btn-secondary
-                            "
+                        <button
+                          class="
+                            btn
+                            btn-secondary
+                          "
 
-                            onclick="
-                              openAdminChat(
-                                '${chat.id}'
-                              )
-                            "
-                          >
-                            Відкрити
-                          </button>
+                          onclick="
+                            openAdminChat(
+                              '${chat.id}'
+                            )
+                          "
+                        >
+                          Відкрити
+                        </button>
 
-                        </td>
+                      </td>
 
-                      </tr>
-                    `
-                  )
+                    </tr>
+
+                  `)
 
                   .join("")
               }
@@ -8431,7 +8893,7 @@ async function openAdminChat(
   const {
     data:messages,
     error
-  }=
+  } =
     await sb
 
       .from("messages")
@@ -8463,11 +8925,10 @@ async function openAdminChat(
   }
 
 
-  const ids=[
+  const ids = [
     ...new Set(
 
       (messages||[])
-
         .map(
           message=>
             message.sender_id
@@ -8482,7 +8943,7 @@ async function openAdminChat(
 
   if(ids.length){
 
-    const {data}=
+    const {data} =
       await sb
 
         .from("profiles")
@@ -8497,23 +8958,19 @@ async function openAdminChat(
         );
 
 
-    users=
-      data
-      ||
-      [];
+    users =
+      data || [];
 
   }
 
 
-  const map=
+  const map =
     Object.fromEntries(
 
-      users.map(
-        user=>[
-          user.id,
-          user.username
-        ]
-      )
+      users.map(user=>[
+        user.id,
+        user.username
+      ])
 
     );
 
@@ -8536,82 +8993,81 @@ async function openAdminChat(
 
             ?messages
 
-                .map(
-                  message=>`
+                .map(message=>`
+
+                  <div
+                    style="
+                      padding:10px;
+
+                      border-radius:12px;
+
+                      border:
+                      1px solid var(--border);
+
+                      background:#171717
+                    "
+                  >
 
                     <div
                       style="
-                        padding:10px;
+                        color:var(--yellow);
 
-                        border-radius:12px;
-
-                        border:
-                        1px solid var(--border);
-
-                        background:#171717
+                        font-size:10px;
+                        font-weight:800
                       "
                     >
 
-                      <div
-                        style="
-                          color:var(--yellow);
-
-                          font-size:10px;
-                          font-weight:800
-                        "
-                      >
-
-                        ${esc(
-                          map[
-                            message.sender_id
-                          ]
-                          ||
-                          "Користувач"
-                        )}
-
-                      </div>
-
-
-                      <div
-                        style="
-                          margin-top:5px;
-
-                          line-height:1.45;
-
-                          font-size:12px
-                        "
-                      >
-
-                        ${esc(
-                          message.content
-                        )}
-
-                      </div>
-
-
-                      <div
-                        style="
-                          margin-top:5px;
-
-                          color:#666;
-
-                          font-size:8px
-                        "
-                      >
-
-                        ${formatDate(
-                          message.created_at
-                        )}
-
-                        ${formatTime(
-                          message.created_at
-                        )}
-
-                      </div>
+                      ${esc(
+                        map[
+                          message.sender_id
+                        ]
+                        ||
+                        "Користувач"
+                      )}
 
                     </div>
-                  `
-                )
+
+
+                    <div
+                      style="
+                        margin-top:5px;
+
+                        line-height:1.45;
+
+                        font-size:12px
+                      "
+                    >
+
+                      ${esc(
+                        message.content
+                      )}
+
+                    </div>
+
+
+                    <div
+                      style="
+                        margin-top:5px;
+
+                        color:#666;
+
+                        font-size:8px
+                      "
+                    >
+
+                      ${formatDate(
+                        message.created_at
+                      )}
+
+                      ${formatTime(
+                        message.created_at
+                      )}
+
+                    </div>
+
+                  </div>
+
+                `)
 
                 .join("")
 
@@ -8731,7 +9187,7 @@ function adminBranding(){
 
 async function saveAdminLogo(){
 
-  const file=
+  const file =
     qs("#adminLogo")
       ?.files?.[0];
 
@@ -8748,7 +9204,7 @@ async function saveAdminLogo(){
   }
 
 
-  const button=
+  const button =
     qs("#logoButton");
 
 
@@ -8760,7 +9216,7 @@ async function saveAdminLogo(){
 
   try{
 
-    const ext=
+    const ext =
       file.name
         .split(".")
         .pop()
@@ -8770,13 +9226,11 @@ async function saveAdminLogo(){
       "png";
 
 
-    const path=
-      `logo-${
-        Date.now()
-      }.${ext}`;
+    const path =
+      `logo-${Date.now()}.${ext}`;
 
 
-    const {error}=
+    const {error} =
       await sb.storage
 
         .from("branding")
@@ -8795,13 +9249,11 @@ async function saveAdminLogo(){
 
 
     if(error){
-
       throw error;
-
     }
 
 
-    const {data}=
+    const {data} =
       sb.storage
 
         .from("branding")
@@ -8809,13 +9261,13 @@ async function saveAdminLogo(){
         .getPublicUrl(path);
 
 
-    const url=
+    const url =
       data.publicUrl;
 
 
     const {
       error:updateError
-    }=
+    } =
       await sb
 
         .from(
@@ -8840,13 +9292,11 @@ async function saveAdminLogo(){
 
 
     if(updateError){
-
       throw updateError;
-
     }
 
 
-    state.logoUrl=
+    state.logoUrl =
       url;
 
 
@@ -8888,103 +9338,103 @@ async function saveAdminLogo(){
    GLOBAL
 ===================================================== */
 
-window.state=
+window.state =
   state;
 
-window.render=
+window.render =
   render;
 
-window.navigate=
+window.navigate =
   navigate;
 
-window.signIn=
+window.signIn =
   signIn;
 
-window.signUp=
+window.signUp =
   signUp;
 
-window.logout=
+window.logout =
   logout;
 
-window.closeModal=
+window.closeModal =
   closeModal;
 
-window.renderProfile=
+window.renderProfile =
   renderProfile;
 
-window.openEditProfile=
+window.openEditProfile =
   openEditProfile;
 
-window.saveProfile=
+window.saveProfile =
   saveProfile;
 
-window.openTopup=
+window.openTopup =
   openTopup;
 
-window.formatCard=
+window.formatCard =
   formatCard;
 
-window.formatDateCard=
+window.formatDateCard =
   formatDateCard;
 
-window.fakePayment=
+window.fakePayment =
   fakePayment;
 
-window.openUserSearch=
+window.openUserSearch =
   openUserSearch;
 
-window.searchUsers=
+window.searchUsers =
   searchUsers;
 
-window.openPublicProfile=
+window.openPublicProfile =
   openPublicProfile;
 
-window.createChat=
+window.createChat =
   createChat;
 
-window.openChat=
+window.openChat =
   openChat;
 
-window.closeMobileChat=
+window.closeMobileChat =
   closeMobileChat;
 
-window.filterChats=
+window.filterChats =
   filterChats;
 
-window.messageKey=
+window.messageKey =
   messageKey;
 
-window.sendMessage=
+window.sendMessage =
   sendMessage;
 
-window.openListing=
+window.openListing =
   openListing;
 
-window.createListing=
+window.createListing =
   createListing;
 
-window.cancelListing=
+window.cancelListing =
   cancelListing;
 
-window.openBuyListing=
+window.openBuyListing =
   openBuyListing;
 
-window.buyListing=
+window.buyListing =
   buyListing;
 
-window.filterAdminUsers=
+window.filterAdminUsers =
   filterAdminUsers;
 
-window.openAdminBalance=
+window.openAdminBalance =
   openAdminBalance;
 
-window.adminChangeBalance=
+window.adminChangeBalance =
   adminChangeBalance;
 
-window.openAdminChat=
+window.openAdminChat =
   openAdminChat;
 
-window.saveAdminLogo=
+window.saveAdminLogo =
   saveAdminLogo;
 
 
