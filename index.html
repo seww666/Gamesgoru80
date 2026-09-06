@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+=<!DOCTYPE html>
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
@@ -1001,57 +1001,6 @@ img{
 
 
 /* =====================================================
-   BALANCE
-===================================================== */
-
-.balance{
-  height:42px;
-
-  padding:
-    4px 5px
-    4px 13px;
-
-  border-radius:13px;
-
-  border:
-    1px solid var(--border);
-
-  background:#151515;
-
-  display:inline-flex;
-  align-items:center;
-
-  gap:9px;
-}
-
-.balance-value{
-  font-size:13px;
-  font-weight:850;
-}
-
-.balance-plus{
-  width:31px;
-  height:31px;
-
-  padding:0;
-
-  border:0;
-
-  border-radius:9px;
-
-  color:#111;
-
-  background:var(--yellow);
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-}
-
-
-/* =====================================================
    PROFILE
 ===================================================== */
 
@@ -1154,7 +1103,7 @@ img{
   display:grid;
 
   grid-template-columns:
-    repeat(3,1fr);
+    repeat(2,1fr);
 
   gap:13px;
 }
@@ -2396,95 +2345,6 @@ img{
 
 
 /* =====================================================
-   SHOP
-===================================================== */
-
-.shop-grid{
-  display:grid;
-
-  grid-template-columns:
-    repeat(3,minmax(0,1fr));
-
-  gap:13px;
-}
-
-.listing{
-  min-height:200px;
-
-  padding:17px;
-
-  display:flex;
-  flex-direction:column;
-
-  transition:
-    transform .2s var(--ease),
-    box-shadow .2s ease,
-    border-color .2s ease;
-}
-
-.listing:hover{
-  transform:
-    translateY(-2px);
-
-  box-shadow:
-    0 20px 55px
-    rgba(0,0,0,.25);
-}
-
-.listing-type{
-  width:fit-content;
-
-  padding:5px 7px;
-
-  border-radius:7px;
-
-  color:var(--yellow);
-
-  background:
-    rgba(242,195,20,.08);
-
-  font-size:9px;
-  font-weight:850;
-
-  text-transform:uppercase;
-}
-
-.listing-value{
-  margin-top:16px;
-
-  font-size:20px;
-  font-weight:850;
-
-  word-break:break-word;
-}
-
-.listing-seller{
-  margin-top:4px;
-
-  color:#777;
-
-  font-size:11px;
-}
-
-.listing-space{
-  flex:1;
-}
-
-.listing-bottom{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  gap:9px;
-}
-
-.listing-price{
-  font-size:17px;
-  font-weight:850;
-}
-
-
-/* =====================================================
    ADMIN
 ===================================================== */
 
@@ -2531,7 +2391,7 @@ img{
   display:grid;
 
   grid-template-columns:
-    repeat(4,1fr);
+    repeat(2,1fr);
 
   gap:12px;
 }
@@ -2684,93 +2544,6 @@ th{
 
 
 /* =====================================================
-   PAYMENT
-===================================================== */
-
-.payment-card{
-  height:185px;
-
-  margin-bottom:17px;
-
-  padding:20px;
-
-  border-radius:21px;
-
-  border:
-    1px solid
-    rgba(242,195,20,.16);
-
-  background:
-    radial-gradient(
-      250px 120px
-      at 90% 0,
-      rgba(255,220,60,.27),
-      transparent 65%
-    ),
-    linear-gradient(
-      135deg,
-      #2b260e,
-      #111
-    );
-
-  display:flex;
-  flex-direction:column;
-}
-
-.payment-chip{
-  width:38px;
-  height:28px;
-
-  margin-bottom:28px;
-
-  border-radius:7px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #dabe6e,
-      #8c7024
-    );
-}
-
-.payment-number{
-  font-size:16px;
-
-  letter-spacing:2px;
-}
-
-.payment-bottom{
-  margin-top:auto;
-
-  color:#aaa;
-
-  font-size:10px;
-
-  display:flex;
-  justify-content:space-between;
-}
-
-.payment-error{
-  margin-bottom:12px;
-
-  padding:11px;
-
-  border-radius:11px;
-
-  color:#ff7777;
-
-  background:
-    rgba(255,80,80,.08);
-
-  border:
-    1px solid
-    rgba(255,80,80,.15);
-
-  font-size:11px;
-}
-
-
-/* =====================================================
    TOAST
 ===================================================== */
 
@@ -2856,11 +2629,6 @@ th{
     justify-content:center;
   }
 
-  .shop-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
   .admin-stats{
     grid-template-columns:
       repeat(2,1fr);
@@ -2920,6 +2688,11 @@ th{
     box-shadow:
       0 18px 60px
       rgba(0,0,0,.45);
+  }
+
+  .bottom-nav.two{
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
   .bottom-nav.three{
@@ -3002,10 +2775,6 @@ th{
     grid-template-columns:1fr;
 
     gap:9px;
-  }
-
-  .shop-grid{
-    grid-template-columns:1fr;
   }
 
   .chat-layout{
@@ -4826,12 +4595,6 @@ function render(){
             )}
 
             ${navButton(
-              "shop",
-              "shopping-bag",
-              "Магазин"
-            )}
-
-            ${navButton(
               "profile",
               "user-round",
               "Профіль"
@@ -4908,7 +4671,7 @@ function render(){
         <nav
           class="
             bottom-nav
-            ${admin?"four":"three"}
+            ${admin?"three":"two"}
           "
         >
 
@@ -4916,12 +4679,6 @@ function render(){
             "chats",
             "message-circle",
             "Чати"
-          )}
-
-          ${bottomButton(
-            "shop",
-            "shopping-bag",
-            "Магазин"
           )}
 
           ${bottomButton(
@@ -5003,17 +4760,6 @@ function renderPage(){
 
 
   if(
-    state.page==="shop"
-  ){
-
-    renderShop();
-
-    return;
-
-  }
-
-
-  if(
     state.page==="profile"
   ){
 
@@ -5031,45 +4777,6 @@ function renderPage(){
     renderAdmin();
 
   }
-
-}
-
-
-/* =====================================================
-   BALANCE
-===================================================== */
-
-function balanceMarkup(){
-
-  return `
-    <div class="balance">
-
-      <span class="balance-value">
-
-        ${money(
-          state.wallet?.balance
-        )}
-
-      </span>
-
-
-      <button
-        class="balance-plus"
-
-        onclick="
-          openTopup()
-        "
-      >
-
-        <i
-          data-lucide="plus"
-          class="icon-sm"
-        ></i>
-
-      </button>
-
-    </div>
-  `;
 
 }
 
@@ -5157,8 +4864,6 @@ async function renderProfile(){
 
         </div>
 
-
-        ${balanceMarkup()}
 
       </div>
 
@@ -5290,26 +4995,6 @@ async function renderProfile(){
 
 
       <div class="profile-stats">
-
-        <section
-          class="
-            card
-            stat
-          "
-        >
-
-          <div class="stat-label">
-            Баланс
-          </div>
-
-          <div class="stat-value">
-            ${money(
-              state.wallet?.balance
-            )}
-          </div>
-
-        </section>
-
 
         <section
           class="
@@ -5839,372 +5524,6 @@ async function saveProfile(){
     );
 
   }
-
-}
-
-
-/* =====================================================
-   TOP UP
-===================================================== */
-
-function openTopup(){
-
-  modal(
-
-    "Поповнення балансу",
-
-    `
-      <div class="payment-card">
-
-        <div class="payment-chip">
-        </div>
-
-        <div
-          id="cardPreview"
-
-          class="payment-number"
-        >
-          •••• •••• •••• ••••
-        </div>
-
-        <div class="payment-bottom">
-
-          <span>
-            LiptonGram
-          </span>
-
-          <span id="datePreview">
-            MM/YY
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="paymentError"
-
-        class="
-          payment-error
-          hidden
-        "
-      >
-        Не вдалося виконати транзакцію
-      </div>
-
-
-      <form
-        class="modal-form"
-
-        onsubmit="
-          event.preventDefault();
-          fakePayment()
-        "
-      >
-
-        <div class="field">
-
-          <label>
-            Сума
-          </label>
-
-          <input
-            id="topupAmount"
-
-            class="input"
-
-            inputmode="decimal"
-
-            placeholder="10.00"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Номер картки
-          </label>
-
-          <input
-            id="cardNumber"
-
-            class="input"
-
-            maxlength="19"
-
-            inputmode="numeric"
-
-            autocomplete="off"
-
-            placeholder="0000 0000 0000 0000"
-
-            oninput="
-              formatCard(this)
-            "
-          >
-
-        </div>
-
-
-        <div
-          style="
-            display:grid;
-            grid-template-columns:
-              1fr 1fr;
-            gap:9px
-          "
-        >
-
-          <div class="field">
-
-            <label>
-              Термін
-            </label>
-
-            <input
-              id="cardDate"
-
-              class="input"
-
-              maxlength="5"
-
-              autocomplete="off"
-
-              placeholder="MM/YY"
-
-              oninput="
-                formatDateCard(this)
-              "
-            >
-
-          </div>
-
-
-          <div class="field">
-
-            <label>
-              CVV
-            </label>
-
-            <input
-              id="cardCVV"
-
-              class="input"
-
-              type="password"
-
-              maxlength="3"
-
-              inputmode="numeric"
-
-              autocomplete="off"
-
-              placeholder="•••"
-            >
-
-          </div>
-
-        </div>
-
-
-        <button
-          id="payButton"
-
-          class="
-            btn
-            btn-primary
-          "
-        >
-          Поповнити
-        </button>
-
-      </form>
-    `
-
-  );
-
-}
-
-
-function formatCard(input){
-
-  let value=
-    input.value
-      .replace(
-        /\D/g,
-        ""
-      )
-      .slice(
-        0,
-        16
-      );
-
-
-  value=
-    value.replace(
-      /(\d{4})(?=\d)/g,
-      "$1 "
-    );
-
-
-  input.value=
-    value;
-
-
-  const preview=
-    qs("#cardPreview");
-
-
-  if(preview){
-
-    preview.textContent=
-      value
-      ||
-      "•••• •••• •••• ••••";
-
-  }
-
-}
-
-
-function formatDateCard(input){
-
-  let value=
-    input.value
-      .replace(
-        /\D/g,
-        ""
-      )
-      .slice(
-        0,
-        4
-      );
-
-
-  if(
-    value.length>2
-  ){
-
-    value=
-      value.slice(
-        0,
-        2
-      )
-
-      +
-
-      "/"
-
-      +
-
-      value.slice(2);
-
-  }
-
-
-  input.value=
-    value;
-
-
-  const preview=
-    qs("#datePreview");
-
-
-  if(preview){
-
-    preview.textContent=
-      value
-      ||
-      "MM/YY";
-
-  }
-
-}
-
-
-async function fakePayment(){
-
-  const amount=
-    Number(
-      qs("#topupAmount")
-        .value
-        .replace(
-          ",",
-          "."
-        )
-    );
-
-
-  if(
-    !Number.isFinite(amount)
-    ||
-    amount<=0
-  ){
-
-    toast(
-      "Вкажіть правильну суму",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const button=
-    qs("#payButton");
-
-
-  setLoading(
-    button,
-    true
-  );
-
-
-  await new Promise(
-    resolve=>
-      setTimeout(
-        resolve,
-        1400
-      )
-  );
-
-
-  setLoading(
-    button,
-    false
-  );
-
-
-  qs("#paymentError")
-    ?.classList
-    .remove(
-      "hidden"
-    );
-
-
-  [
-    "cardNumber",
-    "cardDate",
-    "cardCVV"
-  ]
-    .forEach(
-      id=>{
-
-        const el=
-          qs("#"+id);
-
-        if(el){
-
-          el.value="";
-
-        }
-
-      }
-    );
 
 }
 
@@ -9210,792 +8529,6 @@ function refreshConversationPreview(
 
 
 /* =====================================================
-   SHOP
-===================================================== */
-
-async function renderShop(){
-
-  const main=
-    qs("#mainArea");
-
-
-  if(!main){
-    return;
-  }
-
-
-  main.innerHTML=`
-    <div
-      class="
-        page
-        page-animation
-      "
-    >
-
-      <div class="page-head">
-
-        <div>
-
-          <h1 class="page-title">
-            Магазин
-          </h1>
-
-          <div class="page-desc">
-            Username та ID, виставлені на продаж
-          </div>
-
-        </div>
-
-
-        <div
-          style="
-            display:flex;
-            gap:7px;
-            align-items:center
-          "
-        >
-
-          ${balanceMarkup()}
-
-          <button
-            class="
-              btn
-              btn-primary
-            "
-
-            onclick="
-              openListing()
-            "
-          >
-
-            <i
-              data-lucide="plus"
-              class="icon-sm"
-            ></i>
-
-            Продати
-
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="shopGrid"
-        class="shop-grid"
-      >
-
-        <div class="empty">
-
-          <i
-            data-lucide="loader-circle"
-            class="spin"
-          ></i>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-
-
-  refreshIcons();
-
-
-  await loadListings();
-
-}
-
-
-async function loadListings(){
-
-  const root=
-    qs("#shopGrid");
-
-
-  if(!root){
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  }=
-    await sb
-
-      .from(
-        "marketplace_listings"
-      )
-
-      .select(`
-        *,
-        seller:profiles!marketplace_listings_seller_id_fkey(
-          id,
-          username,
-          public_id,
-          avatar_url
-        )
-      `)
-
-      .eq(
-        "status",
-        "active"
-      )
-
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-
-    root.innerHTML=`
-      <div
-        class="
-          card
-          empty
-        "
-
-        style="
-          grid-column:1/-1
-        "
-      >
-
-        <strong>
-          Магазин недоступний
-        </strong>
-
-      </div>
-    `;
-
-    return;
-
-  }
-
-
-  state.listings=
-    data
-    ||
-    [];
-
-
-  renderListings();
-
-}
-
-
-function renderListings(){
-
-  const root=
-    qs("#shopGrid");
-
-
-  if(!root){
-    return;
-  }
-
-
-  if(
-    !state.listings.length
-  ){
-
-    root.innerHTML=`
-      <div
-        class="
-          card
-          empty
-        "
-
-        style="
-          grid-column:1/-1
-        "
-      >
-
-        <div class="empty-icon">
-
-          <i
-            data-lucide="shopping-bag"
-            class="icon"
-          ></i>
-
-        </div>
-
-        <strong>
-          Немає активних пропозицій
-        </strong>
-
-      </div>
-    `;
-
-
-    refreshIcons();
-
-    return;
-
-  }
-
-
-  root.innerHTML=
-    state.listings
-
-      .map(
-        item=>{
-
-          const mine=
-            item.seller_id===
-            state.user.id;
-
-
-          return `
-            <section
-              class="
-                card
-                listing
-              "
-            >
-
-              <div class="listing-type">
-
-                ${
-                  item.asset_type===
-                  "username"
-
-                    ?"Username"
-
-                    :"ID"
-                }
-
-              </div>
-
-
-              <div class="listing-value">
-
-                ${
-                  item.asset_type===
-                  "username"
-
-                    ?"@"
-
-                    :""
-                }
-
-                ${esc(
-                  item.asset_value
-                )}
-
-              </div>
-
-
-              <div class="listing-seller">
-
-                Продавець:
-
-                ${esc(
-                  item.seller
-                    ?.username
-                  ||
-                  "Користувач"
-                )}
-
-              </div>
-
-
-              <div class="listing-space">
-              </div>
-
-
-              <div class="listing-bottom">
-
-                <div class="listing-price">
-
-                  ${money(
-                    item.price
-                  )}
-
-                </div>
-
-
-                ${
-                  mine
-
-                    ?`
-                      <button
-                        class="
-                          btn
-                          btn-danger
-                        "
-
-                        onclick="
-                          cancelListing(
-                            '${item.id}'
-                          )
-                        "
-                      >
-                        Зняти
-                      </button>
-                    `
-
-                    :`
-                      <button
-                        class="
-                          btn
-                          btn-primary
-                        "
-
-                        onclick="
-                          openBuyListing(
-                            '${item.id}'
-                          )
-                        "
-                      >
-                        Купити
-                      </button>
-                    `
-                }
-
-              </div>
-
-            </section>
-          `;
-
-        }
-      )
-
-      .join("");
-
-
-  refreshIcons();
-
-}
-
-
-function openListing(){
-
-  modal(
-
-    "Продати",
-
-    `
-      <form
-        class="modal-form"
-
-        onsubmit="
-          event.preventDefault();
-          createListing()
-        "
-      >
-
-        <div class="field">
-
-          <label>
-            Що продати
-          </label>
-
-          <select
-            id="listingType"
-            class="input"
-          >
-
-            <option value="username">
-
-              Username:
-              ${esc(
-                state.profile.username
-              )}
-
-            </option>
-
-            <option value="id">
-
-              ID:
-              ${esc(
-                state.profile.public_id
-              )}
-
-            </option>
-
-          </select>
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Ціна, USD
-          </label>
-
-          <input
-            id="listingPrice"
-
-            class="input"
-
-            inputmode="decimal"
-
-            placeholder="10.00"
-          >
-
-        </div>
-
-
-        <button
-          id="listingButton"
-
-          class="
-            btn
-            btn-primary
-          "
-        >
-          Виставити на продаж
-        </button>
-
-      </form>
-    `
-
-  );
-
-}
-
-
-async function createListing(){
-
-  const type=
-    qs("#listingType")
-      .value;
-
-
-  const price=
-    Number(
-      qs("#listingPrice")
-        .value
-        .replace(
-          ",",
-          "."
-        )
-    );
-
-
-  if(
-    !Number.isFinite(price)
-    ||
-    price<=0
-  ){
-
-    toast(
-      "Вкажіть правильну ціну",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const assetValue=
-
-    type==="username"
-
-      ?state.profile.username
-
-      :state.profile.public_id;
-
-
-  const button=
-    qs("#listingButton");
-
-
-  setLoading(
-    button,
-    true
-  );
-
-
-  const {error}=
-    await sb
-
-      .from(
-        "marketplace_listings"
-      )
-
-      .insert({
-
-        seller_id:
-          state.user.id,
-
-        asset_type:
-          type,
-
-        asset_value:
-          assetValue,
-
-        price,
-
-        status:
-          "active"
-
-      });
-
-
-  setLoading(
-    button,
-    false
-  );
-
-
-  if(error){
-
-    toast(
-      error.message
-      ||
-      "Не вдалося виставити",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-
-  await loadListings();
-
-
-  toast(
-    "Виставлено на продаж",
-    "success"
-  );
-
-}
-
-
-async function cancelListing(id){
-
-  const {error}=
-    await sb
-
-      .from(
-        "marketplace_listings"
-      )
-
-      .update({
-        status:
-          "cancelled"
-      })
-
-      .eq(
-        "id",
-        id
-      )
-
-      .eq(
-        "seller_id",
-        state.user.id
-      );
-
-
-  if(error){
-
-    toast(
-      "Не вдалося зняти",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  await loadListings();
-
-}
-
-
-function openBuyListing(id){
-
-  const listing=
-    state.listings
-
-      .find(
-        item=>
-          item.id===id
-      );
-
-
-  if(!listing){
-
-    return;
-
-  }
-
-
-  modal(
-
-    "Підтвердження покупки",
-
-    `
-      <div
-        style="
-          margin-bottom:18px
-        "
-      >
-
-        <div
-          style="
-            color:#777;
-            font-size:11px
-          "
-        >
-          Ви купуєте
-        </div>
-
-
-        <div
-          style="
-            font-size:22px;
-            font-weight:850;
-            margin-top:5px
-          "
-        >
-
-          ${
-            listing.asset_type===
-            "username"
-
-              ?"@"
-
-              :"ID "
-          }
-
-          ${esc(
-            listing.asset_value
-          )}
-
-        </div>
-
-
-        <div
-          style="
-            margin-top:15px
-          "
-        >
-
-          Ціна:
-
-          <strong>
-            ${money(
-              listing.price
-            )}
-          </strong>
-
-        </div>
-
-      </div>
-
-
-      <button
-        id="buyButton"
-
-        class="
-          btn
-          btn-primary
-        "
-
-        style="
-          width:100%
-        "
-
-        onclick="
-          buyListing(
-            '${id}'
-          )
-        "
-      >
-        Купити
-      </button>
-    `
-
-  );
-
-}
-
-
-async function buyListing(id){
-
-  const button=
-    qs("#buyButton");
-
-
-  setLoading(
-    button,
-    true
-  );
-
-
-  const {
-    error
-  }=
-    await sb.rpc(
-
-      "purchase_marketplace_listing",
-
-      {
-        listing_id:
-          id
-      }
-
-    );
-
-
-  setLoading(
-    button,
-    false
-  );
-
-
-  if(error){
-
-    toast(
-      error.message
-      ||
-      "Покупка не виконана",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-
-  await loadMe();
-
-
-  render();
-
-
-  toast(
-    "Покупку виконано",
-    "success"
-  );
-
-}
-
-
-/* =====================================================
    ADMIN
 ===================================================== */
 
@@ -10077,8 +8610,6 @@ async function renderAdmin(){
 
         </div>
 
-
-        ${balanceMarkup()}
 
       </div>
 
@@ -10201,9 +8732,7 @@ async function adminDashboard(){
 
   const [
     users,
-    messages,
-    listings,
-    transactions
+    messages
   ]=
     await Promise.all([
 
@@ -10219,34 +8748,6 @@ async function adminDashboard(){
 
       sb
         .from("messages")
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        ),
-
-      sb
-        .from(
-          "marketplace_listings"
-        )
-        .select(
-          "id",
-          {
-            count:"exact",
-            head:true
-          }
-        )
-        .eq(
-          "status",
-          "active"
-        ),
-
-      sb
-        .from(
-          "wallet_transactions"
-        )
         .select(
           "id",
           {
@@ -10271,16 +8772,6 @@ async function adminDashboard(){
         ${adminStat(
           "Повідомлення",
           messages.count||0
-        )}
-
-        ${adminStat(
-          "Активні продажі",
-          listings.count||0
-        )}
-
-        ${adminStat(
-          "Операції",
-          transactions.count||0
         )}
 
       </div>
@@ -10312,8 +8803,7 @@ async function adminDashboard(){
           "
         >
           Управління користувачами,
-          балансом, чатами
-          та логотипом.
+          чатами та логотипом.
         </div>
 
       </section>
@@ -10360,56 +8850,6 @@ async function adminUsers(){
     users
     ||
     [];
-
-
-  const ids=
-    state.adminUsers
-
-      .map(
-        user=>
-          user.id
-      );
-
-
-  let wallets=[];
-
-
-  if(ids.length){
-
-    const {data}=
-      await sb
-
-        .from("wallets")
-
-        .select(
-          "user_id,balance"
-        )
-
-        .in(
-          "user_id",
-          ids
-        );
-
-
-    wallets=
-      data
-      ||
-      [];
-
-  }
-
-
-  const walletMap=
-    Object.fromEntries(
-
-      wallets.map(
-        wallet=>[
-          wallet.user_id,
-          wallet.balance
-        ]
-      )
-
-    );
 
 
   qs("#adminContent")
@@ -10470,10 +8910,6 @@ async function adminUsers(){
                 </th>
 
                 <th>
-                  Баланс
-                </th>
-
-                <th>
                   Роль
                 </th>
 
@@ -10483,9 +8919,6 @@ async function adminUsers(){
 
                 <th>
                   Дата
-                </th>
-
-                <th>
                 </th>
 
               </tr>
@@ -10539,16 +8972,6 @@ async function adminUsers(){
                         </td>
 
                         <td>
-                          ${money(
-                            walletMap[
-                              user.id
-                            ]
-                            ||
-                            0
-                          )}
-                        </td>
-
-                        <td>
 
                           <span
                             class="
@@ -10585,25 +9008,6 @@ async function adminUsers(){
                           ${formatDate(
                             user.created_at
                           )}
-                        </td>
-
-                        <td>
-
-                          <button
-                            class="
-                              btn
-                              btn-secondary
-                            "
-
-                            onclick="
-                              openAdminBalance(
-                                '${user.id}'
-                              )
-                            "
-                          >
-                            Баланс
-                          </button>
-
                         </td>
 
                       </tr>
@@ -10655,207 +9059,6 @@ function filterAdminUsers(value){
 
       }
     );
-
-}
-
-
-function openAdminBalance(
-  userId
-){
-
-  const user=
-    state.adminUsers
-
-      .find(
-        item=>
-          item.id===
-          userId
-      );
-
-
-  if(!user){
-
-    return;
-
-  }
-
-
-  modal(
-
-    "Баланс "
-    +
-    user.username,
-
-    `
-      <form
-        class="modal-form"
-
-        onsubmit="
-          event.preventDefault();
-
-          adminChangeBalance(
-            '${user.id}'
-          )
-        "
-      >
-
-        <div class="field">
-
-          <label>
-            Сума
-          </label>
-
-          <input
-            id="adminAmount"
-
-            class="input"
-
-            inputmode="decimal"
-
-            placeholder="Наприклад 50 або -10"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Причина
-          </label>
-
-          <input
-            id="adminReason"
-
-            class="input"
-
-            maxlength="200"
-
-            placeholder="Коментар"
-          >
-
-        </div>
-
-
-        <button
-          id="adminBalanceButton"
-
-          class="
-            btn
-            btn-primary
-          "
-        >
-          Змінити баланс
-        </button>
-
-      </form>
-    `
-
-  );
-
-}
-
-
-async function adminChangeBalance(
-  userId
-){
-
-  const amount=
-    Number(
-      qs("#adminAmount")
-        .value
-        .replace(
-          ",",
-          "."
-        )
-    );
-
-
-  const reason=
-    qs("#adminReason")
-      .value
-      .trim();
-
-
-  if(
-    !Number.isFinite(amount)
-    ||
-    amount===0
-  ){
-
-    toast(
-      "Вкажіть суму",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  const button=
-    qs("#adminBalanceButton");
-
-
-  setLoading(
-    button,
-    true
-  );
-
-
-  const {error}=
-    await sb.rpc(
-
-      "admin_adjust_balance",
-
-      {
-
-        target_user_id:
-          userId,
-
-        adjustment_amount:
-          amount,
-
-        adjustment_reason:
-          reason
-          ||
-          "Admin"
-
-      }
-
-    );
-
-
-  setLoading(
-    button,
-    false
-  );
-
-
-  if(error){
-
-    toast(
-      error.message,
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  closeModal();
-
-
-  await loadMe();
-
-  await adminUsers();
-
-
-  toast(
-    "Баланс змінено",
-    "success"
-  );
 
 }
 
@@ -11669,17 +9872,9 @@ window.openEditProfile=
 window.saveProfile=
   saveProfile;
 
-window.openTopup=
-  openTopup;
 
-window.formatCard=
-  formatCard;
 
-window.formatDateCard=
-  formatDateCard;
 
-window.fakePayment=
-  fakePayment;
 
 window.openUserSearch=
   openUserSearch;
@@ -11726,29 +9921,15 @@ window.handleChatImage=
 window.clearSelectedImage=
   clearSelectedImage;
 
-window.openListing=
-  openListing;
 
-window.createListing=
-  createListing;
 
-window.cancelListing=
-  cancelListing;
 
-window.openBuyListing=
-  openBuyListing;
 
-window.buyListing=
-  buyListing;
 
 window.filterAdminUsers=
   filterAdminUsers;
 
-window.openAdminBalance=
-  openAdminBalance;
 
-window.adminChangeBalance=
-  adminChangeBalance;
 
 window.openAdminChat=
   openAdminChat;
