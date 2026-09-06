@@ -10,10 +10,36 @@
 
 <meta
   name="theme-color"
-  content="#f2c314"
+  content="#080b10"
+>
+
+<meta
+  name="description"
+  content="LiptonGram — особисті повідомлення та профілі"
+>
+
+<meta
+  name="color-scheme"
+  content="dark"
 >
 
 <title>LiptonGram</title>
+
+<link
+  rel="preconnect"
+  href="https://fonts.googleapis.com"
+>
+
+<link
+  rel="preconnect"
+  href="https://fonts.gstatic.com"
+  crossorigin
+>
+
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800&amp;family=Unbounded:wght@600;700;800&amp;display=swap"
+>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -3544,12 +3570,1791 @@ th,td{
   }
 }
 
+/* back button on chat header — mobile only, no JS width-check needed */
+.chat-back-btn{
+  display:none;
+}
+
+@media(max-width:760px){
+  .chat-back-btn{
+    display:inline-flex;
+  }
+}
+
+
+/* =====================================================
+   LIPTONGRAM — DESIGN PASS
+   A considered, "chai-amber" identity for a Ukrainian
+   gaming-community messenger. Adds/overrides only —
+   nothing above is removed, nothing here changes markup
+   or app logic.
+===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700;800;900&family=Unbounded:wght@600;700;800&display=swap');
+
+:root{
+  /* warm, tea-toned dark palette instead of flat near-black */
+  --bg:#15110b;
+  --panel:#1c160d;
+  --panel2:#211a10;
+  --panel3:#2a2114;
+
+  --text:#f4ede1;
+  --muted:#9c9082;
+
+  --amber:#e8a93a;
+  --amber-deep:#c9852a;
+  --yellow:#e8a93a;
+  --yellow2:#f4c15a;
+
+  --line:rgba(244,237,225,.09);
+  --border:rgba(244,237,225,.09);
+
+  --shadow:0 18px 44px rgba(0,0,0,.35);
+}
+
+body{
+  font-family:"Golos Text",Inter,-apple-system,"Segoe UI",sans-serif;
+  background:
+    radial-gradient(900px 480px at 12% -12%,rgba(232,169,58,.10),transparent 60%),
+    radial-gradient(700px 420px at 100% 0%,rgba(201,133,42,.07),transparent 55%),
+    var(--bg) !important;
+}
+
+.page-title,
+.auth-title,
+.chat-title-row h2,
+.brand-name,
+.profile-name,
+.modal-title{
+  font-family:"Unbounded","Golos Text",sans-serif;
+  letter-spacing:-.01em;
+}
+
+.auth-title{
+  font-size:26px;
+  font-weight:700;
+}
+
+/* logo mark — a small lockup instead of a plain flat square */
+.brand-logo,
+.auth-logo{
+  background:
+    linear-gradient(150deg,var(--yellow2) 0%,var(--amber) 55%,var(--amber-deep) 100%) !important;
+  border-radius:12px !important;
+  position:relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.35),
+    0 6px 16px rgba(201,133,42,.25) !important;
+}
+
+.auth-logo{
+  border-radius:18px !important;
+}
+
+.brand-name{
+  font-size:16px !important;
+  font-weight:700 !important;
+}
+
+/* sidebar */
+.sidebar{
+  background:linear-gradient(180deg,#181209,#140f09) !important;
+  border-right:1px solid var(--line) !important;
+}
+
+.nav-btn{
+  color:#a6997f !important;
+  font-family:"Golos Text",sans-serif;
+  font-weight:600 !important;
+}
+
+.nav-btn:hover{
+  background:rgba(232,169,58,.07) !important;
+  color:var(--text) !important;
+}
+
+.nav-btn.active{
+  background:linear-gradient(120deg,var(--yellow2),var(--amber)) !important;
+  color:#1c1206 !important;
+  box-shadow:none !important;
+  font-weight:700 !important;
+}
+
+.side-user{
+  background:var(--panel2) !important;
+  border:1px solid var(--line) !important;
+}
+
+/* page chrome */
+.page-desc{
+  color:var(--muted) !important;
+}
+
+.card{
+  background:var(--panel) !important;
+  border:1px solid var(--line) !important;
+}
+
+/* buttons — warm amber instead of flat lemon-yellow */
+.btn-primary,
+.new-chat-btn,
+.send{
+  background:linear-gradient(120deg,var(--yellow2),var(--amber)) !important;
+  color:#1c1206 !important;
+}
+
+.btn-secondary,
+.icon-btn,
+.attach{
+  background:var(--panel2) !important;
+  border:1px solid var(--line) !important;
+  color:#d9cfbd !important;
+}
+
+.btn-secondary:hover,
+.icon-btn:hover,
+.attach:hover{
+  background:var(--panel3) !important;
+}
+
+.attach:hover{
+  color:var(--yellow2) !important;
+  border-color:rgba(232,169,58,.3) !important;
+}
+
+/* inputs */
+.input,
+.chat-search-input,
+.composer textarea{
+  background:var(--panel2) !important;
+  border:1px solid var(--line) !important;
+  color:var(--text) !important;
+}
+
+.input:focus,
+.chat-search-input:focus,
+.composer textarea:focus{
+  background:var(--panel3) !important;
+  border-color:rgba(232,169,58,.45) !important;
+  box-shadow:0 0 0 3px rgba(232,169,58,.10) !important;
+}
+
+.input::placeholder,
+.chat-search-input::placeholder,
+.composer textarea::placeholder{
+  color:#7a6f5e;
+}
+
+/* auth page — give it one deliberate moment instead of a plain centered card */
+.auth-page{
+  background:
+    radial-gradient(1100px 620px at 50% -220px,rgba(232,169,58,.16),transparent 65%),
+    var(--bg);
+}
+
+.auth-card{
+  background:var(--panel) !important;
+  border:1px solid var(--line) !important;
+}
+
+.auth-tabs{
+  background:var(--panel2) !important;
+  border:1px solid var(--line) !important;
+}
+
+.auth-tab.active{
+  background:var(--panel3) !important;
+  color:var(--text) !important;
+}
+
+/* chat surfaces */
+.chat-list-panel,
+.chat-panel{
+  background:var(--panel) !important;
+  border:1px solid var(--line) !important;
+}
+
+.chat-list-head,
+.active-chat-head,
+.composer-zone{
+  background:var(--panel) !important;
+  border-color:var(--line) !important;
+}
+
+.chat-item:hover{
+  background:rgba(232,169,58,.06) !important;
+}
+
+.chat-item.active{
+  background:linear-gradient(120deg,rgba(232,169,58,.14),rgba(232,169,58,.03)) !important;
+}
+
+.chat-item.active::before{
+  background:var(--yellow2) !important;
+}
+
+.chat-preview{
+  color:#8d8272 !important;
+}
+
+.chat-title-subtitle{
+  color:#7a705f !important;
+}
+
+/* messages — warmer bubbles, tuned contrast */
+.messages{
+  background:
+    radial-gradient(620px 300px at 50% 0,rgba(232,169,58,.03),transparent 72%),
+    #17120b !important;
+}
+
+.message{
+  background:var(--panel3) !important;
+  border:1px solid var(--line) !important;
+  color:#efe6d8 !important;
+}
+
+.message-row.mine .message{
+  background:linear-gradient(140deg,var(--yellow2) 0%,var(--amber) 100%) !important;
+  border-color:rgba(255,235,180,.25) !important;
+  color:#211603 !important;
+}
+
+.message-time{
+  color:#a2977f !important;
+}
+
+.message-row.mine .message-time{
+  color:rgba(33,22,3,.6) !important;
+}
+
+/* typing dots */
+.typing-container{
+  color:#8a8070 !important;
+}
+
+.typing-dot{
+  background:var(--amber) !important;
+}
+
+/* profile */
+.profile-card,
+.profile-details{
+  background:var(--panel) !important;
+  border:1px solid var(--line) !important;
+}
+
+.profile-banner{
+  background:linear-gradient(120deg,#2c2110,#191106) !important;
+}
+
+.profile-login{
+  color:var(--muted) !important;
+}
+
+.tag,
+.profile-tags .tag{
+  background:var(--panel2) !important;
+  border:1px solid var(--line) !important;
+  color:#b6ab97 !important;
+}
+
+.profile-detail-label{
+  color:#8a7f6c !important;
+}
+
+.profile-detail-value{
+  color:var(--text) !important;
+}
+
+.profile-detail-value.online,
+.presence-text.online{
+  color:#6fd98f !important;
+}
+
+/* admin */
+.admin-tab{
+  background:var(--panel2) !important;
+  border-color:var(--line) !important;
+  color:#a99e8b !important;
+}
+
+.admin-tab.active{
+  background:linear-gradient(120deg,var(--yellow2),var(--amber)) !important;
+  color:#1c1206 !important;
+  border-color:transparent !important;
+}
+
+.admin-stat,
+table{
+  background:transparent;
+}
+
+th{
+  color:#8a7f6c !important;
+}
+
+th,td{
+  border-bottom:1px solid var(--line) !important;
+}
+
+/* toasts + modal */
+.modal,
+.toast{
+  background:var(--panel) !important;
+  border:1px solid var(--line) !important;
+}
+
+/* bottom nav */
+.bottom-nav{
+  background:var(--panel) !important;
+  border-color:var(--line) !important;
+}
+
+.bottom-btn.active{
+  background:linear-gradient(120deg,var(--yellow2),var(--amber)) !important;
+  color:#1c1206 !important;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#3a2f1d;
+}
+
+
+/* =====================================================
+   LIPTONGRAM — FINAL UI 2026
+   Midnight graphite + precise Lipton-yellow accents.
+   This layer only improves presentation and responsiveness.
+===================================================== */
+
+:root{
+  --bg:#07090d;
+  --panel:#0e1218;
+  --panel2:#141922;
+  --panel3:#1a202b;
+  --panel4:#222a36;
+
+  --text:#f5f7fb;
+  --muted:#8d96a7;
+  --muted-strong:#aeb6c5;
+
+  --yellow:#f4c430;
+  --yellow2:#ffe36e;
+  --yellow-soft:rgba(244,196,48,.12);
+
+  --danger:#ff6674;
+  --success:#46d483;
+
+  --line:rgba(255,255,255,.075);
+  --border:rgba(255,255,255,.075);
+  --focus:rgba(244,196,48,.28);
+
+  --shadow:
+    0 24px 70px rgba(0,0,0,.38),
+    0 2px 8px rgba(0,0,0,.22);
+
+  --ease:cubic-bezier(.22,.8,.24,1);
+}
+
+html{
+  color-scheme:dark;
+  background:var(--bg) !important;
+}
+
+body{
+  min-width:320px;
+  min-height:100vh;
+  min-height:100dvh;
+  overflow-x:hidden;
+  font-family:"Golos Text",Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif !important;
+  font-size:16px;
+  line-height:1.5;
+  color:var(--text) !important;
+  background:
+    radial-gradient(900px 520px at 8% -18%,rgba(244,196,48,.10),transparent 66%),
+    radial-gradient(720px 460px at 102% 4%,rgba(94,126,255,.055),transparent 62%),
+    linear-gradient(180deg,#080a0f 0%,#07090d 100%) !important;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:linear-gradient(to bottom,black,transparent 72%);
+}
+
+body.overlay-open{
+  overflow:hidden;
+}
+
+::selection{
+  color:#181300;
+  background:var(--yellow);
+}
+
+::-webkit-scrollbar{
+  width:8px;
+  height:8px;
+}
+
+::-webkit-scrollbar-thumb{
+  background:#303846 !important;
+  border:2px solid transparent;
+  border-radius:999px;
+  background-clip:padding-box !important;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background:#465061 !important;
+  background-clip:padding-box !important;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible{
+  outline:2px solid var(--yellow) !important;
+  outline-offset:3px;
+}
+
+.page-animation{
+  animation:finalPageIn .24s var(--ease) both !important;
+}
+
+@keyframes finalPageIn{
+  from{opacity:0;transform:translateY(7px)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes finalBubbleIn{
+  from{opacity:0;transform:translateY(5px) scale(.985)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes finalToastIn{
+  from{opacity:0;transform:translateY(10px) scale(.98)}
+  to{opacity:1;transform:none}
+}
+
+@keyframes bootPulse{
+  0%,100%{opacity:.38;transform:scale(.92)}
+  50%{opacity:1;transform:scale(1)}
+}
+
+.boot-screen{
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+
+.boot-mark{
+  width:68px;
+  height:68px;
+  border:1px solid rgba(255,255,255,.3);
+  border-radius:20px;
+  display:grid;
+  place-items:center;
+  color:#181300;
+  background:linear-gradient(145deg,var(--yellow2),var(--yellow));
+  box-shadow:0 16px 38px rgba(244,196,48,.18);
+  font-family:"Unbounded",sans-serif;
+  font-size:27px;
+  font-weight:800;
+}
+
+.boot-name{
+  color:var(--text);
+  font-family:"Unbounded",sans-serif;
+  font-size:16px;
+  font-weight:700;
+}
+
+.boot-loader{
+  display:flex;
+  gap:5px;
+  margin-top:2px;
+}
+
+.boot-loader span{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--yellow);
+  animation:bootPulse 1s ease-in-out infinite;
+}
+
+.boot-loader span:nth-child(2){animation-delay:.14s}
+.boot-loader span:nth-child(3){animation-delay:.28s}
+
+/* AUTH */
+.auth-page{
+  position:relative;
+  isolation:isolate;
+  padding:24px !important;
+  background:
+    radial-gradient(720px 390px at 50% -130px,rgba(244,196,48,.18),transparent 68%),
+    transparent !important;
+}
+
+.auth-page::before{
+  content:"";
+  position:absolute;
+  width:340px;
+  height:340px;
+  left:50%;
+  top:50%;
+  z-index:-1;
+  transform:translate(-50%,-54%);
+  border-radius:50%;
+  background:rgba(244,196,48,.055);
+  filter:blur(70px);
+  pointer-events:none;
+}
+
+.auth-card{
+  width:min(460px,100%) !important;
+  padding:34px !important;
+  border:1px solid rgba(255,255,255,.09) !important;
+  border-radius:26px !important;
+  background:linear-gradient(160deg,rgba(20,25,34,.96),rgba(12,15,21,.98)) !important;
+  box-shadow:var(--shadow) !important;
+  backdrop-filter:blur(24px) !important;
+}
+
+.auth-logo{
+  width:74px !important;
+  height:74px !important;
+  margin-bottom:20px !important;
+  border:1px solid rgba(255,255,255,.32);
+  border-radius:22px !important;
+  background:linear-gradient(145deg,var(--yellow2),var(--yellow) 58%,#dca917) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.48),
+    0 16px 38px rgba(244,196,48,.19) !important;
+}
+
+.auth-title{
+  font-size:28px !important;
+  line-height:1.15;
+  font-weight:700 !important;
+  color:var(--text);
+}
+
+.auth-sub{
+  margin:9px 0 25px !important;
+  color:var(--muted) !important;
+  font-size:14px !important;
+}
+
+.auth-tabs{
+  padding:5px !important;
+  margin-bottom:20px !important;
+  border:1px solid var(--line) !important;
+  border-radius:14px !important;
+  background:#0a0d12 !important;
+}
+
+.auth-tab{
+  height:42px !important;
+  border-radius:10px !important;
+  color:var(--muted) !important;
+  font-size:14px;
+  font-weight:700 !important;
+  transition:background .18s ease,color .18s ease,box-shadow .18s ease;
+}
+
+.auth-tab.active{
+  color:var(--text) !important;
+  background:var(--panel3) !important;
+  box-shadow:0 5px 16px rgba(0,0,0,.2);
+}
+
+.auth-form{
+  gap:16px !important;
+}
+
+/* SHARED CONTROLS */
+.field{
+  gap:8px !important;
+}
+
+.field label{
+  color:var(--muted-strong) !important;
+  font-size:13px !important;
+  font-weight:700 !important;
+}
+
+.input,
+.chat-search-input,
+.composer textarea{
+  color:var(--text) !important;
+  background:var(--panel2) !important;
+  border:1px solid var(--line) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018) !important;
+}
+
+.input{
+  height:49px !important;
+  padding:0 15px !important;
+  border-radius:13px !important;
+  font-size:15px;
+}
+
+.input:hover,
+.chat-search-input:hover,
+.composer textarea:hover{
+  border-color:rgba(255,255,255,.13) !important;
+  background:#171d27 !important;
+}
+
+.input:focus,
+.chat-search-input:focus,
+.composer textarea:focus{
+  color:var(--text) !important;
+  background:#171d27 !important;
+  border-color:rgba(244,196,48,.58) !important;
+  box-shadow:0 0 0 4px var(--focus) !important;
+}
+
+.input::placeholder,
+.chat-search-input::placeholder,
+.composer textarea::placeholder{
+  color:#707a8c !important;
+}
+
+.btn{
+  min-height:44px !important;
+  padding:0 17px !important;
+  border-radius:12px !important;
+  font-size:14px;
+  font-weight:750 !important;
+  transition:transform .16s var(--ease),filter .16s ease,background .16s ease,border-color .16s ease !important;
+}
+
+.btn-primary,
+.new-chat-btn,
+.send{
+  color:#181300 !important;
+  background:linear-gradient(145deg,var(--yellow2),var(--yellow) 64%,#e7b41e) !important;
+  border-color:rgba(255,235,148,.34) !important;
+  box-shadow:0 9px 24px rgba(244,196,48,.13) !important;
+}
+
+.btn-secondary,
+.icon-btn,
+.attach{
+  color:#dbe1eb !important;
+  background:var(--panel2) !important;
+  border:1px solid var(--line) !important;
+}
+
+.btn-danger{
+  color:#ff8290 !important;
+  background:rgba(255,102,116,.09) !important;
+  border:1px solid rgba(255,102,116,.20) !important;
+}
+
+.btn:hover,
+.icon-btn:hover,
+.new-chat-btn:hover,
+.send:hover,
+.attach:hover{
+  transform:translateY(-1px) !important;
+  filter:brightness(1.055) !important;
+}
+
+.btn:active,
+.icon-btn:active,
+.new-chat-btn:active,
+.send:active,
+.attach:active{
+  transform:scale(.965) !important;
+}
+
+.btn:disabled,
+.icon-btn:disabled,
+.new-chat-btn:disabled,
+.send:disabled,
+.attach:disabled{
+  opacity:.48 !important;
+  transform:none !important;
+  cursor:not-allowed;
+}
+
+.icon-btn{
+  width:43px !important;
+  height:43px !important;
+  flex-basis:43px !important;
+  border-radius:12px !important;
+}
+
+.card{
+  border:1px solid var(--line) !important;
+  border-radius:20px !important;
+  background:linear-gradient(155deg,rgba(20,25,34,.98),rgba(13,17,23,.98)) !important;
+  box-shadow:0 15px 42px rgba(0,0,0,.18) !important;
+}
+
+/* APP SHELL */
+.app{
+  grid-template-columns:276px minmax(0,1fr) !important;
+}
+
+.sidebar{
+  padding:18px 14px !important;
+  border-right:1px solid var(--line) !important;
+  background:rgba(8,11,16,.91) !important;
+  box-shadow:12px 0 40px rgba(0,0,0,.12) !important;
+  backdrop-filter:blur(24px) saturate(120%) !important;
+}
+
+.brand{
+  height:56px !important;
+  padding:0 9px !important;
+  margin-bottom:17px !important;
+  gap:12px !important;
+}
+
+.brand-logo{
+  width:42px !important;
+  height:42px !important;
+  flex-basis:42px !important;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:13px !important;
+  background:linear-gradient(145deg,var(--yellow2),var(--yellow) 62%,#dda914) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.45),
+    0 9px 24px rgba(244,196,48,.15) !important;
+}
+
+.brand-name{
+  color:#f7f8fb;
+  font-size:16px !important;
+  font-weight:700 !important;
+  letter-spacing:-.025em !important;
+}
+
+.side-nav{
+  gap:7px !important;
+}
+
+.nav-btn{
+  position:relative;
+  height:48px !important;
+  padding:0 13px !important;
+  border:1px solid transparent !important;
+  border-radius:13px !important;
+  color:#8f98a9 !important;
+  font-size:14px;
+  font-weight:650 !important;
+  transition:background .16s ease,color .16s ease,border-color .16s ease,transform .16s var(--ease) !important;
+}
+
+.nav-btn:hover{
+  color:var(--text) !important;
+  background:rgba(255,255,255,.045) !important;
+  border-color:rgba(255,255,255,.055) !important;
+  transform:translateX(2px) !important;
+}
+
+.nav-btn.active{
+  color:var(--text) !important;
+  background:linear-gradient(90deg,rgba(244,196,48,.15),rgba(244,196,48,.045)) !important;
+  border-color:rgba(244,196,48,.16) !important;
+  box-shadow:inset 3px 0 0 var(--yellow) !important;
+}
+
+.side-user{
+  padding:10px !important;
+  border:1px solid var(--line) !important;
+  border-radius:16px !important;
+  background:linear-gradient(145deg,var(--panel2),#10151c) !important;
+}
+
+.side-user-name{
+  color:var(--text);
+  font-size:14px !important;
+  font-weight:700 !important;
+}
+
+.side-user-id{
+  color:var(--success) !important;
+  font-size:12px !important;
+}
+
+.page{
+  width:min(1200px,100%) !important;
+  padding:30px 32px !important;
+}
+
+.page-head{
+  min-height:60px !important;
+  margin-bottom:20px !important;
+}
+
+.page-title{
+  color:var(--text);
+  font-size:26px !important;
+  line-height:1.2;
+  font-weight:700 !important;
+}
+
+.page-desc{
+  margin-top:6px !important;
+  color:var(--muted) !important;
+  font-size:14px !important;
+}
+
+/* AVATARS / PRESENCE */
+.avatar{
+  color:#171300;
+  background:linear-gradient(145deg,var(--yellow2),var(--yellow)) !important;
+  border:1px solid rgba(255,255,255,.13) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25);
+}
+
+.avatar.large{
+  border-color:var(--panel) !important;
+}
+
+.presence-dot{
+  border-color:var(--panel) !important;
+  box-shadow:0 0 0 1px rgba(0,0,0,.35);
+}
+
+.presence-text{
+  color:var(--muted) !important;
+  font-size:12px;
+}
+
+.presence-text.online{
+  color:#66dd98 !important;
+}
+
+/* PROFILE */
+.profile-card{
+  overflow:hidden;
+  border:1px solid var(--line) !important;
+  border-radius:22px !important;
+  background:var(--panel) !important;
+  box-shadow:0 22px 65px rgba(0,0,0,.22) !important;
+}
+
+.profile-banner{
+  height:235px !important;
+  position:relative;
+  background-color:#171d27 !important;
+  background-image:
+    linear-gradient(180deg,rgba(7,9,13,.02),rgba(7,9,13,.40)),
+    var(--profile-banner,linear-gradient(125deg,#27230f 0%,#29303d 48%,#111722 100%)) !important;
+  background-size:cover !important;
+  background-position:center !important;
+}
+
+.profile-banner::after{
+  background:
+    linear-gradient(90deg,rgba(244,196,48,.09),transparent 42%),
+    linear-gradient(to bottom,transparent 56%,rgba(7,9,13,.36)) !important;
+}
+
+.profile-info{
+  padding:0 24px 24px !important;
+  gap:19px !important;
+}
+
+.profile-avatar{
+  margin-top:-49px !important;
+}
+
+.profile-avatar .avatar-status-wrap.large,
+.profile-avatar .avatar.large{
+  width:102px !important;
+  height:102px !important;
+  flex-basis:102px !important;
+}
+
+.profile-avatar .avatar.large{
+  border:5px solid var(--panel) !important;
+}
+
+.profile-main{
+  padding-top:16px !important;
+}
+
+.profile-name{
+  color:var(--text);
+  font-size:23px !important;
+  line-height:1.2 !important;
+  font-weight:700 !important;
+}
+
+.profile-login{
+  color:var(--muted) !important;
+  font-size:13px !important;
+}
+
+.profile-tags .tag,
+.tag{
+  min-height:31px !important;
+  padding:0 10px !important;
+  border:1px solid var(--line) !important;
+  border-radius:10px !important;
+  color:var(--muted-strong) !important;
+  background:var(--panel2) !important;
+  font-size:12px !important;
+}
+
+.profile-actions .btn{
+  height:44px !important;
+  min-height:44px !important;
+  color:var(--text) !important;
+  background:var(--panel2) !important;
+  border-color:var(--line) !important;
+}
+
+.profile-details{
+  margin-top:15px !important;
+  overflow:hidden;
+  border:1px solid var(--line) !important;
+  border-radius:20px !important;
+  background:var(--panel) !important;
+}
+
+.profile-detail-row{
+  min-height:66px !important;
+  padding:0 20px !important;
+  border-color:var(--line) !important;
+}
+
+.profile-detail-label{
+  color:var(--muted) !important;
+  font-size:13px !important;
+}
+
+.profile-detail-value{
+  color:var(--text) !important;
+  font-size:14px !important;
+}
+
+/* CHAT WORKSPACE */
+.chat-layout{
+  height:100vh !important;
+  height:100dvh !important;
+  padding:14px !important;
+  grid-template-columns:360px minmax(0,1fr) !important;
+  gap:14px !important;
+}
+
+.chat-list-panel,
+.chat-panel{
+  overflow:hidden;
+  border:1px solid var(--line) !important;
+  border-radius:21px !important;
+  background:rgba(13,17,23,.94) !important;
+  box-shadow:0 20px 58px rgba(0,0,0,.24) !important;
+  backdrop-filter:blur(20px) !important;
+}
+
+.chat-list-head{
+  padding:20px 18px 17px !important;
+  border-color:var(--line) !important;
+  background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--panel) !important;
+}
+
+.chat-title-row{
+  margin-bottom:16px !important;
+}
+
+.chat-title-row h2{
+  color:var(--text);
+  font-size:21px !important;
+  line-height:1.2;
+  font-weight:700 !important;
+}
+
+.chat-title-subtitle{
+  margin-top:5px !important;
+  color:var(--muted) !important;
+  font-size:12px !important;
+}
+
+.new-chat-btn{
+  width:43px !important;
+  height:43px !important;
+  flex-basis:43px !important;
+  border:1px solid rgba(255,235,148,.30) !important;
+  border-radius:13px !important;
+}
+
+.chat-search-icon{
+  left:14px !important;
+  color:#788295 !important;
+}
+
+.chat-search-input{
+  height:46px !important;
+  padding:0 14px 0 43px !important;
+  border-radius:13px !important;
+  font-size:14px !important;
+}
+
+.chat-list{
+  padding:8px !important;
+}
+
+.chat-item{
+  min-height:72px !important;
+  padding:11px !important;
+  border:1px solid transparent !important;
+  border-radius:15px !important;
+  transition:background .16s ease,border-color .16s ease,transform .16s var(--ease) !important;
+}
+
+.chat-item:hover{
+  background:rgba(255,255,255,.038) !important;
+  border-color:rgba(255,255,255,.045) !important;
+  transform:translateX(2px) !important;
+}
+
+.chat-item.active{
+  background:linear-gradient(100deg,rgba(244,196,48,.13),rgba(244,196,48,.025)) !important;
+  border-color:rgba(244,196,48,.13) !important;
+  box-shadow:none !important;
+}
+
+.chat-item.active::before{
+  left:-1px !important;
+  top:16px !important;
+  bottom:16px !important;
+  width:3px !important;
+  background:var(--yellow) !important;
+}
+
+.chat-name{
+  color:var(--text);
+  font-size:14px !important;
+  font-weight:700 !important;
+}
+
+.chat-time{
+  color:#758094 !important;
+  font-size:11px !important;
+}
+
+.chat-preview{
+  margin-top:5px !important;
+  color:var(--muted) !important;
+  font-size:13px !important;
+}
+
+.active-chat-head{
+  height:76px !important;
+  flex-basis:76px !important;
+  padding:0 19px !important;
+  border-color:var(--line) !important;
+  background:rgba(14,18,24,.91) !important;
+  box-shadow:0 8px 28px rgba(0,0,0,.08);
+  backdrop-filter:blur(20px) !important;
+}
+
+.active-chat-name{
+  color:var(--text);
+  font-size:15px !important;
+  font-weight:750 !important;
+}
+
+.active-chat-id{
+  margin-top:4px !important;
+  color:var(--muted) !important;
+  font-size:12px !important;
+}
+
+.messages{
+  padding:24px 24px 15px !important;
+  gap:7px !important;
+  background:
+    radial-gradient(620px 300px at 50% -40px,rgba(244,196,48,.045),transparent 72%),
+    linear-gradient(180deg,#0b0f15,#0a0d12) !important;
+}
+
+.message-row{
+  animation:finalBubbleIn .18s var(--ease) both !important;
+}
+
+.message{
+  max-width:min(610px,72%) !important;
+  padding:10px 13px 8px !important;
+  border:1px solid rgba(255,255,255,.07) !important;
+  border-radius:18px 18px 18px 7px !important;
+  color:#edf1f7 !important;
+  background:linear-gradient(145deg,#1c2330,#171d27) !important;
+  box-shadow:0 7px 19px rgba(0,0,0,.14) !important;
+  font-size:15px !important;
+  line-height:1.45 !important;
+  overflow-wrap:anywhere;
+}
+
+.message-row:not(.mine) .message:hover{
+  border-color:rgba(255,255,255,.11) !important;
+  background:linear-gradient(145deg,#202836,#1a212c) !important;
+}
+
+.message-row.mine .message{
+  border-color:rgba(255,239,169,.27) !important;
+  border-radius:18px 18px 7px 18px !important;
+  color:#201900 !important;
+  background:linear-gradient(145deg,#ffe475 0%,#f6cc3d 58%,#ecb921 100%) !important;
+  box-shadow:0 8px 22px rgba(168,123,0,.13) !important;
+}
+
+.message-row.mine .message:hover{
+  background:linear-gradient(145deg,#ffe987 0%,#f9d24b 58%,#efbd26 100%) !important;
+}
+
+.message::after,
+.message-row.mine .message::after,
+.message-row:not(.mine) .message::after{
+  display:none !important;
+}
+
+.message-text{
+  letter-spacing:.002em;
+}
+
+.message-time{
+  margin-top:5px !important;
+  color:#8d98aa !important;
+  font-size:11px !important;
+  line-height:1.25;
+  font-weight:600 !important;
+}
+
+.message-row.mine .message-time{
+  color:rgba(32,25,0,.58) !important;
+}
+
+.message-image-wrap{
+  margin:-4px -7px 8px !important;
+  border-radius:14px !important;
+  background:#0a0d12 !important;
+}
+
+.message-image{
+  max-height:480px !important;
+  border-radius:14px !important;
+}
+
+.message-image-loading{
+  border-radius:14px !important;
+  background:linear-gradient(90deg,#171d27,#283140,#171d27) !important;
+}
+
+.typing-container{
+  height:29px !important;
+  flex-basis:29px !important;
+  padding:0 23px !important;
+  color:var(--muted) !important;
+  background:#0b0f15;
+  font-size:12px !important;
+}
+
+.typing-dot{
+  width:5px !important;
+  height:5px !important;
+  background:var(--yellow) !important;
+}
+
+.composer-zone{
+  border-color:var(--line) !important;
+  background:rgba(14,18,24,.96) !important;
+}
+
+.composer{
+  padding:11px 13px max(11px,env(safe-area-inset-bottom)) !important;
+  gap:9px !important;
+}
+
+.composer textarea{
+  min-height:46px !important;
+  padding:11px 14px !important;
+  border-radius:15px !important;
+  font-size:15px !important;
+  line-height:1.45 !important;
+}
+
+.attach,
+.send{
+  width:46px !important;
+  height:46px !important;
+  flex-basis:46px !important;
+  border-radius:14px !important;
+}
+
+.composer-preview{
+  padding:11px 13px 0 !important;
+}
+
+.composer-image-card{
+  border:1px solid var(--line) !important;
+  border-radius:14px !important;
+  background:var(--panel2) !important;
+}
+
+.composer-image-name{
+  color:var(--text);
+  font-size:13px !important;
+}
+
+.composer-image-size{
+  color:var(--muted) !important;
+  font-size:12px !important;
+}
+
+/* EMPTY / FEEDBACK */
+.empty{
+  min-height:220px;
+  padding:30px 24px !important;
+  color:var(--muted) !important;
+}
+
+.empty-icon{
+  width:58px !important;
+  height:58px !important;
+  margin-bottom:15px !important;
+  color:var(--yellow);
+  border:1px solid var(--line) !important;
+  border-radius:18px !important;
+  background:linear-gradient(145deg,var(--panel3),var(--panel2)) !important;
+}
+
+.empty strong{
+  color:var(--text) !important;
+  font-size:16px !important;
+}
+
+.empty p{
+  margin-top:7px !important;
+  color:var(--muted) !important;
+  font-size:14px !important;
+}
+
+#toasts{
+  right:18px !important;
+  bottom:18px !important;
+  gap:9px !important;
+}
+
+.toast{
+  width:min(370px,calc(100vw - 28px)) !important;
+  padding:13px 15px !important;
+  border:1px solid rgba(255,255,255,.11) !important;
+  border-radius:14px !important;
+  color:var(--text);
+  background:rgba(20,25,34,.96) !important;
+  box-shadow:0 18px 48px rgba(0,0,0,.34) !important;
+  backdrop-filter:blur(18px) !important;
+  font-size:14px !important;
+  animation:finalToastIn .2s var(--ease) both !important;
+}
+
+/* MODALS / VIEWER */
+.modal-bg,
+.image-viewer-bg{
+  padding:18px;
+  background:rgba(3,5,8,.76) !important;
+  backdrop-filter:blur(12px) !important;
+}
+
+.modal{
+  width:min(620px,100%) !important;
+  max-height:calc(100dvh - 36px) !important;
+  border:1px solid rgba(255,255,255,.10) !important;
+  border-radius:22px !important;
+  color:var(--text);
+  background:linear-gradient(155deg,#151b24,#0f131a) !important;
+  box-shadow:var(--shadow) !important;
+}
+
+.modal-head{
+  padding:18px 19px !important;
+  border-bottom:1px solid var(--line);
+}
+
+.modal-title{
+  color:var(--text);
+  font-size:18px !important;
+  line-height:1.3;
+  font-weight:700 !important;
+}
+
+.modal-body{
+  padding:19px !important;
+}
+
+.modal-actions{
+  margin-top:4px;
+}
+
+.image-viewer{
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:20px !important;
+  background:#080b10 !important;
+  box-shadow:var(--shadow);
+}
+
+.image-viewer img{
+  border-radius:18px;
+}
+
+.image-viewer-close{
+  background:rgba(14,18,24,.88) !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  backdrop-filter:blur(12px);
+}
+
+.user-search-help{
+  color:var(--muted) !important;
+  font-size:14px !important;
+  line-height:1.55;
+}
+
+#userResults{
+  margin-top:12px !important;
+}
+
+/* ADMIN */
+.admin-tabs{
+  gap:9px !important;
+  margin-bottom:15px !important;
+}
+
+.admin-tab{
+  min-height:42px !important;
+  padding:0 15px !important;
+  border:1px solid var(--line) !important;
+  border-radius:12px !important;
+  color:var(--muted-strong) !important;
+  background:var(--panel2) !important;
+  font-size:13px !important;
+  font-weight:700 !important;
+}
+
+.admin-tab.active{
+  color:#1a1400 !important;
+  border-color:rgba(255,235,148,.28) !important;
+  background:linear-gradient(145deg,var(--yellow2),var(--yellow)) !important;
+}
+
+.admin-stats{
+  gap:13px !important;
+}
+
+.admin-stat{
+  padding:20px !important;
+}
+
+.stat-label{
+  color:var(--muted) !important;
+  font-size:13px !important;
+}
+
+.admin-number,
+.stat-value{
+  color:var(--text);
+  font-size:23px !important;
+  font-weight:750 !important;
+}
+
+.table-wrap{
+  scrollbar-gutter:stable;
+}
+
+table{
+  color:var(--text);
+  font-size:14px !important;
+}
+
+th{
+  color:var(--muted) !important;
+  font-size:12px !important;
+  font-weight:700 !important;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+}
+
+th,
+td{
+  padding:14px 15px !important;
+  border-color:var(--line) !important;
+}
+
+tbody tr{
+  transition:background .15s ease;
+}
+
+tbody tr:hover{
+  background:rgba(255,255,255,.025);
+}
+
+.role{
+  min-height:27px;
+  padding:0 9px !important;
+  border-radius:9px !important;
+  font-size:12px !important;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  border:1px solid rgba(255,255,255,.10) !important;
+  background:rgba(15,19,26,.92) !important;
+  box-shadow:0 16px 46px rgba(0,0,0,.35) !important;
+  backdrop-filter:blur(22px) saturate(125%) !important;
+}
+
+.bottom-btn{
+  color:var(--muted) !important;
+  font-size:12px !important;
+  font-weight:650;
+}
+
+.bottom-btn.active{
+  color:var(--text) !important;
+  background:linear-gradient(145deg,rgba(244,196,48,.16),rgba(244,196,48,.055)) !important;
+  box-shadow:inset 0 0 0 1px rgba(244,196,48,.12);
+}
+
+@media(max-width:1100px){
+  .app{
+    grid-template-columns:86px minmax(0,1fr) !important;
+  }
+
+  .brand-name,
+  .nav-btn span,
+  .side-user-info{
+    display:none !important;
+  }
+
+  .brand,
+  .nav-btn{
+    justify-content:center !important;
+  }
+
+  .nav-btn{
+    padding:0 !important;
+  }
+
+  .chat-layout{
+    grid-template-columns:330px minmax(0,1fr) !important;
+  }
+}
+
+@media(max-width:760px){
+  body::before{
+    display:none;
+  }
+
+  .app{
+    display:block !important;
+  }
+
+  .main{
+    min-height:100dvh !important;
+    padding-bottom:82px !important;
+  }
+
+  .app.mobile-chat-active .main{
+    padding-bottom:0 !important;
+  }
+
+  .app.mobile-chat-active .bottom-nav{
+    display:none !important;
+  }
+
+  .page{
+    padding:20px 14px 104px !important;
+  }
+
+  .page-title{
+    font-size:23px !important;
+  }
+
+  .auth-page{
+    padding:16px !important;
+  }
+
+  .auth-card{
+    padding:27px 20px !important;
+    border-radius:22px !important;
+  }
+
+  .auth-title{
+    font-size:25px !important;
+  }
+
+  .chat-layout{
+    height:calc(100dvh - 82px) !important;
+    padding:0 !important;
+    display:block !important;
+  }
+
+  .app.mobile-chat-active .chat-layout{
+    height:100dvh !important;
+  }
+
+  .chat-list-panel,
+  .chat-panel{
+    height:100% !important;
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+    backdrop-filter:none !important;
+  }
+
+  .chat-list-head{
+    padding:max(17px,env(safe-area-inset-top)) 14px 15px !important;
+  }
+
+  .chat-title-row h2{
+    font-size:21px !important;
+  }
+
+  .chat-list{
+    padding:7px !important;
+  }
+
+  .chat-item{
+    min-height:70px !important;
+  }
+
+  .active-chat-head{
+    height:70px !important;
+    flex-basis:70px !important;
+    padding:max(8px,env(safe-area-inset-top)) 10px 8px !important;
+  }
+
+  .active-chat-id{
+    max-width:100%;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+
+  .messages{
+    padding:17px 10px 11px !important;
+    gap:6px !important;
+  }
+
+  .message{
+    max-width:88% !important;
+    padding:9px 11px 7px !important;
+    font-size:15px !important;
+  }
+
+  .message-image{
+    max-height:58dvh !important;
+  }
+
+  .typing-container{
+    padding:0 12px !important;
+  }
+
+  .composer{
+    padding:9px 9px max(9px,env(safe-area-inset-bottom)) !important;
+    gap:7px !important;
+  }
+
+  .composer-preview{
+    padding:9px 9px 0 !important;
+  }
+
+  .attach,
+  .send{
+    width:44px !important;
+    height:44px !important;
+    flex-basis:44px !important;
+    border-radius:13px !important;
+  }
+
+  .composer textarea{
+    min-height:44px !important;
+    padding:10px 12px !important;
+  }
+
+  .profile-banner{
+    height:175px !important;
+  }
+
+  .profile-info{
+    padding:0 15px 18px !important;
+    grid-template-columns:auto minmax(0,1fr) !important;
+    gap:13px !important;
+  }
+
+  .profile-avatar{
+    margin-top:-41px !important;
+  }
+
+  .profile-avatar .avatar-status-wrap.large,
+  .profile-avatar .avatar.large{
+    width:86px !important;
+    height:86px !important;
+    flex-basis:86px !important;
+  }
+
+  .profile-name{
+    font-size:20px !important;
+  }
+
+  .profile-actions{
+    grid-column:1/-1;
+    width:100%;
+  }
+
+  .profile-actions .btn{
+    width:100%;
+  }
+
+  .profile-detail-row{
+    min-height:62px !important;
+    padding:0 14px !important;
+    grid-template-columns:108px minmax(0,1fr) !important;
+    gap:10px !important;
+  }
+
+  .modal-bg{
+    padding:0 !important;
+    align-items:flex-end !important;
+  }
+
+  .modal{
+    width:100% !important;
+    max-height:min(90dvh,760px) !important;
+    border-width:1px 0 0 !important;
+    border-radius:22px 22px 0 0 !important;
+  }
+
+  .modal-body{
+    padding:16px !important;
+  }
+
+  .bottom-nav{
+    left:9px !important;
+    right:9px !important;
+    bottom:max(9px,env(safe-area-inset-bottom)) !important;
+    min-height:64px !important;
+    padding:5px !important;
+    border-radius:18px !important;
+  }
+
+  #toasts{
+    left:14px !important;
+    right:14px !important;
+    bottom:calc(86px + env(safe-area-inset-bottom)) !important;
+    align-items:stretch;
+  }
+
+  body:has(.app.mobile-chat-active) #toasts,
+  body.overlay-open #toasts{
+    bottom:14px !important;
+  }
+
+  .toast{
+    width:100% !important;
+  }
+
+  .admin-tabs{
+    overflow-x:auto;
+    flex-wrap:nowrap !important;
+    padding-bottom:3px;
+    scrollbar-width:none;
+  }
+
+  .admin-tabs::-webkit-scrollbar{
+    display:none;
+  }
+
+  .admin-tab{
+    flex:0 0 auto;
+  }
+}
+
+@media(max-width:420px){
+  .auth-logo{
+    width:66px !important;
+    height:66px !important;
+    border-radius:19px !important;
+  }
+
+  .profile-detail-row{
+    grid-template-columns:1fr !important;
+    align-content:center;
+    gap:2px !important;
+    padding-top:10px !important;
+    padding-bottom:10px !important;
+  }
+
+  .message{
+    max-width:91% !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  html{
+    scroll-behavior:auto !important;
+  }
+
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+    transition-duration:.01ms !important;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="app"></div>
+<div id="app">
+  <main
+    class="boot-screen"
+    aria-live="polite"
+    aria-label="Завантаження LiptonGram"
+  >
+    <div class="boot-mark">L</div>
+    <div class="boot-name">LiptonGram</div>
+    <div
+      class="boot-loader"
+      aria-hidden="true"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </main>
+</div>
 
 <div id="modalRoot"></div>
 
@@ -3571,10 +5376,14 @@ const SUPABASE_KEY =
   "sb_publishable_9KKwvgywcvchh-s_FMSvbw_hx2LMgX-";
 
 const sb =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  window.supabase
+
+    ?window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      )
+
+    :null;
 
 
 /* =====================================================
@@ -3634,7 +5443,19 @@ const state={
 
   selectedImage:null,
 
-  selectedImagePreview:null
+  selectedImagePreview:null,
+
+  sendingMessage:false,
+
+  chatOpenRequest:0,
+
+  chatListRequest:0,
+
+  userSearchRequest:0,
+
+  authEventVersion:0,
+
+  modalReturnFocus:null
 
 };
 
@@ -3689,6 +5510,61 @@ function esc(value=""){
       "'",
       "&#039;"
     );
+
+}
+
+
+function jsString(value=""){
+
+  return JSON.stringify(
+    String(value)
+  )
+    .replaceAll(
+      "<",
+      "\\u003c"
+    )
+    .replaceAll(
+      ">",
+      "\\u003e"
+    );
+
+}
+
+
+function syncOverlayState(){
+
+  const hasOverlay=
+    Boolean(
+      qs("#modalRoot")
+        ?.children.length
+      ||
+      qs("#imageViewerRoot")
+        ?.children.length
+    );
+
+
+  document.body.classList
+    .toggle(
+      "overlay-open",
+      hasOverlay
+    );
+
+}
+
+
+function imageExtension(file){
+
+  const extensions={
+    "image/jpeg":"jpg",
+    "image/png":"png",
+    "image/webp":"webp",
+    "image/gif":"gif"
+  };
+
+
+  return extensions[file?.type]
+  ||
+  "jpg";
 
 }
 
@@ -3900,12 +5776,29 @@ function avatar(
           avatar
           ${large?"large":""}
         "
+
+        data-initials="${esc(
+          initials(profile)
+        )}"
       >
         <img
           src="${esc(
             profile.avatar_url
           )}"
-          alt=""
+          alt="Аватар ${esc(
+            profile.username
+            ||
+            profile.login
+            ||
+            "користувача"
+          )}"
+
+          onerror="
+            const parent=this.parentElement;
+            const value=parent.dataset.initials||'LG';
+            this.remove();
+            parent.textContent=value
+          "
         >
       </div>
     `;
@@ -4118,7 +6011,21 @@ async function startPresence(){
   }
 
 
+  const activeUser=
+    state.user;
+
+
   await stopPresence();
+
+
+  if(
+    state.user?.id!==
+    activeUser.id
+  ){
+
+    return;
+
+  }
 
 
   const channel=
@@ -4130,7 +6037,7 @@ async function startPresence(){
         config:{
           presence:{
             key:
-              state.user.id
+              activeUser.id
           }
         }
       }
@@ -4213,7 +6120,7 @@ async function startPresence(){
         await channel.track({
 
           user_id:
-            state.user.id,
+            activeUser.id,
 
           username:
             state.profile
@@ -4256,7 +6163,12 @@ function logoMarkup(
           src="${esc(
             state.logoUrl
           )}"
-          alt=""
+          alt="Логотип LiptonGram"
+
+          onerror="
+            this.remove();
+            this.parentElement.textContent='L'
+          "
         >
 
       </div>
@@ -4346,6 +6258,9 @@ function modal(
   content
 ){
 
+  state.modalReturnFocus=
+    document.activeElement;
+
   qs("#modalRoot")
     .innerHTML=`
 
@@ -4361,16 +6276,28 @@ function modal(
         "
       >
 
-        <div class="modal">
+        <div
+          class="modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modalTitle"
+        >
 
           <div class="modal-head">
 
-            <h3 class="modal-title">
+            <h3
+              id="modalTitle"
+              class="modal-title"
+            >
               ${esc(title)}
             </h3>
 
             <button
+              type="button"
+
               class="icon-btn"
+
+              aria-label="Закрити"
 
               onclick="
                 closeModal()
@@ -4399,6 +6326,21 @@ function modal(
 
   refreshOnlineIndicators();
 
+  syncOverlayState();
+
+  requestAnimationFrame(
+    ()=>{
+
+      const focusTarget=
+        qs("#modalRoot .modal-body input:not([type='hidden']), #modalRoot .modal-body textarea, #modalRoot .modal-body button")
+        ||
+        qs("#modalRoot button");
+
+      focusTarget?.focus();
+
+    }
+  );
+
 }
 
 
@@ -4406,6 +6348,24 @@ function closeModal(){
 
   qs("#modalRoot")
     .innerHTML="";
+
+  syncOverlayState();
+
+  if(
+    state.modalReturnFocus
+    &&
+    document.contains(
+      state.modalReturnFocus
+    )
+  ){
+
+    state.modalReturnFocus
+      .focus();
+
+  }
+
+  state.modalReturnFocus=
+    null;
 
 }
 
@@ -4477,15 +6437,24 @@ function openImageViewer(url){
         "
       >
 
-        <div class="image-viewer">
+        <div
+          class="image-viewer"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Перегляд фото"
+        >
 
           <img
             src="${esc(url)}"
-            alt=""
+            alt="Відкрите фото"
           >
 
           <button
+            type="button"
+
             class="image-viewer-close"
+
+            aria-label="Закрити фото"
 
             onclick="
               closeImageViewer()
@@ -4506,6 +6475,8 @@ function openImageViewer(url){
 
   refreshIcons();
 
+  syncOverlayState();
+
 }
 
 
@@ -4513,6 +6484,8 @@ function closeImageViewer(){
 
   qs("#imageViewerRoot")
     .innerHTML="";
+
+  syncOverlayState();
 
 }
 
@@ -4553,17 +6526,25 @@ async function loadBranding(){
 }
 
 
-async function init(){
+async function applyAuthStateChange(
+  event,
+  session,
+  version
+){
 
-  await loadBranding();
+  if(
+    version!==
+    state.authEventVersion
+  ){
+    return;
+  }
 
-  const {
-    data:{
-      session
-    }
-  }=
-    await sb.auth
-      .getSession();
+
+  const previousUserId=
+    state.user?.id
+    ||
+    null;
+
 
   state.session=
     session;
@@ -4573,11 +6554,160 @@ async function init(){
     ||
     null;
 
+
+  const sameUser=
+    previousUserId===
+    state.user?.id;
+
+
+  if(
+    state.user
+    &&
+    sameUser
+    &&
+    state.profile
+    &&
+    event!=="USER_UPDATED"
+  ){
+
+    return;
+
+  }
+
+
   if(state.user){
 
     await loadMe();
 
-    startPresence();
+
+    if(
+      version!==
+      state.authEventVersion
+    ){
+      return;
+    }
+
+
+    await startPresence();
+
+  }else{
+
+    await stopPresence();
+
+    await stopChatChannel();
+
+    state.profile=
+      null;
+
+    state.wallet={
+      balance:0
+    };
+
+    state.page=
+      "chats";
+
+    state.activeConversation=
+      null;
+
+    state.activeChatUser=
+      null;
+
+    state.messages=[];
+
+    state.mobileChatOpen=
+      false;
+
+  }
+
+
+  if(
+    version===
+    state.authEventVersion
+  ){
+
+    render();
+
+  }
+
+}
+
+
+async function init(){
+
+  if(!sb){
+
+    qs("#app")
+      .innerHTML=`
+        <main class="auth-page">
+          <section class="auth-card page-animation">
+            ${logoMarkup("auth-logo")}
+            <h1 class="auth-title">
+              LiptonGram
+            </h1>
+            <div class="auth-sub">
+              Не вдалося завантажити компоненти сайту.
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="width:100%"
+              onclick="location.reload()"
+            >
+              Спробувати ще раз
+            </button>
+          </section>
+        </main>
+      `;
+
+    return;
+
+  }
+
+
+  try{
+
+    await loadBranding();
+
+
+    const {
+      data:{
+        session
+      }
+    }=
+      await sb.auth
+        .getSession();
+
+
+    state.session=
+      session;
+
+
+    state.user=
+      session?.user
+      ||
+      null;
+
+
+    if(state.user){
+
+      await loadMe();
+
+      await startPresence();
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "INIT ERROR",
+      error
+    );
+
+    state.session=
+      null;
+
+    state.user=
+      null;
 
   }
 
@@ -4587,44 +6717,42 @@ async function init(){
   sb.auth
     .onAuthStateChange(
 
-      async(
+      (
         event,
         session
       )=>{
 
-        state.session=
-          session;
+        const version=
+          ++state.authEventVersion;
 
-        state.user=
-          session?.user
-          ||
-          null;
 
-        if(state.user){
+        setTimeout(
+          ()=>{
 
-          await loadMe();
+            applyAuthStateChange(
+              event,
+              session,
+              version
+            )
+              .catch(
+                error=>{
 
-          startPresence();
+                  console.error(
+                    "AUTH STATE ERROR",
+                    error
+                  );
 
-        }else{
+                  toast(
+                    "Не вдалося оновити сесію",
+                    "error"
+                  );
 
-          await stopPresence();
+                }
+              );
 
-          await stopChatChannel();
-
-          state.profile=
-            null;
-
-          state.wallet={
-            balance:0
-          };
-
-          state.page=
-            "chats";
-
-        }
-
-        render();
+          },
+          0
+        );
 
       }
 
@@ -4800,6 +6928,18 @@ async function signIn(){
   }
 
 
+  if(!password){
+
+    toast(
+      "Введіть пароль",
+      "error"
+    );
+
+    return;
+
+  }
+
+
   const button=
     qs("#authButton");
 
@@ -4809,29 +6949,46 @@ async function signIn(){
   );
 
 
-  const {error}=
-    await sb.auth
-      .signInWithPassword({
+  try{
 
-        email:
-          loginEmail(login),
+    const {error}=
+      await sb.auth
+        .signInWithPassword({
 
-        password
+          email:
+            loginEmail(login),
 
-      });
+          password
 
-
-  setLoading(
-    button,
-    false
-  );
+        });
 
 
-  if(error){
+    if(error){
+
+      toast(
+        "Невірний логін або пароль",
+        "error"
+      );
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "SIGN IN ERROR",
+      error
+    );
 
     toast(
-      "Невірний логін або пароль",
+      "Немає з'єднання. Спробуйте ще раз",
       "error"
+    );
+
+  }finally{
+
+    setLoading(
+      button,
+      false
     );
 
   }
@@ -4890,61 +7047,90 @@ async function signUp(){
   );
 
 
-  const {
-    data,
-    error
-  }=
-    await sb.auth
-      .signUp({
+  try{
 
-        email:
-          loginEmail(login),
+    const {
+      data,
+      error
+    }=
+      await sb.auth
+        .signUp({
 
-        password,
+          email:
+            loginEmail(login),
 
-        options:{
-          data:{
-            login
+          password,
+
+          options:{
+            data:{
+              login
+            }
           }
-        }
 
-      });
-
-
-  setLoading(
-    button,
-    false
-  );
+        });
 
 
-  if(error){
+    if(error){
+
+      const message=
+        error.message
+          ?.toLowerCase()
+          .includes("already")
+
+          ?"Такий логін уже зареєстрований"
+
+          :error.message;
+
+
+      toast(
+        message
+        ||
+        "Не вдалося створити акаунт",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if(!data.session){
+
+      toast(
+        "Підтвердження email увімкнене в Supabase",
+        "error"
+      );
+
+      return;
+
+    }
+
 
     toast(
-      error.message,
+      "Акаунт створено",
+      "success"
+    );
+
+  }catch(error){
+
+    console.error(
+      "SIGN UP ERROR",
+      error
+    );
+
+    toast(
+      "Немає з'єднання. Спробуйте ще раз",
       "error"
     );
 
-    return;
+  }finally{
 
-  }
-
-
-  if(!data.session){
-
-    toast(
-      "У Supabase потрібно вимкнути Confirm Email",
-      "error"
+    setLoading(
+      button,
+      false
     );
 
-    return;
-
   }
-
-
-  toast(
-    "Акаунт створено",
-    "success"
-  );
 
 }
 
@@ -4995,13 +7181,15 @@ function renderAuth(){
           </h1>
 
           <div class="auth-sub">
-            Спілкування, профіль та маркетплейс
+            Особисті повідомлення без зайвого шуму
           </div>
 
 
           <div class="auth-tabs">
 
             <button
+              type="button"
+
               class="
                 auth-tab
                 ${
@@ -5021,6 +7209,8 @@ function renderAuth(){
 
 
             <button
+              type="button"
+
               class="
                 auth-tab
                 ${
@@ -5057,7 +7247,7 @@ function renderAuth(){
 
             <div class="field">
 
-              <label>
+              <label for="authLogin">
                 Логін
               </label>
 
@@ -5066,9 +7256,19 @@ function renderAuth(){
 
                 class="input"
 
+                required
+
+                minlength="3"
+
                 maxlength="24"
 
+                pattern="[A-Za-z0-9_]{3,24}"
+
                 autocomplete="username"
+
+                autocapitalize="none"
+
+                spellcheck="false"
 
                 placeholder="Ваш логін"
               >
@@ -5078,7 +7278,7 @@ function renderAuth(){
 
             <div class="field">
 
-              <label>
+              <label for="authPassword">
                 Пароль
               </label>
 
@@ -5088,6 +7288,14 @@ function renderAuth(){
                 class="input"
 
                 type="password"
+
+                required
+
+                minlength="${
+                  loginMode
+                    ?"1"
+                    :"8"
+                }"
 
                 autocomplete="${
                   loginMode
@@ -5142,6 +7350,8 @@ function navButton(
 
   return `
     <button
+      type="button"
+
       class="
         nav-btn
         ${
@@ -5179,6 +7389,8 @@ function bottomButton(
 
   return `
     <button
+      type="button"
+
       class="
         bottom-btn
         ${
@@ -5227,7 +7439,20 @@ function render(){
   qs("#app")
     .innerHTML=`
 
-      <div class="app">
+      <div
+        class="
+          app
+          ${
+            state.page==="chats"
+            &&
+            state.mobileChatOpen
+
+              ?"mobile-chat-active"
+
+              :""
+          }
+        "
+      >
 
         <aside class="sidebar">
 
@@ -5299,7 +7524,13 @@ function render(){
 
 
             <button
+              type="button"
+
               class="icon-btn"
+
+              title="Вийти"
+
+              aria-label="Вийти з акаунта"
 
               onclick="
                 logout()
@@ -5389,6 +7620,8 @@ function navigate(page){
   ){
 
     stopTyping();
+
+    state.chatOpenRequest++;
 
   }
 
@@ -5534,7 +7767,7 @@ async function renderProfile(){
             p.banner_url
               ?`
                 style="
-                  background-image:
+                  --profile-banner:
                   url('${esc(
                     p.banner_url
                   )}')
@@ -5656,8 +7889,11 @@ async function renderProfile(){
 
           <div
             class="profile-detail-value ${isOnline(p.id)?"online":""}"
+            data-presence-text="${esc(p.id||"")}"
           >
-            ${presenceText(p.id)}
+            <span class="presence-label-value">
+              ${presenceText(p.id)}
+            </span>
           </div>
 
         </div>
@@ -5714,7 +7950,7 @@ function openEditProfile(){
 
         <div class="field">
 
-          <label>
+          <label for="editUsername">
             Username
           </label>
 
@@ -5737,7 +7973,7 @@ function openEditProfile(){
 
         <div class="field">
 
-          <label>
+          <label for="editPublicId">
             Ваш 6-значний ID
           </label>
 
@@ -5766,7 +8002,7 @@ function openEditProfile(){
 
         <div class="field">
 
-          <label>
+          <label for="avatarFile">
             Аватар
           </label>
 
@@ -5777,7 +8013,7 @@ function openEditProfile(){
 
             type="file"
 
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp,image/gif"
           >
 
         </div>
@@ -5785,7 +8021,7 @@ function openEditProfile(){
 
         <div class="field">
 
-          <label>
+          <label for="bannerFile">
             Шапка профілю
           </label>
 
@@ -5796,7 +8032,7 @@ function openEditProfile(){
 
             type="file"
 
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp,image/gif"
           >
 
         </div>
@@ -5851,15 +8087,22 @@ async function uploadProfileImage(
   }
 
 
+  const allowed=[
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ];
+
+
   if(
-    !file.type
-      .startsWith(
-        "image/"
-      )
+    !allowed.includes(
+      file.type
+    )
   ){
 
     throw new Error(
-      "Оберіть зображення"
+      "Дозволені JPG, PNG, WEBP або GIF"
     );
 
   }
@@ -5878,14 +8121,7 @@ async function uploadProfileImage(
 
 
   const extension=
-    file.name
-      .split(".")
-      .pop()
-      ?.toLowerCase()
-
-    ||
-
-    "jpg";
+    imageExtension(file);
 
 
   const path=
@@ -6044,7 +8280,23 @@ async function saveProfile(){
 
         .from("profiles")
 
-        .update({
+        .upsert({
+
+          id:
+            state.user.id,
+
+          login:
+            state.profile?.login
+            ||
+            state.user
+              .user_metadata
+              ?.login
+            ||
+            state.user
+              .email
+              ?.split("@")[0]
+            ||
+            "user",
 
           username,
 
@@ -6061,12 +8313,9 @@ async function saveProfile(){
             new Date()
               .toISOString()
 
+        },{
+          onConflict:"id"
         })
-
-        .eq(
-          "id",
-          state.user.id
-        )
 
         .select()
 
@@ -6206,6 +8455,8 @@ function openUserSearch(){
 
           placeholder="Username або ID"
 
+          aria-label="Пошук користувача за Username або ID"
+
           autocomplete="off"
 
           oninput="
@@ -6264,6 +8515,10 @@ async function runUserSearch(value){
     value.trim();
 
 
+  const requestId=
+    ++state.userSearchRequest;
+
+
   if(
     query.length<2
   ){
@@ -6311,6 +8566,21 @@ async function runUserSearch(value){
       );
 
 
+    if(safe.length<2){
+
+      root.innerHTML=`
+        <div class="empty">
+          <strong>
+            Введіть щонайменше 2 допустимі символи
+          </strong>
+        </div>
+      `;
+
+      return;
+
+    }
+
+
     request=
       request.ilike(
         "username",
@@ -6327,9 +8597,32 @@ async function runUserSearch(value){
     await request;
 
 
+  if(
+    requestId!==
+    state.userSearchRequest
+    ||
+    root!==qs("#userResults")
+  ){
+
+    return;
+
+  }
+
+
   if(error){
 
     console.error(error);
+
+    root.innerHTML=`
+      <div class="empty">
+        <strong>
+          Не вдалося виконати пошук
+        </strong>
+        <p>
+          Перевірте з'єднання та спробуйте ще раз.
+        </p>
+      </div>
+    `;
 
     return;
 
@@ -6516,7 +8809,7 @@ async function openPublicProfile(
               ?`url('${esc(
                   user.banner_url
                 )}') center/cover`
-              :"linear-gradient(120deg,#2b250d,#534000,#181818)"
+              :"linear-gradient(125deg,#27230f,#29303d,#111722)"
           };
         "
       >
@@ -6723,12 +9016,61 @@ async function hydrateMessageMedia(
 }
 
 
+async function refreshImageMessage(
+  imageElement,
+  messageId,
+  imagePath
+){
+
+  if(!imagePath){
+    return;
+  }
+
+
+  const freshUrl=
+    await createSignedImageUrl(
+      imagePath
+    );
+
+
+  if(!freshUrl){
+    return;
+  }
+
+
+  state.messages=
+    state.messages.map(
+      message=>
+
+        message.id===messageId
+
+          ?{
+              ...message,
+              _imageUrl:freshUrl
+            }
+
+          :message
+    );
+
+
+  if(imageElement){
+
+    imageElement.src=
+      freshUrl;
+
+  }
+
+}
+
+
 async function uploadChatImage(
-  file
+  file,
+  conversationId=
+    state.activeConversation?.id
 ){
 
   if(
-    !state.activeConversation
+    !conversationId
   ){
 
     throw new Error(
@@ -6791,7 +9133,7 @@ async function uploadChatImage(
 
   const path=
     `${
-      state.activeConversation.id
+      conversationId
     }/${
       state.user.id
     }/${
@@ -7387,6 +9729,8 @@ async function renderChats(){
 
 
             <button
+              type="button"
+
               class="new-chat-btn"
 
               onclick="
@@ -7394,6 +9738,8 @@ async function renderChats(){
               "
 
               title="Новий чат"
+
+              aria-label="Створити новий чат"
             >
 
               <i
@@ -7417,6 +9763,8 @@ async function renderChats(){
               class="chat-search-input"
 
               placeholder="Пошук чатів"
+
+              aria-label="Пошук чатів"
 
               autocomplete="off"
 
@@ -7524,18 +9872,14 @@ function chatWindowMarkup(){
     <div class="active-chat-head">
 
       <button
-        class="icon-btn"
+        type="button"
+
+        class="icon-btn chat-back-btn"
+
+        aria-label="Назад до списку чатів"
 
         onclick="
           closeMobileChat()
-        "
-
-        style="
-          display:${
-            window.innerWidth<=760
-              ?"inline-flex"
-              :"none"
-          }
         "
       >
 
@@ -7667,6 +10011,8 @@ function chatWindowMarkup(){
 
           title="Надіслати фото"
 
+          aria-label="Прикріпити фото"
+
           onclick="
             chooseChatImage()
           "
@@ -7689,6 +10035,8 @@ function chatWindowMarkup(){
 
           placeholder="Повідомлення"
 
+          aria-label="Текст повідомлення"
+
           oninput="
             composerTyping();
             resizeComposer(this)
@@ -7710,6 +10058,10 @@ function chatWindowMarkup(){
           class="send"
 
           type="submit"
+
+          title="Надіслати"
+
+          aria-label="Надіслати повідомлення"
         >
 
           <i
@@ -7732,13 +10084,16 @@ function resizeComposer(
 ){
 
   textarea.style.height=
-    "45px";
+    "auto";
 
 
   textarea.style.height=
     Math.min(
-      textarea.scrollHeight,
-      130
+      Math.max(
+        textarea.scrollHeight,
+        46
+      ),
+      132
     )
     +"px";
 
@@ -7810,7 +10165,9 @@ function messagesMarkup(){
 
                             onclick="
                               openImageViewer(
-                                '${esc(image)}'
+                                ${esc(
+                                  jsString(image)
+                                )}
                               )
                             "
                           >
@@ -7823,6 +10180,14 @@ function messagesMarkup(){
                               alt="Фото"
 
                               loading="lazy"
+
+                              onerror="
+                                refreshImageMessage(
+                                  this,
+                                  '${esc(message.id)}',
+                                  '${esc(message.image_path||'')}'
+                                )
+                              "
                             >
 
                           </div>
@@ -7910,6 +10275,10 @@ async function loadChats(){
     state.user.id;
 
 
+  const requestId=
+    ++state.chatListRequest;
+
+
   const {
     data,
     error
@@ -7936,12 +10305,25 @@ async function loadChats(){
 
   if(error){
 
+    if(
+      requestId!==
+      state.chatListRequest
+      ||
+      uid!==state.user?.id
+    ){
+      return;
+    }
+
     root.innerHTML=`
       <div class="empty">
 
         <strong>
           Не вдалося завантажити чати
         </strong>
+
+        <p>
+          Перевірте з'єднання та відкрийте розділ ще раз.
+        </p>
 
       </div>
     `;
@@ -7975,7 +10357,8 @@ async function loadChats(){
   if(ids.length){
 
     const {
-      data:profiles
+      data:profiles,
+      error:profilesError
     }=
       await sb
 
@@ -7995,6 +10378,16 @@ async function loadChats(){
       profiles
       ||
       [];
+
+
+    if(profilesError){
+
+      console.error(
+        "CHAT PROFILES ERROR",
+        profilesError
+      );
+
+    }
 
   }
 
@@ -8070,7 +10463,16 @@ async function loadChats(){
             ...chat,
 
             other:
-              map[otherId],
+              map[otherId]
+              ||
+              {
+                id:otherId,
+                login:"user",
+                username:"Користувач",
+                public_id:"------",
+                avatar_url:null,
+                banner_url:null
+              },
 
             latest
 
@@ -8080,6 +10482,18 @@ async function loadChats(){
       )
 
     );
+
+
+  if(
+    requestId!==
+    state.chatListRequest
+    ||
+    uid!==state.user?.id
+  ){
+
+    return;
+
+  }
 
 
   state.conversations=
@@ -8356,6 +10770,39 @@ async function createChat(
   }
 
 
+  const conversationId=
+    Array.isArray(data)
+
+      ?(
+          data[0]?.id
+          ??
+          data[0]
+        )
+
+      :(
+          data?.id
+          ??
+          data
+        );
+
+
+  if(
+    typeof conversationId!==
+    "string"
+    ||
+    !conversationId
+  ){
+
+    toast(
+      "Чат створено, але його не вдалося відкрити",
+      "error"
+    );
+
+    return;
+
+  }
+
+
   closeModal();
 
 
@@ -8363,7 +10810,7 @@ async function createChat(
 
 
   await openChat(
-    data,
+    conversationId,
     userId
   );
 
@@ -8402,10 +10849,23 @@ async function stopChatChannel(){
 
 
 async function setupChatChannel(
-  conversationId
+  conversationId,
+  requestId=null
 ){
 
   await stopChatChannel();
+
+
+  if(
+    requestId!==null
+    &&
+    requestId!==
+    state.chatOpenRequest
+  ){
+
+    return false;
+
+  }
 
 
   const channel=
@@ -8447,10 +10907,29 @@ async function setupChatChannel(
 
     async payload=>{
 
+      if(
+        state.activeConversation?.id!==
+        conversationId
+      ){
+
+        return;
+
+      }
+
       const incoming=
         await hydrateMessageMedia(
           payload.new
         );
+
+
+      if(
+        state.activeConversation?.id!==
+        conversationId
+      ){
+
+        return;
+
+      }
 
 
       const index=
@@ -8547,6 +11026,9 @@ async function setupChatChannel(
     }
   );
 
+
+  return true;
+
 }
 
 
@@ -8559,10 +11041,31 @@ async function openChat(
   userId
 ){
 
+  const requestId=
+    ++state.chatOpenRequest;
+
   await stopTyping();
 
 
   clearSelectedImage();
+
+
+  if(
+    state.typingHideTimer
+  ){
+
+    clearTimeout(
+      state.typingHideTimer
+    );
+
+    state.typingHideTimer=
+      null;
+
+  }
+
+
+  state.typingUserId=
+    null;
 
 
   let user=
@@ -8602,6 +11105,16 @@ async function openChat(
   }
 
 
+  if(
+    requestId!==
+    state.chatOpenRequest
+  ){
+
+    return;
+
+  }
+
+
   if(!user){
 
     toast(
@@ -8612,20 +11125,6 @@ async function openChat(
     return;
 
   }
-
-
-  state.activeConversation={
-    id:
-      conversationId
-  };
-
-
-  state.activeChatUser=
-    user;
-
-
-  state.mobileChatOpen=
-    true;
 
 
   const {
@@ -8653,6 +11152,16 @@ async function openChat(
       .limit(500);
 
 
+  if(
+    requestId!==
+    state.chatOpenRequest
+  ){
+
+    return;
+
+  }
+
+
   if(error){
 
     toast(
@@ -8665,7 +11174,7 @@ async function openChat(
   }
 
 
-  state.messages=
+  const hydratedMessages=
     await Promise.all(
 
       (data||[])
@@ -8676,9 +11185,51 @@ async function openChat(
     );
 
 
-  await setupChatChannel(
-    conversationId
-  );
+  if(
+    requestId!==
+    state.chatOpenRequest
+  ){
+
+    return;
+
+  }
+
+
+  state.activeConversation={
+    id:
+      conversationId
+  };
+
+
+  state.activeChatUser=
+    user;
+
+
+  state.mobileChatOpen=
+    true;
+
+
+  state.messages=
+    hydratedMessages;
+
+
+  const channelReady=
+    await setupChatChannel(
+      conversationId,
+      requestId
+    );
+
+
+  if(
+    !channelReady
+    ||
+    requestId!==
+    state.chatOpenRequest
+  ){
+
+    return;
+
+  }
 
 
   renderChats();
@@ -8693,6 +11244,8 @@ async function openChat(
 
 
 function closeMobileChat(){
+
+  state.chatOpenRequest++;
 
   stopTyping();
 
@@ -8790,11 +11343,22 @@ async function sendMessage(){
 
   if(
     !state.activeConversation
+    ||
+    state.sendingMessage
   ){
 
     return;
 
   }
+
+
+  const conversationId=
+    state.activeConversation.id;
+
+
+  const isStillOpen=()=>
+    state.activeConversation?.id===
+    conversationId;
 
 
   const input=
@@ -8822,6 +11386,10 @@ async function sendMessage(){
     return;
 
   }
+
+
+  state.sendingMessage=
+    true;
 
 
   await stopTyping();
@@ -8869,7 +11437,7 @@ async function sendMessage(){
     id,
 
     conversation_id:
-      state.activeConversation.id,
+      conversationId,
 
     sender_id:
       state.user.id,
@@ -8909,7 +11477,7 @@ async function sendMessage(){
     input.value="";
 
     input.style.height=
-      "45px";
+      "46px";
 
   }
 
@@ -8938,7 +11506,8 @@ async function sendMessage(){
 
       imagePath=
         await uploadChatImage(
-          imageFile
+          imageFile,
+          conversationId
         );
 
 
@@ -8963,9 +11532,13 @@ async function sendMessage(){
         );
 
 
-      refreshMessages(
-        true
-      );
+      if(isStillOpen()){
+
+        refreshMessages(
+          true
+        );
+
+      }
 
     }
 
@@ -8983,7 +11556,7 @@ async function sendMessage(){
           id,
 
           conversation_id:
-            state.activeConversation.id,
+            conversationId,
 
           sender_id:
             state.user.id,
@@ -9040,14 +11613,36 @@ async function sendMessage(){
       );
 
 
-    refreshMessages(
-      true
-    );
+    if(isStillOpen()){
+
+      refreshMessages(
+        true
+      );
+
+    }
 
 
     refreshConversationPreview(
       finalMessage
     );
+
+
+    if(
+      localImageUrl
+      &&
+      finalMessage._imageUrl!==
+      localImageUrl
+    ){
+
+      try{
+
+        URL.revokeObjectURL(
+          localImageUrl
+        );
+
+      }catch{}
+
+    }
 
 
   }catch(error){
@@ -9078,7 +11673,11 @@ async function sendMessage(){
       );
 
 
-    refreshMessages();
+    if(isStillOpen()){
+
+      refreshMessages();
+
+    }
 
 
     toast(
@@ -9091,10 +11690,21 @@ async function sendMessage(){
 
   }finally{
 
+    state.sendingMessage=
+      false;
+
     if(button){
 
       button.disabled=
         false;
+
+    }
+
+
+    if(isStillOpen()){
+
+      qs("#messageInput")
+        ?.focus();
 
     }
 
@@ -10107,9 +12717,11 @@ async function openAdminChat(
 
                               onclick="
                                 openImageViewer(
-                                  '${esc(
-                                    message._imageUrl
-                                  )}'
+                                  ${esc(
+                                    jsString(
+                                      message._imageUrl
+                                    )
+                                  )}
                                 )
                               "
                             >
@@ -10237,7 +12849,7 @@ function adminBranding(){
 
         <div class="field">
 
-          <label>
+          <label for="adminLogo">
             Новий логотип
           </label>
 
@@ -10248,7 +12860,7 @@ function adminBranding(){
 
             type="file"
 
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp,image/gif"
           >
 
         </div>
@@ -10301,6 +12913,45 @@ async function saveAdminLogo(){
   }
 
 
+  const allowed=[
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ];
+
+
+  if(
+    !allowed.includes(
+      file.type
+    )
+  ){
+
+    toast(
+      "Дозволені JPG, PNG, WEBP або GIF",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(
+    file.size>
+    5*1024*1024
+  ){
+
+    toast(
+      "Логотип має бути до 5 МБ",
+      "error"
+    );
+
+    return;
+
+  }
+
+
   const button=
     qs("#logoButton");
 
@@ -10314,13 +12965,7 @@ async function saveAdminLogo(){
   try{
 
     const ext=
-      file.name
-        .split(".")
-        .pop()
-
-      ||
-
-      "png";
+      imageExtension(file);
 
 
     const path=
@@ -10375,7 +13020,9 @@ async function saveAdminLogo(){
           "app_settings"
         )
 
-        .update({
+        .upsert({
+
+          id:1,
 
           logo_url:
             url,
@@ -10384,12 +13031,7 @@ async function saveAdminLogo(){
             new Date()
               .toISOString()
 
-        })
-
-        .eq(
-          "id",
-          1
-        );
+        });
 
 
     if(updateError){
@@ -10449,7 +13091,21 @@ document.addEventListener(
       event.key==="Escape"
     ){
 
-      closeImageViewer();
+      if(
+        qs("#imageViewerRoot")
+          ?.children.length
+      ){
+
+        closeImageViewer();
+
+      }else if(
+        qs("#modalRoot")
+          ?.children.length
+      ){
+
+        closeModal();
+
+      }
 
     }
 
@@ -10518,6 +13174,8 @@ window.openEditProfile=
 window.saveProfile=
   saveProfile;
 
+window.refreshImageMessage=
+  refreshImageMessage;
 
 
 
